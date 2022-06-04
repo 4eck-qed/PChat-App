@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "PChat.Notify": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5205;https://localhost:7050",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

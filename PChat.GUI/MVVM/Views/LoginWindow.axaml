@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PChat.GUI"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="800" Height="450"
+        x:Class="PChat.GUI.LoginWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="PChat">
+
+    <Design.DataContext>
+        <vm:LoginWindowViewModel />
+    </Design.DataContext>
+    <Grid RowDefinitions="30,30,30,50" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBox Grid.Row="0" Width="300" Watermark="ID" Text="{Binding IdHexString}" />
+        <TextBox Grid.Row="1" Width="300" Watermark="Key" Text="{Binding KeyHexString}" />
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center"
+                   Text="{Binding ErrorText.Error}" Foreground="{Binding ErrorText.ColorString}"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Login" Command="{Binding LoginCommand}" />
+            <Button Content="I'm new" Command="{Binding CreateNewAccountCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

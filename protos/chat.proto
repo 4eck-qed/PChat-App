@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package PChat.API.Chat;
+
+service Chat
+{
+    rpc Ping (PingRequest) returns (PingResponse);
+    rpc Send (SendRequest) returns (SendResponse);
+    rpc Acknowledge (AcknowledgeRequest) returns (AcknowledgeResponse);
+    rpc Receive(ReceiveRequest) returns (ReceiveResponse);
+}
+
+//region requests
+message PingRequest
+{
+    bytes user_id = 1;
+    bytes key = 2;
+    ProtoContact target = 3;
+}
+
+message SendRequest
+{
+    bytes user_id = 1;
+    bytes key = 2;
+    ProtoMessage content = 3;
+}
+
+message AcknowledgeRequest
+{
+    ProtoContact sender = 1;
+}
+
+message ReceiveRequest
+{
+    ProtoMessage content = 1;
+}
+//endregion
+
+//region responses
+message PingResponse
+{
+    ResponseCode code = 1;
+}
+
+message SendResponse
+{
+    ResponseCode code = 1;
+}
+
+message AcknowledgeResponse
+{
+    ResponseCode code = 1;
+}
+
+message ReceiveResponse
+{
+    ResponseCode code = 1;
+}
+//endregion
+
+//region models
+message ProtoContact
+{
+    bytes user_id = 1;
+    string name = 2;
+}
+
+message ProtoMessage
+{
+    bytes id = 1;
+    ProtoContact sender = 2;
+    ProtoContact receiver = 3;
+    string content = 4;
+}
+
+enum ResponseCode
+{
+    SUCCESS = 0;
+    UNAUTHORIZED = 1;
+    TIMEOUT = 2;
+}
+//endregion

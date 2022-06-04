@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+		<None Remove=".gitignore" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="0.10.10" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.10" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
+		<PackageReference Include="Avalonia.ReactiveUI.Events" Version="0.10.10" />
+		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.10.4" />
+		<PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.10.4" />
+		<PackageReference Include="Avalonia.Xaml.Interactions.Custom" Version="0.10.3" />
+		<PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.10.4" />
+		<PackageReference Include="Google.Protobuf" Version="3.20.1" />
+		<PackageReference Include="Grpc" Version="2.46.1" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.46.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.46.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
+		<PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
+		<PackageReference Include="System.Linq" Version="4.3.0" />
+		<PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="MVVM\Views\LoginWindowWindow.axaml.cs">
+			<DependentUpon>LoginWindow.axaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\PChat.API.Client\PChat.API.Client.csproj" />
+	  <ProjectReference Include="..\PChat.Log\PChat.Log.csproj" />
+	  <ProjectReference Include="..\PChat.Utils\PChat.Utils.csproj" />
+	</ItemGroup>
+</Project>

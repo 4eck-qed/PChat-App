@@ -1,0 +1,129 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PChat.GUI"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        xmlns:pChat="clr-namespace:PChat;assembly=PChat">
+
+    <Design.DataContext>
+        <pChat:Message />
+    </Design.DataContext>
+
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+            <ListBox Items="{Binding SelectedChat.Messages}"
+                     Background="Gray"
+                     BorderThickness="0">
+                <ListBox.DataContext>
+                    <vm:MainWindowViewModel />
+                </ListBox.DataContext>
+            </ListBox>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="ListBoxItem:selected">
+        <Setter Property="Background" Value="#4f4d47" />
+        <!-- TODO Popup custom context menu -->
+    </Style>
+
+    <Style Selector="ListBoxItem">
+        <Setter Property="Background" Value="#666460" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <Grid>
+
+                    <!--#region Contact Message-->
+                    <Grid>
+                        <Polygon Points="0,53 30,15 30,53"
+                                 Stroke="{TemplateBinding Background}"
+                                 Fill="{TemplateBinding Background}" />
+
+                        <WrapPanel>
+                            <Border Background="{TemplateBinding Background}"
+                                    CornerRadius="10"
+                                    Padding="10,0,10,9"
+                                    Margin="10,5,0,0">
+                                <StackPanel>
+                                    <Label Content="{Binding Sender.Name}"
+                                           FontWeight="Bold"
+                                           FontSize="13"
+                                           VerticalAlignment="Top"
+                                           VerticalContentAlignment="Top"
+                                           Foreground="{Binding Sender.NameColor}" />
+                                    <TextBlock Text="{Binding Content}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </WrapPanel>
+
+                        <i:Interaction.Behaviors>
+                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
+                                                    ComparisonCondition="Equal"
+                                                    Value="True">
+                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="False" />
+                            </ia:DataTriggerBehavior>
+                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
+                                                    ComparisonCondition="Equal"
+                                                    Value="False">
+                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="True" />
+                            </ia:DataTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </Grid>
+                    <!--#endregion-->
+
+                    
+                    <!--#region Sender Message-->
+                    <Grid HorizontalAlignment="Right">
+
+                        <Polygon Points="0,53 -30,15 -30,53"
+                                 Stroke="{TemplateBinding Background}"
+                                 Fill="{TemplateBinding Background}"
+                                 HorizontalAlignment="Right"/>
+                        
+                        <WrapPanel>
+                            <Border Background="{TemplateBinding Background}"
+                                    CornerRadius="10"
+                                    Padding="10,0,10,9"
+                                    Margin="0,5,10,0">
+                                
+                                <StackPanel>
+                                    <Label Content="{Binding Sender.Name}"
+                                           FontWeight="Bold"
+                                           FontSize="13"
+                                           VerticalAlignment="Top"
+                                           VerticalContentAlignment="Top"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{Binding Sender.NameColor}" />
+                                    <TextBlock Text="{Binding Content}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </Border>
+                        </WrapPanel>
+                        
+                        <i:Interaction.Behaviors>
+                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
+                                                    ComparisonCondition="Equal"
+                                                    Value="True">
+                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="True" />
+                            </ia:DataTriggerBehavior>
+                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
+                                                    ComparisonCondition="Equal"
+                                                    Value="False">
+                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="False" />
+                            </ia:DataTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </Grid>
+                    <!--#endregion-->
+                    
+                    
+                </Grid>
+                
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+</Styles>

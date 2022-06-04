@@ -1,0 +1,71 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:PChat.GUI.Themes"
+        xmlns:vm="using:PChat.GUI">
+    
+    <Design.PreviewWith>
+        <controls:MessageBox />
+    </Design.PreviewWith>
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    
+    <Style Selector="controls|MessageBox">
+        <!-- Default Properties -->
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Margin" Value="8" />
+
+        <!-- Control Template -->
+        <Setter Property="Template">
+
+            <ControlTemplate>
+                <Border Name="MessageBorder"
+                        CornerRadius="8"
+                        Background="#3e4147"
+                        Width="400" Height="50">
+                    <Grid>
+                        <TextBox x:Name="MessageBox"
+                                 Width="{Binding (Border.Width), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}"
+                                 Height="{Binding (Border.Height), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}"
+                                 VerticalAlignment="Stretch" VerticalContentAlignment="Center"
+                                 HorizontalAlignment="Stretch"
+                                 Margin="8,0,8,0" Padding="10" TextWrapping="Wrap"
+                                 Background="Transparent" Foreground="#e3e3e3" CaretBrush="Purple"
+                                 BorderThickness="0"
+                                 AcceptsReturn="True"
+                                 Watermark="SCHREIB DEINE NACHRICHT HIER REIN JUNGE!!!!!"
+                                 Text="{ Binding SelectedChat.MessageInput}" />
+
+                        <!-- Currently using Watermark instead
+                        <TextBlock x:Name="ChatBoxDefaultText" IsHitTestVisible="False"
+                                   Text="@Message"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Margin="10,0,0,0"
+                                   Background="Transparent"
+                                   Foreground="DarkGray">
+                            <Interaction.Behaviors>
+                                <DataTriggerBehavior Binding="{Binding Text, ElementName=ChatBox}"
+                                                     ComparisonCondition="Equal" Value="">
+                                    <ChangePropertyAction TargetObject="{Binding ElementName=ChatBoxDefaultText}"
+                                                          PropertyName="IsVisible" Value="True" />
+                                </DataTriggerBehavior>
+
+                                <DataTriggerBehavior Binding="{Binding Text, ElementName=ChatBox}"
+                                                     ComparisonCondition="NotEqual" Value="">
+                                    <ChangePropertyAction TargetObject="{Binding ElementName=ChatBoxDefaultText}"
+                                                          PropertyName="IsVisible" Value="False" />
+                                </DataTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </TextBlock>
+                        -->
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+
+        </Setter>
+    </Style>
+</Styles>

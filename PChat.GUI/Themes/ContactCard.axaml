@@ -1,0 +1,68 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PChat.GUI"
+        xmlns:coreConverters="clr-namespace:PChat.GUI.Core.Converters"
+        xmlns:pChat="clr-namespace:PChat;assembly=PChat">
+
+    <Design.DataContext>
+        <pChat:ContactCard />
+    </Design.DataContext>
+
+    <Styles.Resources>
+        <coreConverters:BitmapValueConverter x:Key="BitmapValueConverter" />
+    </Styles.Resources>
+
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+            <ListBox Items="{Binding Friends}"
+                     Background="Gray"
+                     BorderThickness="0">
+                <ListBox.DataContext>
+                    <vm:MainWindowViewModel />
+                </ListBox.DataContext>
+            </ListBox>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+    <Style Selector="ListBoxItem:selected">
+        <Setter Property="Background" Value="#442b6e" />
+        <!-- TODO Bind to user theme settings -->
+    </Style>
+
+    <Style Selector="ListBoxItem">
+        <Setter Property="Background" Value="#393B40" />
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <Border Background="{TemplateBinding Background}"
+                        Height="50"
+                        CornerRadius="4"
+                        Margin="8,2,8,2">
+
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10,0,0,0">
+                        <Ellipse Width="40" Height="40">
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="UniformToFill"
+                                            Source="{Binding AvatarImageSource, Converter={StaticResource BitmapValueConverter}}" />
+                                <!--<SolidColorBrush Color="Aqua"/>-->
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <StackPanel>
+                            <Label Content="{Binding Name}"
+                                   Foreground="White" />
+                            <Label Content="{Binding LastMessage}"
+                                   Foreground="Gray" />
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
