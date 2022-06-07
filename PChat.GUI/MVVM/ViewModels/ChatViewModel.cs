@@ -5,7 +5,6 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
-using PChat.API.Chat;
 using PChat.GUI.Core;
 using PChat.Extensions;
 using ReactiveUI;
@@ -62,6 +61,7 @@ public class ChatViewModel : ViewModelBase
             Task.Run(async () =>
             {
                 MessageInput = "";
+                await UpdateOnlineStatus();
                 await Send(message);
             });
         });
@@ -127,20 +127,15 @@ public class ChatViewModel : ViewModelBase
         });
     }
 
-    private async Task Ping()
+    private async Task UpdateOnlineStatus()
     {
-        var response = await Shared.ApiClient.Ping(Receiver);
-
-        switch (response.Code)
+        if (await Shared.ApiClient.Ping(Receiver))
         {
-            case ResponseCode.Success:
-                IsOnlineIndicator = Brushes.LawnGreen;
-                break;
-            case ResponseCode.Timeout:
-            case ResponseCode.Unauthorized:
-                IsOnlineIndicator = Brushes.Red;
-                break;
+            IsOnlineIndicator = Brushes.LawnGreen;
+            return;
         }
+
+        IsOnlineIndicator = Brushes.Red;
     }
 
     #endregion

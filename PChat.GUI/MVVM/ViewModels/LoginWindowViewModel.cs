@@ -47,7 +47,7 @@ public class LoginWindowViewModel : ViewModelBase
         CreateNewAccountCommand = ReactiveCommand.Create(() =>
         {
             ErrorText = new ErrorText("Generating new login..", Colors.LawnGreen);
-            Task.Run(async () => await new ApiClient(true).GetCredentials())
+            Task.Run(async () => await new ApiClient(true).CreateAccount())
                 .ContinueWith(loginResult =>
                 {
                     if (!loginResult.IsCompletedSuccessfully)

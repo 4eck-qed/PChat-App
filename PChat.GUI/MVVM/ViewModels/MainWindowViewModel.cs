@@ -99,7 +99,7 @@ namespace PChat.GUI
 
             var randy = new ContactCard
             {
-                Id = ByteString.CopyFrom(1, 2, 3, 4, 5),
+                Id = login.Id,
                 AvatarImageSource = $"avares://PChat.GUI/Assets/Images/samples/randy.png",
                 Name = "Randy",
                 NameColor = Colors.Maroon.ToString(),
