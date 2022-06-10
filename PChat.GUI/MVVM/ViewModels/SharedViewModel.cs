@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using Pchat;
 using PChat.API.Client;
 using PChat.Extensions;
 using ReactiveUI;
@@ -20,17 +21,17 @@ public class SharedViewModel : ViewModelBase
 
     #endregion
 
-    public SharedViewModel(Login login, ContactCard profile, ApiClient apiClient, ConcurrentQueue<Message> messageQueue)
+    public SharedViewModel(Account account, ContactCard profile, ApiClient apiClient, ConcurrentQueue<Message> messageQueue)
     {
-        Login = login;
-        IdHexString = login.Id.ToHexString();
-        KeyHexString = login.Key.ToHexString();
+        Account = account;
+        IdHexString = account.Id.ToHexString();
+        KeyHexString = account.Key.ToHexString();
         Profile = profile;
         ApiClient = apiClient;
         MessageQueue = messageQueue;
     }
     
-    public readonly Login Login;
+    public readonly Account Account;
     public readonly ApiClient ApiClient;
     public LoginHistoryService LoginHistoryService { get; } = new LoginHistoryService();
     

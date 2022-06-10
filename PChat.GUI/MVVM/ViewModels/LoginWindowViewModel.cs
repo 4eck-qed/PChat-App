@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia.Threading;
+using Pchat;
 using PChat.API.Client;
 using PChat.GUI.MVVM.Models;
 using ReactiveUI;
@@ -30,27 +31,30 @@ public class LoginWindowViewModel : ViewModelBase
 
             var id = HexString.ToByteString(IdHexString);
             var key = HexString.ToByteString(KeyHexString);
-            if (id == null || key == null)
-            {
-                ErrorText = new ErrorText("Invalid login!", Colors.Red);
-                return;
-            }
-            
-            ErrorText = new ErrorText("Success!", Colors.LawnGreen);
-            Thread.Sleep(100);
+            var apiClient = new ApiClient(true);
+            var loggedIn = false;
+            Task.Run(async () => loggedIn = await apiClient.Login(new Credentials {Id = id, Key = key}))
+                .ContinueWith(o =>
+                {
+                    if (loggedIn)
+                    {
+                        ErrorText = new ErrorText("Success!", Colors.LawnGreen);
+                        var account = new Account {Id = id, Key = key};
+                        Thread.Sleep(100);
+                        OpenMainWindow(account, cancellationToken);
+                    }
 
-            var login = new Login {Id = id, Key = key};
-            
-            OpenMainWindow(login, cancellationToken);
+                    ErrorText = new ErrorText("Invalid login!", Colors.Red);
+                });
         });
 
         CreateNewAccountCommand = ReactiveCommand.Create(() =>
         {
             ErrorText = new ErrorText("Generating new login..", Colors.LawnGreen);
             Task.Run(async () => await new ApiClient(true).CreateAccount())
-                .ContinueWith(loginResult =>
+                .ContinueWith(o =>
                 {
-                    if (!loginResult.IsCompletedSuccessfully)
+                    if (!o.IsCompletedSuccessfully)
                     {
                         ErrorText = new ErrorText("Failed", Colors.Red);
                         return;
@@ -59,18 +63,18 @@ public class LoginWindowViewModel : ViewModelBase
                     ErrorText = new ErrorText("Success!", Colors.LawnGreen);
                     Thread.Sleep(100);
 
-                    OpenMainWindow(loginResult.Result, cancellationToken);
+                    OpenMainWindow(o.Result, cancellationToken);
                 });
         });
     }
 
-    private void OpenMainWindow(Login login, CancellationToken cancellationToken)
+    private void OpenMainWindow(Account account, CancellationToken cancellationToken)
     {
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             var mainWindow = new MainWindow()
             {
-                DataContext = new MainWindowViewModel(login, cancellationToken)
+                DataContext = new MainWindowViewModel(account, cancellationToken)
             };
             mainWindow.Show();
             MainWindowOpened = true;

@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Avalonia.Media;
 using DynamicData;
 using Google.Protobuf;
+using Pchat;
 using PChat.API.Client;
 using PChat.Extensions;
 using PChat.Log;
@@ -44,7 +45,7 @@ namespace PChat.GUI
         #endregion
 
 
-        public MainWindowViewModel(Login login, CancellationToken cancellationToken)
+        public MainWindowViewModel(Account account, CancellationToken cancellationToken)
         {
             Console.WriteLine("Initializing main window view model..");
             _cancellationToken = cancellationToken;
@@ -88,18 +89,19 @@ namespace PChat.GUI
 
             var earl = new ContactCard
             {
-                Id = login.Id,
+                Id = account.Id,
                 AvatarImageSource = $"avares://PChat.GUI/Assets/Images/samples/earl.png",
                 Name = "Earl",
                 NameColor = Colors.Cornsilk.ToString(),
                 Status = "My name is Earl!"
             };
-            Shared = new SharedViewModel(login, earl, new ApiClient(login, true), new ConcurrentQueue<Message>());
+            var credentials = new Credentials {Id = account.Id, Key = account.Key};
+            Shared = new SharedViewModel(account, earl, new ApiClient(credentials, true), new ConcurrentQueue<Message>());
             _metaViewModel = new MetaViewModel(Shared, cancellationToken);
 
             var randy = new ContactCard
             {
-                Id = login.Id,
+                Id = account.Id,
                 AvatarImageSource = $"avares://PChat.GUI/Assets/Images/samples/randy.png",
                 Name = "Randy",
                 NameColor = Colors.Maroon.ToString(),
@@ -110,7 +112,7 @@ namespace PChat.GUI
             Chats.Add(new ChatViewModel(Shared, randy));
         }
 
-        public MainWindowViewModel() : this(new Login(), new CancellationToken())
+        public MainWindowViewModel() : this(new Account(), new CancellationToken())
         {
             Console.WriteLine("[TEST] MainWindowViewModel was initialized.");
         }
@@ -233,8 +235,8 @@ namespace PChat.GUI
 
         public DateTime LastLogin => _metaViewModel.GetLastLogin();
 
-        public string IdHexString => Shared.ApiClient.Login.Id.ToHexString();
-        public string KeyHexString => Shared.ApiClient.Login.Key.ToHexString();
+        public string IdHexString => Shared.ApiClient.Credentials.Id.ToHexString();
+        public string KeyHexString => Shared.ApiClient.Credentials.Key.ToHexString();
 
         public string AddContactIdHexString { get; set; }
 

@@ -25,9 +25,9 @@ public class ApiClient
     /// </summary>
     /// <param name="login"></param>
     /// <param name="isUnsecure"></param>
-    public ApiClient(Login login, bool isUnsecure)
+    public ApiClient(Credentials credentials, bool isUnsecure)
     {
-        Login = login;
+        Credentials = credentials;
         IsUnsecure = isUnsecure;
     }
 
@@ -46,38 +46,26 @@ public class ApiClient
         return null; // TBI
     }
 
-    /// <summary>
-    /// Gets all messages that you have received from this user id.
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    public async Task<IEnumerable<Message>> GetReceivedMessages(ByteString userId)
+    public async Task<bool> Login(Credentials credentials)
     {
-        return null; // TBI
-    }
-
-    /// <summary>
-    /// Gets all messages that you have send to this user id.
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    public async Task<IEnumerable<Message>> GetSendMessages(ByteString userId)
-    {
-        return null; // TBI
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var response = await client.LoginAsync(credentials);
+        return response.Id != null && response.Key != null;
     }
 
     /// <summary>
     /// Get your credentials.
     /// </summary>
     /// <returns></returns>
-    public async Task<Login> CreateAccount()
+    public async Task<Account> CreateAccount()
     {
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         var response = await client.CreateAccountAsync(new Empty());
         Console.WriteLine("GetCredentials returned: {0}:{1}", response.Account.Id.ToHexString(),
             response.Account.Key.ToHexString());
-        return new Login {Id = response.Account.Id, Key = response.Account.Key};
+        return new Account {Id = response.Account.Id, Key = response.Account.Key};
     }
 
     /// <summary>
@@ -139,7 +127,7 @@ public class ApiClient
         }
     }
 
-    public Login Login { get; }
+    public Credentials Credentials { get; }
 
     private string ApiIp { get; set; }
     private const int ApiPort = 50051;
