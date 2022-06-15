@@ -88,6 +88,30 @@ namespace Pchat {
       get { return global::Pchat.LookupReflection.Descriptor.Services[0]; }
     }
 
+    /// <summary>Base class for server-side implementations of Lookup</summary>
+    [grpc::BindServiceMethod(typeof(Lookup), "BindService")]
+    public abstract partial class LookupBase
+    {
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.Credentials> GenerateCredentials(global::Pchat.Empty request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.RegisterEndpointResponse> RegisterEndpoint(global::Pchat.RegisterEndpointRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.GetEndpointResponse> GetEndpoint(global::Pchat.GetEndpointRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+    }
+
     /// <summary>Client for Lookup</summary>
     public partial class LookupClient : grpc::ClientBase<LookupClient>
     {
@@ -181,6 +205,29 @@ namespace Pchat {
       {
         return new LookupClient(configuration);
       }
+    }
+
+    /// <summary>Creates service definition that can be registered with a server</summary>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static grpc::ServerServiceDefinition BindService(LookupBase serviceImpl)
+    {
+      return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_GenerateCredentials, serviceImpl.GenerateCredentials)
+          .AddMethod(__Method_RegisterEndpoint, serviceImpl.RegisterEndpoint)
+          .AddMethod(__Method_GetEndpoint, serviceImpl.GetEndpoint).Build();
+    }
+
+    /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
+    /// Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+    /// <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static void BindService(grpc::ServiceBinderBase serviceBinder, LookupBase serviceImpl)
+    {
+      serviceBinder.AddMethod(__Method_GenerateCredentials, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.Credentials>(serviceImpl.GenerateCredentials));
+      serviceBinder.AddMethod(__Method_RegisterEndpoint, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.RegisterEndpointRequest, global::Pchat.RegisterEndpointResponse>(serviceImpl.RegisterEndpoint));
+      serviceBinder.AddMethod(__Method_GetEndpoint, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.GetEndpointRequest, global::Pchat.GetEndpointResponse>(serviceImpl.GetEndpoint));
     }
 
   }

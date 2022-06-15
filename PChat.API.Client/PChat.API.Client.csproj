@@ -8,24 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Protobuf" Version="3.20.1" />
       <PackageReference Include="Grpc.Net.Client" Version="2.46.0" />
-      <PackageReference Include="Grpc.Tools" Version="2.46.1">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Protos" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PChat\PChat.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Protobuf Include="**/*.proto" OutputDir="Generated" GrpcServices="Client" ProtoRoot="Protos" />
     </ItemGroup>
 
     <PropertyGroup>

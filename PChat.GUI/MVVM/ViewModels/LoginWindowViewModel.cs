@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -6,6 +7,7 @@ using Avalonia.Threading;
 using Pchat;
 using PChat.API.Client;
 using PChat.GUI.MVVM.Models;
+using PChat.Notify;
 using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
@@ -70,11 +72,13 @@ public class LoginWindowViewModel : ViewModelBase
 
     private void OpenMainWindow(Account account, CancellationToken cancellationToken)
     {
+        SessionContent.Account = account;
+        new NotifyServer().Start(Array.Empty<string>());
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             var mainWindow = new MainWindow()
             {
-                DataContext = new MainWindowViewModel(account, cancellationToken)
+                DataContext = new MainWindowViewModel(cancellationToken)
             };
             mainWindow.Show();
             MainWindowOpened = true;

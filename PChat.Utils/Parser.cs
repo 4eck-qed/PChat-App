@@ -19,27 +19,6 @@ public static class Parser
     }
 
     /// <summary>
-    /// Parses messages to a single string.
-    /// </summary>
-    /// <param name="messages"></param>
-    /// <returns>Representation as single string</returns>
-    public static string ParseMessages(IEnumerable<Message> messages)
-    {
-        if (messages == null)
-            return string.Empty;
-
-        var sb = new StringBuilder();
-        // messages.Select(message => sb.Append($"{message.Message}\n"));
-
-        foreach (var message in messages)
-        {
-            sb.Append($"{message.Content}\n");
-        }
-
-        return sb.ToString();
-    }
-
-    /// <summary>
     /// Cuts out the file string from the path.
     /// </summary>
     /// <param name="pathToFile">Path to file</param>

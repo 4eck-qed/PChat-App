@@ -64,6 +64,18 @@ namespace Pchat {
       get { return global::Pchat.ChatReflection.Descriptor.Services[0]; }
     }
 
+    /// <summary>Base class for server-side implementations of Chat</summary>
+    [grpc::BindServiceMethod(typeof(Chat), "BindService")]
+    public abstract partial class ChatBase
+    {
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> SendMessage(global::Pchat.SendMessageRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+    }
+
     /// <summary>Client for Chat</summary>
     public partial class ChatClient : grpc::ClientBase<ChatClient>
     {
@@ -117,6 +129,25 @@ namespace Pchat {
       {
         return new ChatClient(configuration);
       }
+    }
+
+    /// <summary>Creates service definition that can be registered with a server</summary>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static grpc::ServerServiceDefinition BindService(ChatBase serviceImpl)
+    {
+      return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_SendMessage, serviceImpl.SendMessage).Build();
+    }
+
+    /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
+    /// Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+    /// <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static void BindService(grpc::ServiceBinderBase serviceBinder, ChatBase serviceImpl)
+    {
+      serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.SendMessageRequest, global::Pchat.PeerResponse>(serviceImpl.SendMessage));
     }
 
   }

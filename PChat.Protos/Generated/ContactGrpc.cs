@@ -74,6 +74,24 @@ namespace Pchat {
       get { return global::Pchat.ContactReflection.Descriptor.Services[0]; }
     }
 
+    /// <summary>Base class for server-side implementations of Contact</summary>
+    [grpc::BindServiceMethod(typeof(Contact), "BindService")]
+    public abstract partial class ContactBase
+    {
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> AddFriend(global::Pchat.CallerInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> AnswerFriendRequest(global::Pchat.Answer request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+    }
+
     /// <summary>Client for Contact</summary>
     public partial class ContactClient : grpc::ClientBase<ContactClient>
     {
@@ -147,6 +165,27 @@ namespace Pchat {
       {
         return new ContactClient(configuration);
       }
+    }
+
+    /// <summary>Creates service definition that can be registered with a server</summary>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static grpc::ServerServiceDefinition BindService(ContactBase serviceImpl)
+    {
+      return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_AddFriend, serviceImpl.AddFriend)
+          .AddMethod(__Method_AnswerFriendRequest, serviceImpl.AnswerFriendRequest).Build();
+    }
+
+    /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
+    /// Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+    /// <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static void BindService(grpc::ServiceBinderBase serviceBinder, ContactBase serviceImpl)
+    {
+      serviceBinder.AddMethod(__Method_AddFriend, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.CallerInfo, global::Pchat.PeerResponse>(serviceImpl.AddFriend));
+      serviceBinder.AddMethod(__Method_AnswerFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Answer, global::Pchat.PeerResponse>(serviceImpl.AnswerFriendRequest));
     }
 
   }

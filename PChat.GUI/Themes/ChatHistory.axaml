@@ -1,26 +1,18 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:PChat.GUI"
-        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-        xmlns:pChat="clr-namespace:PChat;assembly=PChat">
+        xmlns:converter="clr-namespace:PChat.GUI.Core.Converters"
+        xmlns:pchat="clr-namespace:Pchat;assembly=PChat.Protos">
 
     <Design.DataContext>
-        <pChat:Message />
+        <pchat:TextMessage />
     </Design.DataContext>
 
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-            <ListBox Items="{Binding SelectedChat.Messages}"
-                     Background="Gray"
-                     BorderThickness="0">
-                <ListBox.DataContext>
-                    <vm:MainWindowViewModel />
-                </ListBox.DataContext>
-            </ListBox>
-        </Border>
-    </Design.PreviewWith>
+    <Styles.Resources>
+        <converter:MyMessageConverter x:Key="MyMessageConverter" />
+        <converter:ContactMessageConverter x:Key="ContactMessageConverter" />
+        <converter:HexStringConverter x:Key="HexStringConverter" />
+        <converter:RandomColorConverter x:Key="RandomColorConverter" />
+    </Styles.Resources>
 
     <Style Selector="ListBoxItem:selected">
         <Setter Property="Background" Value="#4f4d47" />
@@ -32,96 +24,51 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <ControlTemplate>
-
                 <Grid>
-
-                    <!--#region Contact Message-->
-                    <Grid>
-                        <Polygon Points="0,53 30,15 30,53"
-                                 Stroke="{TemplateBinding Background}"
+                    <!--#region Contacts Message (Left)-->
+                    <Grid IsVisible="{Binding SenderId, Converter={StaticResource ContactMessageConverter}}">
+                        <Polygon Points="0,53 30,15 30,53" Stroke="{TemplateBinding Background}"
                                  Fill="{TemplateBinding Background}" />
-
                         <WrapPanel>
-                            <Border Background="{TemplateBinding Background}"
-                                    CornerRadius="10"
-                                    Padding="10,0,10,9"
-                                    Margin="10,5,0,0">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="10"
+                                    Padding="10,0,10,9" Margin="10,5,0,0">
                                 <StackPanel>
-                                    <Label Content="{Binding Sender.Name}"
-                                           FontWeight="Bold"
-                                           FontSize="13"
-                                           VerticalAlignment="Top"
-                                           VerticalContentAlignment="Top"
-                                           Foreground="{Binding Sender.NameColor}" />
+                                    <Label Content="{Binding SenderId, Converter={StaticResource HexStringConverter}}"
+                                           FontWeight="Bold" FontSize="13"
+                                           VerticalAlignment="Top" VerticalContentAlignment="Top"
+                                           Foreground="{Binding Converter={StaticResource RandomColorConverter}}" />
                                     <TextBlock Text="{Binding Content}"
                                                VerticalAlignment="Center" />
                                 </StackPanel>
                             </Border>
                         </WrapPanel>
-
-                        <i:Interaction.Behaviors>
-                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
-                                                    ComparisonCondition="Equal"
-                                                    Value="True">
-                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="False" />
-                            </ia:DataTriggerBehavior>
-                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
-                                                    ComparisonCondition="Equal"
-                                                    Value="False">
-                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="True" />
-                            </ia:DataTriggerBehavior>
-                        </i:Interaction.Behaviors>
                     </Grid>
                     <!--#endregion-->
 
-                    
-                    <!--#region Sender Message-->
-                    <Grid HorizontalAlignment="Right">
-
+                    <!--#region My Message (Right)-->
+                    <Grid HorizontalAlignment="Right"
+                          IsVisible="{Binding SenderId, Converter={StaticResource MyMessageConverter}}">
                         <Polygon Points="0,53 -30,15 -30,53"
-                                 Stroke="{TemplateBinding Background}"
-                                 Fill="{TemplateBinding Background}"
-                                 HorizontalAlignment="Right"/>
-                        
+                                 Stroke="{TemplateBinding Background}" Fill="{TemplateBinding Background}"
+                                 HorizontalAlignment="Right" />
                         <WrapPanel>
-                            <Border Background="{TemplateBinding Background}"
-                                    CornerRadius="10"
-                                    Padding="10,0,10,9"
-                                    Margin="0,5,10,0">
-                                
+                            <Border Background="{TemplateBinding Background}" CornerRadius="10"
+                                    Padding="10,0,10,9" Margin="0,5,10,0">
+
                                 <StackPanel>
-                                    <Label Content="{Binding Sender.Name}"
-                                           FontWeight="Bold"
-                                           FontSize="13"
-                                           VerticalAlignment="Top"
-                                           VerticalContentAlignment="Top"
+                                    <Label Content="{Binding SenderId, Converter={StaticResource HexStringConverter}}"
+                                           FontWeight="Bold" FontSize="13"
+                                           VerticalAlignment="Top" VerticalContentAlignment="Top"
                                            HorizontalAlignment="Right"
-                                           Foreground="{Binding Sender.NameColor}" />
+                                           Foreground="{Binding Converter={StaticResource RandomColorConverter}}" />
                                     <TextBlock Text="{Binding Content}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Right"/>
+                                               VerticalAlignment="Center" HorizontalAlignment="Right" />
                                 </StackPanel>
                             </Border>
                         </WrapPanel>
-                        
-                        <i:Interaction.Behaviors>
-                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
-                                                    ComparisonCondition="Equal"
-                                                    Value="True">
-                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="True" />
-                            </ia:DataTriggerBehavior>
-                            <ia:DataTriggerBehavior Binding="{Binding IsNativeOrigin}"
-                                                    ComparisonCondition="Equal"
-                                                    Value="False">
-                                <ia:ChangePropertyAction PropertyName="IsVisible" Value="False" />
-                            </ia:DataTriggerBehavior>
-                        </i:Interaction.Behaviors>
                     </Grid>
                     <!--#endregion-->
-                    
-                    
                 </Grid>
-                
             </ControlTemplate>
         </Setter>
     </Style>

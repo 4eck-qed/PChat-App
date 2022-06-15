@@ -11,6 +11,7 @@ using Google.Protobuf;
 using Pchat;
 using PChat.API.Client;
 using PChat.Extensions;
+using PChat.GUI.Core.Converters;
 using PChat.Log;
 
 // ReSharper disable once CheckNamespace
@@ -29,8 +30,8 @@ namespace PChat.GUI
 
         #region Fields
 
-        private ObservableCollection<Message> _notifications;
-        private Message _selectedNotification;
+        private ObservableCollection<TextMessage> _notifications;
+        private TextMessage _selectedNotification;
 
         private ObservableCollection<ChatViewModel> _chats;
         private ChatViewModel _selectedChat;
@@ -45,11 +46,12 @@ namespace PChat.GUI
         #endregion
 
 
-        public MainWindowViewModel(Account account, CancellationToken cancellationToken)
+        public MainWindowViewModel(CancellationToken cancellationToken)
         {
             Console.WriteLine("Initializing main window view model..");
             _cancellationToken = cancellationToken;
-            Notifications = new ObservableCollection<Message>();
+            
+            Notifications = new ObservableCollection<TextMessage>();
             FriendRequests = new ObservableCollection<ContactCard>();
             Friends = new ObservableCollection<ContactCard>();
             Chats = new ObservableCollection<ChatViewModel>();
@@ -64,10 +66,10 @@ namespace PChat.GUI
             SelectNotificationCommand = ReactiveCommand.Create(() =>
             {
                 if (SelectedNotification == null) return;
-                Console.WriteLine($"Selected Notification from {SelectedNotification.Sender.Name} " +
+                Console.WriteLine($"Selected Notification from {SelectedNotification.SenderId.ToHexString()} " +
                                   $"with Message \"{SelectedNotification.Content}\"");
 
-                OpenChat(SelectedNotification.Sender);
+                OpenChat(SelectedNotification.SenderId);
                 Notifications.Remove(SelectedNotification);
             });
 
@@ -89,22 +91,20 @@ namespace PChat.GUI
 
             var earl = new ContactCard
             {
-                Id = account.Id,
-                AvatarImageSource = $"avares://PChat.GUI/Assets/Images/samples/earl.png",
+                Id = SessionContent.Account.Id,
+                Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/samples/earl.png"),
                 Name = "Earl",
-                NameColor = Colors.Cornsilk.ToString(),
                 Status = "My name is Earl!"
             };
-            var credentials = new Credentials {Id = account.Id, Key = account.Key};
-            Shared = new SharedViewModel(account, earl, new ApiClient(credentials, true), new ConcurrentQueue<Message>());
+            var credentials = new Credentials {Id = SessionContent.Account.Id, Key = SessionContent.Account.Key};
+            Shared = new SharedViewModel(new ApiClient(credentials, true));
             _metaViewModel = new MetaViewModel(Shared, cancellationToken);
 
             var randy = new ContactCard
             {
-                Id = account.Id,
-                AvatarImageSource = $"avares://PChat.GUI/Assets/Images/samples/randy.png",
+                Id = SessionContent.Account.Id,
+                Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/samples/randy.png"),
                 Name = "Randy",
-                NameColor = Colors.Maroon.ToString(),
                 Status = ".."
             };
             Friends.Add(randy);
@@ -112,7 +112,7 @@ namespace PChat.GUI
             Chats.Add(new ChatViewModel(Shared, randy));
         }
 
-        public MainWindowViewModel() : this(new Account(), new CancellationToken())
+        public MainWindowViewModel() : this(new CancellationToken())
         {
             Console.WriteLine("[TEST] MainWindowViewModel was initialized.");
         }
@@ -125,24 +125,25 @@ namespace PChat.GUI
             Chats.Add(new ChatViewModel(Shared, contact));
         }
 
-        private void OpenChat(ContactCard? contact)
+        private void OpenChat(ByteString contactId)
         {
-            if (contact == null)
+            var contact = SessionContent.ContactList.FirstOrDefault(c => c.Id.Equals(contactId));
+            if (contact == null) // TODO Display a red message in place of chat.
             {
-                PLogger.Singleton.ToConsole("OpenChat for null requested!");
+                Console.WriteLine("Contact not found. You are probably not friends with them.");
                 return;
             }
-
             SelectedFriend = contact;
-            SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver == contact);
+            SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver.Equals(contact));
         }
 
-        private void ReplaceNotification(ByteString senderId, Message newMessage)
+        private void ReplaceNotification(ByteString senderId, TextMessage newTextMessage)
         {
             foreach (var notification in Notifications)
             {
-                if (notification.Sender.Id != senderId) continue;
-                notification.Replace(newMessage);
+                if (notification.SenderId != senderId) continue;
+                notification.Content = newTextMessage.Content;
+                notification.Time = newTextMessage.Time;
                 break;
             }
         }
@@ -151,13 +152,13 @@ namespace PChat.GUI
 
         #region Properties
 
-        public ObservableCollection<Message> Notifications
+        public ObservableCollection<TextMessage> Notifications
         {
             get => _notifications;
             set => this.RaiseAndSetIfChanged(ref _notifications, value);
         }
 
-        public Message? SelectedNotification
+        public TextMessage? SelectedNotification
         {
             get => _selectedNotification;
             set
@@ -202,17 +203,14 @@ namespace PChat.GUI
             {
                 if (value == null) return;
                 this.RaiseAndSetIfChanged(ref _selectedFriend, value);
-                SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver == value);
+                SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver.Equals(value));
 
                 Console.WriteLine($"Selected Contact: {value.Name}");
                 foreach (var notification in Notifications.ToArray())
                 {
-                    if (notification.Sender != SelectedFriend) continue;
+                    if (notification.SenderId != SelectedFriend?.Id) continue;
                     // remove notifications for this contact, since we are already looking at this chat
-                    if (SelectedChat?.Messages != null)
-                    {
-                        Notifications.RemoveMany(SelectedChat.Messages);
-                    }
+                    Notifications.RemoveMany(SessionContent.Messages[SelectedChat?.Receiver.Id!]);
                 }
             }
         }

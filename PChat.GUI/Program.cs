@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using PChat.Notify;
 
 namespace PChat.GUI
 {

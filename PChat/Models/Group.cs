@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using Pchat;
 
 namespace PChat;
 
@@ -22,5 +23,5 @@ public class Group
     /// <summary>
     /// Messages contained in this group chat.
     /// </summary>
-    public ObservableCollection<Message> Messages = new ObservableCollection<Message>();
+    public ObservableCollection<TextMessage> Messages = new ObservableCollection<TextMessage>();
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using PChat.Notify;
 
 // ReSharper disable once CheckNamespace
 namespace PChat.GUI;

@@ -16,39 +16,30 @@ public class SharedViewModel : ViewModelBase
 {
     #region Fields
 
-    private ContactCard _profile;
-    private ConcurrentQueue<Message> _messageQueue;
+    private ConcurrentQueue<TextMessage> _messageQueue;
 
     #endregion
 
-    public SharedViewModel(Account account, ContactCard profile, ApiClient apiClient, ConcurrentQueue<Message> messageQueue)
+    public SharedViewModel(ApiClient apiClient)
     {
-        Account = account;
-        IdHexString = account.Id.ToHexString();
-        KeyHexString = account.Key.ToHexString();
-        Profile = profile;
+        IdHexString = SessionContent.Account.Id.ToHexString();
+        KeyHexString = SessionContent.Account.Key.ToHexString();
         ApiClient = apiClient;
-        MessageQueue = messageQueue;
+
+        MessageQueue = new ConcurrentQueue<TextMessage>(); // TODO load from file
     }
-    
-    public readonly Account Account;
+
     public readonly ApiClient ApiClient;
     public LoginHistoryService LoginHistoryService { get; } = new LoginHistoryService();
-    
+
     #region View-Relevant Properties
 
-    public ContactCard Profile
-    {
-        get => _profile;
-        set => this.RaiseAndSetIfChanged(ref _profile, value);
-    }
-
-    public ConcurrentQueue<Message> MessageQueue
+    public ConcurrentQueue<TextMessage> MessageQueue
     {
         get => _messageQueue;
         set => this.RaiseAndSetIfChanged(ref _messageQueue, value);
     }
-    
+
     public string IdHexString { get; }
     public string KeyHexString { get; }
 

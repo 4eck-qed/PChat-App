@@ -110,6 +110,54 @@ namespace Pchat {
       get { return global::Pchat.NotifyReflection.Descriptor.Services[0]; }
     }
 
+    /// <summary>Base class for server-side implementations of Notify</summary>
+    [grpc::BindServiceMethod(typeof(Notify), "BindService")]
+    public abstract partial class NotifyBase
+    {
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewFriend(global::Pchat.User request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> Unfriended(global::Pchat.User request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestReceived(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestAnswered(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> MessageReceived(global::Pchat.TextMessage request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// rpc SentMessageReceived         (TextMessage)   returns (ClientStatusResponse); 
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ArrivedAtPeer(global::Pchat.Sendable request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+    }
+
     /// <summary>Client for Notify</summary>
     public partial class NotifyClient : grpc::ClientBase<NotifyClient>
     {
@@ -291,6 +339,35 @@ namespace Pchat {
       {
         return new NotifyClient(configuration);
       }
+    }
+
+    /// <summary>Creates service definition that can be registered with a server</summary>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static grpc::ServerServiceDefinition BindService(NotifyBase serviceImpl)
+    {
+      return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_NewFriend, serviceImpl.NewFriend)
+          .AddMethod(__Method_Unfriended, serviceImpl.Unfriended)
+          .AddMethod(__Method_FriendRequestReceived, serviceImpl.FriendRequestReceived)
+          .AddMethod(__Method_FriendRequestAnswered, serviceImpl.FriendRequestAnswered)
+          .AddMethod(__Method_MessageReceived, serviceImpl.MessageReceived)
+          .AddMethod(__Method_ArrivedAtPeer, serviceImpl.ArrivedAtPeer).Build();
+    }
+
+    /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
+    /// Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+    /// <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    public static void BindService(grpc::ServiceBinderBase serviceBinder, NotifyBase serviceImpl)
+    {
+      serviceBinder.AddMethod(__Method_NewFriend, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.ClientStatusResponse>(serviceImpl.NewFriend));
+      serviceBinder.AddMethod(__Method_Unfriended, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.ClientStatusResponse>(serviceImpl.Unfriended));
+      serviceBinder.AddMethod(__Method_FriendRequestReceived, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(serviceImpl.FriendRequestReceived));
+      serviceBinder.AddMethod(__Method_FriendRequestAnswered, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(serviceImpl.FriendRequestAnswered));
+      serviceBinder.AddMethod(__Method_MessageReceived, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.MessageReceived));
+      serviceBinder.AddMethod(__Method_ArrivedAtPeer, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Sendable, global::Pchat.ClientStatusResponse>(serviceImpl.ArrivedAtPeer));
     }
 
   }

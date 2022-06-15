@@ -41,7 +41,7 @@ public class ApiClient
     /// Get all messages that you send or received to/from this user id.
     /// </summary>
     /// <returns></returns>
-    public async Task<IEnumerable<Message>> GetMessages(ByteString userId)
+    public async Task<IEnumerable<TextMessage>> GetMessages(ByteString userId)
     {
         return null; // TBI
     }
@@ -86,20 +86,12 @@ public class ApiClient
     /// <summary>
     /// Sends a message.
     /// </summary>
-    /// <param name="message"></param>
-    public async Task<bool> Send(Message message)
+    /// <param name="messageToBeRemoved"></param>
+    public async Task<bool> SendMessage(TextMessage message)
     {
-        var request = new TextMessage
-        {
-            Id = message.Id,
-            SenderId = message.Sender.Id,
-            ReceiverId = message.Receiver.Id,
-            Content = message.Content,
-            Time = message.Time.ToString(CultureInfo.CurrentCulture)
-        };
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
-        var response = await client.SendMessageAsync(request);
+        var response = await client.SendMessageAsync(message);
         return response.Status == PeerResponse.Types.Status.Received;
     }
 

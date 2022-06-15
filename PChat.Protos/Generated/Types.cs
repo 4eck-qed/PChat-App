@@ -24,53 +24,56 @@ namespace Pchat {
     static TypesReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgt0eXBlcy5wcm90bxIFcGNoYXQiBwoFRW1wdHkiIgoHQWNjb3VudBIKCgJp",
-            "ZBgBIAEoDBILCgNrZXkYAiABKAwiLQoGQW5zd2VyEhEKCXNlbmRlcl9pZBgB",
-            "IAEoDBIQCghhY2NlcHRlZBgCIAEoCCIfCgpDYWxsZXJJbmZvEhEKCWNhbGxl",
-            "cl9pZBgBIAEoDCIWChRDbGllbnRTdGF0dXNSZXNwb25zZSJhChVDcmVhdGVB",
-            "Y2NvdW50UmVzcG9uc2USHwoHYWNjb3VudBgBIAEoCzIOLnBjaGF0LkFjY291",
-            "bnQSJwoIcmVzcG9uc2UYAiABKAsyFS5wY2hhdC5Mb29rdXBSZXNwb25zZSIm",
-            "CgtDcmVkZW50aWFscxIKCgJpZBgBIAEoDBILCgNrZXkYAiABKAwiEgoEVXNl",
-            "chIKCgJpZBgBIAEoDCJtCg1GcmllbmRSZXF1ZXN0EioKBnN0YXR1cxgBIAEo",
-            "DjIaLnBjaGF0LkZyaWVuZFJlcXVlc3RTdGF0dXMSCgoCaWQYAiABKAwSEQoJ",
-            "c2VuZGVyX2lkGAMgASgMEhEKCXRhcmdldF9pZBgEIAEoDCJQChJHZXRFbmRw",
-            "b2ludFJlcXVlc3QSJwoLQ3JlZGVudGlhbHMYASABKAsyEi5wY2hhdC5DcmVk",
-            "ZW50aWFscxIRCgl0YXJnZXRfaWQYAiABKAwiuwEKE0dldEVuZHBvaW50UmVz",
-            "cG9uc2USLwoEY29kZRgBIAEoDjIhLnBjaGF0LkdldEVuZHBvaW50UmVzcG9u",
-            "c2UuU3RhdHVzEgoKAmlwGAIgASgJEgwKBHBvcnQYAyABKA0iWQoGU3RhdHVz",
-            "Eg8KC1VOU1BFQ0lGSUVEEAASDAoIQUNRVUlSRUQQARIRCg1OT1RSRUdJU1RF",
-            "UkVEEAISEAoMVU5BVVRIT1JJWkVEEAMSCwoHSU5WQUxJRBAEIpgBCg5Mb29r",
-            "dXBSZXNwb25zZRIsCgZzdGF0dXMYASABKA4yHC5wY2hhdC5Mb29rdXBSZXNw",
-            "b25zZS5TdGF0dXMiWAoGU3RhdHVzEg8KC1VOU1BFQ0lGSUVEEAASCwoHU1VD",
-            "Q0VTUxABEgsKB09GRkxJTkUQAhIQCgxVTkFVVEhPUklaRUQQAxIRCg1OT1RS",
-            "RUdJU1RFUkVEEAQifQoNTWVzc2FnZUZpbHRlchIpCgZmaWx0ZXIYASABKA4y",
-            "GS5wY2hhdC5NZXNzYWdlRmlsdGVyLlR5cGUSCgoCaWQYAiABKAwiNQoEVHlw",
-            "ZRIPCgtVTlNQRUNJRklFRBAAEgwKCEJZU0VOREVSEAESDgoKQllSRUNFSVZF",
-            "UhACIoABCgxQZWVyUmVzcG9uc2USKgoGc3RhdHVzGAEgASgOMhoucGNoYXQu",
-            "UGVlclJlc3BvbnNlLlN0YXR1cyJECgZTdGF0dXMSDwoLVU5TUEVDSUZJRUQQ",
-            "ABIMCghSRUNFSVZFRBABEgsKB1RJTUVPVVQQAhIOCgpOT1RGUklFTkRTEAMi",
-            "UAoXUmVnaXN0ZXJFbmRwb2ludFJlcXVlc3QSJwoLY3JlZGVudGlhbHMYASAB",
-            "KAsyEi5wY2hhdC5DcmVkZW50aWFscxIMCgRwb3J0GAIgASgNIpwBChhSZWdp",
-            "c3RlckVuZHBvaW50UmVzcG9uc2USNgoGc3RhdHVzGAEgASgOMiYucGNoYXQu",
-            "UmVnaXN0ZXJFbmRwb2ludFJlc3BvbnNlLlN0YXR1cyJICgZTdGF0dXMSDwoL",
-            "VU5TUEVDSUZJRUQQABIOCgpSRUdJU1RFUkVEEAESEAoMVU5BVVRIT1JJWkVE",
-            "EAISCwoHSU5WQUxJRBADInIKCFNlbmRhYmxlEi4KDmZyaWVuZF9yZXF1ZXN0",
-            "GAEgASgLMhQucGNoYXQuRnJpZW5kUmVxdWVzdEgAEiUKB21lc3NhZ2UYAiAB",
-            "KAsyEi5wY2hhdC5UZXh0TWVzc2FnZUgAQg8KDXByb3RvX21lc3NhZ2UiOAoS",
-            "U2VuZE1lc3NhZ2VSZXF1ZXN0EhEKCXNlbmRlcl9pZBgBIAEoDBIPCgdtZXNz",
-            "YWdlGAIgASgJImAKC1RleHRNZXNzYWdlEgoKAmlkGAEgASgMEhEKCXNlbmRl",
-            "cl9pZBgCIAEoDBITCgtyZWNlaXZlcl9pZBgDIAEoDBIPCgdjb250ZW50GAQg",
-            "ASgJEgwKBHRpbWUYBSABKAkqTwoTRnJpZW5kUmVxdWVzdFN0YXR1cxIPCgtV",
-            "TlNQRUNJRklFRBAAEgsKB1BFTkRJTkcQARIMCghBQ0NFUFRFRBACEgwKCFJF",
-            "SkVDVEVEEANiBnByb3RvMw=="));
+            "Cgt0eXBlcy5wcm90bxIFcGNoYXQiBwoFRW1wdHkiUAoHQWNjb3VudBIKCgJp",
+            "ZBgBIAEoDBILCgNrZXkYAiABKAwSDAoEbmFtZRgDIAEoCRIOCgZhdmF0YXIY",
+            "BCABKAwSDgoGc3RhdHVzGAUgASgJIi0KBkFuc3dlchIRCglzZW5kZXJfaWQY",
+            "ASABKAwSEAoIYWNjZXB0ZWQYAiABKAgiHwoKQ2FsbGVySW5mbxIRCgljYWxs",
+            "ZXJfaWQYASABKAwiFgoUQ2xpZW50U3RhdHVzUmVzcG9uc2UiRwoLQ29udGFj",
+            "dENhcmQSCgoCaWQYASABKAwSDAoEbmFtZRgCIAEoCRIOCgZhdmF0YXIYAyAB",
+            "KAwSDgoGc3RhdHVzGAQgASgJImEKFUNyZWF0ZUFjY291bnRSZXNwb25zZRIf",
+            "CgdhY2NvdW50GAEgASgLMg4ucGNoYXQuQWNjb3VudBInCghyZXNwb25zZRgC",
+            "IAEoCzIVLnBjaGF0Lkxvb2t1cFJlc3BvbnNlIiYKC0NyZWRlbnRpYWxzEgoK",
+            "AmlkGAEgASgMEgsKA2tleRgCIAEoDCISCgRVc2VyEgoKAmlkGAEgASgMIm0K",
+            "DUZyaWVuZFJlcXVlc3QSKgoGc3RhdHVzGAEgASgOMhoucGNoYXQuRnJpZW5k",
+            "UmVxdWVzdFN0YXR1cxIKCgJpZBgCIAEoDBIRCglzZW5kZXJfaWQYAyABKAwS",
+            "EQoJdGFyZ2V0X2lkGAQgASgMIlAKEkdldEVuZHBvaW50UmVxdWVzdBInCgtD",
+            "cmVkZW50aWFscxgBIAEoCzISLnBjaGF0LkNyZWRlbnRpYWxzEhEKCXRhcmdl",
+            "dF9pZBgCIAEoDCK7AQoTR2V0RW5kcG9pbnRSZXNwb25zZRIvCgRjb2RlGAEg",
+            "ASgOMiEucGNoYXQuR2V0RW5kcG9pbnRSZXNwb25zZS5TdGF0dXMSCgoCaXAY",
+            "AiABKAkSDAoEcG9ydBgDIAEoDSJZCgZTdGF0dXMSDwoLVU5TUEVDSUZJRUQQ",
+            "ABIMCghBQ1FVSVJFRBABEhEKDU5PVFJFR0lTVEVSRUQQAhIQCgxVTkFVVEhP",
+            "UklaRUQQAxILCgdJTlZBTElEEAQimAEKDkxvb2t1cFJlc3BvbnNlEiwKBnN0",
+            "YXR1cxgBIAEoDjIcLnBjaGF0Lkxvb2t1cFJlc3BvbnNlLlN0YXR1cyJYCgZT",
+            "dGF0dXMSDwoLVU5TUEVDSUZJRUQQABILCgdTVUNDRVNTEAESCwoHT0ZGTElO",
+            "RRACEhAKDFVOQVVUSE9SSVpFRBADEhEKDU5PVFJFR0lTVEVSRUQQBCJ9Cg1N",
+            "ZXNzYWdlRmlsdGVyEikKBmZpbHRlchgBIAEoDjIZLnBjaGF0Lk1lc3NhZ2VG",
+            "aWx0ZXIuVHlwZRIKCgJpZBgCIAEoDCI1CgRUeXBlEg8KC1VOU1BFQ0lGSUVE",
+            "EAASDAoIQllTRU5ERVIQARIOCgpCWVJFQ0VJVkVSEAIigAEKDFBlZXJSZXNw",
+            "b25zZRIqCgZzdGF0dXMYASABKA4yGi5wY2hhdC5QZWVyUmVzcG9uc2UuU3Rh",
+            "dHVzIkQKBlN0YXR1cxIPCgtVTlNQRUNJRklFRBAAEgwKCFJFQ0VJVkVEEAES",
+            "CwoHT0ZGTElORRACEg4KCk5PVEZSSUVORFMQAyJQChdSZWdpc3RlckVuZHBv",
+            "aW50UmVxdWVzdBInCgtjcmVkZW50aWFscxgBIAEoCzISLnBjaGF0LkNyZWRl",
+            "bnRpYWxzEgwKBHBvcnQYAiABKA0inAEKGFJlZ2lzdGVyRW5kcG9pbnRSZXNw",
+            "b25zZRI2CgZzdGF0dXMYASABKA4yJi5wY2hhdC5SZWdpc3RlckVuZHBvaW50",
+            "UmVzcG9uc2UuU3RhdHVzIkgKBlN0YXR1cxIPCgtVTlNQRUNJRklFRBAAEg4K",
+            "ClJFR0lTVEVSRUQQARIQCgxVTkFVVEhPUklaRUQQAhILCgdJTlZBTElEEAMi",
+            "cgoIU2VuZGFibGUSLgoOZnJpZW5kX3JlcXVlc3QYASABKAsyFC5wY2hhdC5G",
+            "cmllbmRSZXF1ZXN0SAASJQoHbWVzc2FnZRgCIAEoCzISLnBjaGF0LlRleHRN",
+            "ZXNzYWdlSABCDwoNcHJvdG9fbWVzc2FnZSI4ChJTZW5kTWVzc2FnZVJlcXVl",
+            "c3QSEQoJc2VuZGVyX2lkGAEgASgMEg8KB21lc3NhZ2UYAiABKAkiYAoLVGV4",
+            "dE1lc3NhZ2USCgoCaWQYASABKAwSEQoJc2VuZGVyX2lkGAIgASgMEhMKC3Jl",
+            "Y2VpdmVyX2lkGAMgASgMEg8KB2NvbnRlbnQYBCABKAkSDAoEdGltZRgFIAEo",
+            "CSpPChNGcmllbmRSZXF1ZXN0U3RhdHVzEg8KC1VOU1BFQ0lGSUVEEAASCwoH",
+            "UEVORElORxABEgwKCEFDQ0VQVEVEEAISDAoIUkVKRUNURUQQA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Pchat.FriendRequestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.Empty), global::Pchat.Empty.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.Account), global::Pchat.Account.Parser, new[]{ "Id", "Key" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.Account), global::Pchat.Account.Parser, new[]{ "Id", "Key", "Name", "Avatar", "Status" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.Answer), global::Pchat.Answer.Parser, new[]{ "SenderId", "Accepted" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.CallerInfo), global::Pchat.CallerInfo.Parser, new[]{ "CallerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.ClientStatusResponse), global::Pchat.ClientStatusResponse.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.ContactCard), global::Pchat.ContactCard.Parser, new[]{ "Id", "Name", "Avatar", "Status" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.CreateAccountResponse), global::Pchat.CreateAccountResponse.Parser, new[]{ "Account", "Response" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.Credentials), global::Pchat.Credentials.Parser, new[]{ "Id", "Key" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.User), global::Pchat.User.Parser, new[]{ "Id" }, null, null, null, null),
@@ -289,6 +292,9 @@ namespace Pchat {
     public Account(Account other) : this() {
       id_ = other.id_;
       key_ = other.key_;
+      name_ = other.name_;
+      avatar_ = other.avatar_;
+      status_ = other.status_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -325,6 +331,42 @@ namespace Pchat {
       }
     }
 
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 3;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "avatar" field.</summary>
+    public const int AvatarFieldNumber = 4;
+    private pb::ByteString avatar_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Avatar {
+      get { return avatar_; }
+      set {
+        avatar_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "status" field.</summary>
+    public const int StatusFieldNumber = 5;
+    private string status_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Status {
+      get { return status_; }
+      set {
+        status_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -342,6 +384,9 @@ namespace Pchat {
       }
       if (Id != other.Id) return false;
       if (Key != other.Key) return false;
+      if (Name != other.Name) return false;
+      if (Avatar != other.Avatar) return false;
+      if (Status != other.Status) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -351,6 +396,9 @@ namespace Pchat {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (Key.Length != 0) hash ^= Key.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Avatar.Length != 0) hash ^= Avatar.GetHashCode();
+      if (Status.Length != 0) hash ^= Status.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -377,6 +425,18 @@ namespace Pchat {
         output.WriteRawTag(18);
         output.WriteBytes(Key);
       }
+      if (Name.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Name);
+      }
+      if (Avatar.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteBytes(Avatar);
+      }
+      if (Status.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Status);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -395,6 +455,18 @@ namespace Pchat {
         output.WriteRawTag(18);
         output.WriteBytes(Key);
       }
+      if (Name.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Name);
+      }
+      if (Avatar.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteBytes(Avatar);
+      }
+      if (Status.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Status);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -410,6 +482,15 @@ namespace Pchat {
       }
       if (Key.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Key);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Avatar.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Avatar);
+      }
+      if (Status.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Status);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -428,6 +509,15 @@ namespace Pchat {
       }
       if (other.Key.Length != 0) {
         Key = other.Key;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Avatar.Length != 0) {
+        Avatar = other.Avatar;
+      }
+      if (other.Status.Length != 0) {
+        Status = other.Status;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -452,6 +542,18 @@ namespace Pchat {
             Key = input.ReadBytes();
             break;
           }
+          case 26: {
+            Name = input.ReadString();
+            break;
+          }
+          case 34: {
+            Avatar = input.ReadBytes();
+            break;
+          }
+          case 42: {
+            Status = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -473,6 +575,18 @@ namespace Pchat {
           }
           case 18: {
             Key = input.ReadBytes();
+            break;
+          }
+          case 26: {
+            Name = input.ReadString();
+            break;
+          }
+          case 34: {
+            Avatar = input.ReadBytes();
+            break;
+          }
+          case 42: {
+            Status = input.ReadString();
             break;
           }
         }
@@ -1052,6 +1166,315 @@ namespace Pchat {
 
   }
 
+  public sealed partial class ContactCard : pb::IMessage<ContactCard>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ContactCard> _parser = new pb::MessageParser<ContactCard>(() => new ContactCard());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ContactCard> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ContactCard() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ContactCard(ContactCard other) : this() {
+      id_ = other.id_;
+      name_ = other.name_;
+      avatar_ = other.avatar_;
+      status_ = other.status_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ContactCard Clone() {
+      return new ContactCard(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private pb::ByteString id_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
+    /// <summary>
+    /// self given name
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "avatar" field.</summary>
+    public const int AvatarFieldNumber = 3;
+    private pb::ByteString avatar_ = pb::ByteString.Empty;
+    /// <summary>
+    /// picture of the contact
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Avatar {
+      get { return avatar_; }
+      set {
+        avatar_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "status" field.</summary>
+    public const int StatusFieldNumber = 4;
+    private string status_ = "";
+    /// <summary>
+    /// self set status of the contact, e.g. "Busy"
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Status {
+      get { return status_; }
+      set {
+        status_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ContactCard);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ContactCard other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      if (Name != other.Name) return false;
+      if (Avatar != other.Avatar) return false;
+      if (Status != other.Status) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Avatar.Length != 0) hash ^= Avatar.GetHashCode();
+      if (Status.Length != 0) hash ^= Status.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Id);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Avatar.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteBytes(Avatar);
+      }
+      if (Status.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Status);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Id);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Avatar.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteBytes(Avatar);
+      }
+      if (Status.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Status);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Id);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Avatar.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Avatar);
+      }
+      if (Status.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Status);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ContactCard other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Avatar.Length != 0) {
+        Avatar = other.Avatar;
+      }
+      if (other.Status.Length != 0) {
+        Status = other.Status;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadBytes();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Avatar = input.ReadBytes();
+            break;
+          }
+          case 34: {
+            Status = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Id = input.ReadBytes();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Avatar = input.ReadBytes();
+            break;
+          }
+          case 34: {
+            Status = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   public sealed partial class CreateAccountResponse : pb::IMessage<CreateAccountResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1066,7 +1489,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1310,7 +1733,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1536,7 +1959,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1725,7 +2148,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2025,7 +2448,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2260,7 +2683,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2551,7 +2974,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[11]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2768,7 +3191,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[12]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3008,7 +3431,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[13]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3189,7 +3612,7 @@ namespace Pchat {
       public enum Status {
         [pbr::OriginalName("UNSPECIFIED")] Unspecified = 0,
         [pbr::OriginalName("RECEIVED")] Received = 1,
-        [pbr::OriginalName("TIMEOUT")] Timeout = 2,
+        [pbr::OriginalName("OFFLINE")] Offline = 2,
         [pbr::OriginalName("NOTFRIENDS")] Notfriends = 3,
       }
 
@@ -3212,7 +3635,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[14]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3447,7 +3870,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[15]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3660,7 +4083,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[16]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3945,7 +4368,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[17]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4174,7 +4597,7 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[18]; }
+      get { return global::Pchat.TypesReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

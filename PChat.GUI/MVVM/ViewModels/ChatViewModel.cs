@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
+using Pchat;
 using PChat.GUI.Core;
 using PChat.Extensions;
 using ReactiveUI;
@@ -22,8 +25,9 @@ public class ChatViewModel : ViewModelBase
     #region Fields
 
     private string _messageInput;
-    private ObservableCollection<Message> _messages;
-    private Message _selectedMessage;
+
+    // private ObservableCollection<Message> _messages;
+    private TextMessage _selectedMessage;
     private ISolidColorBrush _isOnlineIndicator = Brushes.Red;
 
     #endregion
@@ -37,7 +41,12 @@ public class ChatViewModel : ViewModelBase
         Task.Run(async () =>
         {
             var messages = await Shared.ApiClient.GetMessages(receiver.Id);
-            Messages = new ObservableCollection<Message>(messages.OrderBy(m => m.Time));
+            
+            if (!SessionContent.Messages.ContainsKey(receiver.Id))
+                SessionContent.Messages.Add(receiver.Id, new ObservableCollection<TextMessage>());
+            
+            SessionContent.Messages[receiver.Id] =
+                new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
         });
     }
 
@@ -48,19 +57,19 @@ public class ChatViewModel : ViewModelBase
         SendCommand = ReactiveCommand.Create(() =>
         {
             if (string.IsNullOrEmpty(MessageInput)) return;
-            var message = new Message
+
+            var message = new TextMessage
             {
                 Id = ByteStringExtensions.RandomByteString(16),
-                Sender = Shared.Profile,
-                Receiver = Receiver,
+                SenderId = SessionContent.Account.Id,
+                ReceiverId = Receiver.Id,
                 Content = MessageInput,
-                IsNativeOrigin = true,
-                Time = DateTime.Now
+                Time = DateTime.Now.ToString(CultureInfo.InvariantCulture)
             };
 
+            MessageInput = "";
             Task.Run(async () =>
             {
-                MessageInput = "";
                 await UpdateOnlineStatus();
                 await Send(message);
             });
@@ -102,28 +111,18 @@ public class ChatViewModel : ViewModelBase
         SelectMessageCommand = ReactiveCommand.Create<MainWindowViewModel, Unit>(o => Unit.Default);
     }
 
-    private async Task Send(Message message)
+    private async Task Send(TextMessage message)
     {
-        Messages.Add(message);
-        this.RaisePropertyChanged(nameof(Messages));
+        TextMessages.Add(message);
+        this.RaisePropertyChanged(nameof(TextMessages));
 
-        var outgoingMessage = new Message(message) {IsNativeOrigin = false};
-
-        await Shared.ApiClient.Ping(Receiver).ContinueWith(async pingTask =>
+        await Shared.ApiClient.SendMessage(message).ContinueWith(sendTask =>
         {
-            if (!pingTask.IsCompletedSuccessfully)
+            if (!sendTask.IsCompletedSuccessfully)
             {
-                Shared.MessageQueue.Enqueue(outgoingMessage);
-                return;
+                // Shared.MessageQueueToBeRemoved.Enqueue(outgoingMessage);
+                Shared.MessageQueue.Enqueue(message);
             }
-
-            await Shared.ApiClient.Send(outgoingMessage).ContinueWith(sendTask =>
-            {
-                if (!sendTask.IsCompletedSuccessfully)
-                {
-                    Shared.MessageQueue.Enqueue(outgoingMessage);
-                }
-            });
         });
     }
 
@@ -150,17 +149,19 @@ public class ChatViewModel : ViewModelBase
 
     public ContactCard Receiver { get; }
 
-    public ObservableCollection<Message> Messages
-    {
-        get => _messages;
-        set => this.RaiseAndSetIfChanged(ref _messages, value);
-    }
+    // public ObservableCollection<Message> Messages
+    // {
+    //     get => _messages;
+    //     set => this.RaiseAndSetIfChanged(ref _messages, value);
+    // }
 
-    public Message SelectedMessage
+    public TextMessage SelectedMessage
     {
         get => _selectedMessage;
         set => this.RaiseAndSetIfChanged(ref _selectedMessage, value);
     }
+
+    public ObservableCollection<TextMessage> TextMessages => SessionContent.Messages[Receiver.Id];
 
     public ISolidColorBrush IsOnlineIndicator
     {

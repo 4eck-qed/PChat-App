@@ -13,8 +13,8 @@
         <vm:LoginWindowViewModel />
     </Design.DataContext>
     <Grid RowDefinitions="30,30,30,50" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBox Grid.Row="0" Width="300" Watermark="ID" Text="{Binding IdHexString}" />
-        <TextBox Grid.Row="1" Width="300" Watermark="Key" Text="{Binding KeyHexString}" />
+        <TextBox Grid.Row="0" Width="300" Watermark="ID" UseFloatingWatermark="False" Text="{Binding IdHexString}" />
+        <TextBox Grid.Row="1" Width="300" Watermark="Key" UseFloatingWatermark="False" Text="{Binding KeyHexString}" />
         <TextBlock Grid.Row="2" HorizontalAlignment="Center"
                    Text="{Binding ErrorText.Error}" Foreground="{Binding ErrorText.ColorString}"/>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">

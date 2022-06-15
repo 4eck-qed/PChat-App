@@ -132,21 +132,14 @@
                 <Label Content="Friend Requests" VerticalAlignment="Center" FontWeight="Medium" Foreground="Gray"
                        Margin="10,0,0,0" />
                 <Expander>
-                    <ListBox ClipToBounds="True" Items="{Binding FriendRequests}">
+                    <ListBox ClipToBounds="True" Items="{Binding Shared.SessionContent.FriendRequests}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid ColumnDefinitions="20,*,50" MinWidth="150">
-                                    <Ellipse Grid.Column="0" Width="20" Height="20">
-                                        <Ellipse.Fill>
-                                            <ImageBrush Stretch="UniformToFill"
-                                                        Source="{Binding AvatarImageSource, Converter={StaticResource BitmapValueConverter}}" />
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Name}" Foreground="{Binding NameColor}" FontSize="15" />
+                                <Grid ColumnDefinitions="*,50" MinWidth="150">
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding IdHexString}" Foreground="Gray" FontSize="10" />
                                     </StackPanel>
-                                    <Button Grid.Column="2" HorizontalAlignment="Right" Content="+"
+                                    <Button Grid.Column="1" HorizontalAlignment="Right" Content="Add"
                                             Command="{Binding AcceptFriendCommand}">
                                         <Button.DataContext>
                                             <vm:MainWindowViewModel />
@@ -159,7 +152,7 @@
                 </Expander>
             </StackPanel>
             <!--#endregion-->
-            
+
         </Grid>
 
         <Grid Grid.Column="1" RowDefinitions=".2*,.3*,.3*,3*">
@@ -285,16 +278,12 @@
                 <Grid ColumnDefinitions="*,*" VerticalAlignment="Top">
                     <StackPanel Grid.Column="0"
                                 Orientation="Horizontal">
-                        <Ellipse Stroke="{Binding SelectedChat.IsOnlineIndicator}"
-                                 StrokeThickness="2"
-                                 Fill="{Binding SelectedChat.IsOnlineIndicator}"
-                                 Width="5" Height="5" />
+                        <Ellipse Stroke="{Binding SelectedChat.IsOnlineIndicator}" StrokeThickness="2"
+                                 Fill="{Binding SelectedChat.IsOnlineIndicator}" Width="5" Height="5" />
                         <Label Content="{Binding SelectedFriend.Name}"
                                VerticalAlignment="Center" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Right"
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"
                                 VerticalAlignment="Top">
                         <Button Background="Transparent" Command="{Binding SelectedChat.VoiceCallCommand}">
                             <Image Width="40" Height="40" Source="/Assets/Images/phone.png" />
@@ -310,10 +299,16 @@
             <Grid Grid.Row="3" RowDefinitions="*,.2*,50" ColumnDefinitions="*,*">
                 <!--#region History-->
                 <Border Background="#3a3b42" CornerRadius="10" Margin="0,0,-120,3">
-                    <ListBox Items="{Binding SelectedChat.Messages}"
-                             SelectedItem="{Binding SelectedChat.SelectedMessage}"
-                             Background="Transparent"
+                    <ListBox Items="{Binding SelectedChat.TextMessages}"
+                             SelectedItem="{Binding SelectedChat.SelectedMessage}" Background="Transparent"
                              VerticalAlignment="Top">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="Gray" CornerRadius="10">
+                                    <TextBlock Text="{Binding Content}" />
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                         <ListBox.Styles>
                             <StyleInclude Source="/Themes/ChatHistory.axaml" />
                         </ListBox.Styles>
@@ -328,30 +323,21 @@
                 <!--#endregion-->
 
                 <!--#region MessageBox Section-->
-                <Border Grid.Row="1" Grid.Column="0" Background="#3e4147"
-                        CornerRadius="8"
-                        Height="50" Width="525"
+                <Border Grid.Row="1" Grid.Column="0" Background="#3e4147" CornerRadius="8" Height="50" Width="525"
                         Margin="120,0,0,20">
                     <StackPanel Orientation="Horizontal">
-                        <Button Width="30" Height="30"
-                                Background="Transparent"
-                                Margin="10,0,0,0"
+                        <Button Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
                                 Command="{Binding SelectedChat.AttachCommand}">
-                            <Image Source="/Assets/Images/plus.png"
-                                   Width="30" Height="30" />
+                            <Image Source="/Assets/Images/plus.png" Width="30" Height="30" />
                         </Button>
                         <themes:MessageBox
-                            MaxWidth="{Binding Width, RelativeSource={RelativeSource AncestorType=Window}}"
-                            Width="400">
+                            MaxWidth="{Binding Width, RelativeSource={RelativeSource AncestorType=Window}}" Width="400">
                             <themes:MessageBox.KeyBindings>
                                 <KeyBinding Command="{Binding SelectedChat.SendCommand}" Gesture="Enter" />
                             </themes:MessageBox.KeyBindings>
                         </themes:MessageBox>
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    Margin="0,0,0,0">
-                            <Button Width="30" Height="30"
-                                    Background="Transparent"
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0">
+                            <Button Width="30" Height="30" Background="Transparent"
                                     Command="{Binding SelectedChat.EmoteCommand}">
                                 <Image Source="/Assets/Images/Smileys/angry.png"
                                        Width="30" Height="30" />
@@ -360,18 +346,14 @@
                                     Background="Transparent"
                                     Command="{Binding SelectedChat.SendCommand}">
                                 <Button.Content>
-                                    <Image Source="/Assets/Images/send.png"
-                                           Width="30" Height="30" />
+                                    <Image Source="/Assets/Images/send.png" Width="30" Height="30" />
                                 </Button.Content>
                             </Button>
                         </StackPanel>
-                        <Button Width="30" Height="30"
-                                Background="Transparent"
-                                Margin="15,0,0,0"
+                        <Button Width="30" Height="30" Background="Transparent" Margin="15,0,0,0"
                                 Command="{Binding SelectedChat.RecordCommand}">
                             <Button.Content>
-                                <Image Source="/Assets/Images/mic.png"
-                                       Width="30" Height="30" />
+                                <Image Source="/Assets/Images/mic.png" Width="30" Height="30" />
                             </Button.Content>
                         </Button>
                     </StackPanel>

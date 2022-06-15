@@ -2,10 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:PChat.GUI"
         xmlns:coreConverters="clr-namespace:PChat.GUI.Core.Converters"
-        xmlns:pChat="clr-namespace:PChat;assembly=PChat">
+        xmlns:pchat="clr-namespace:Pchat;assembly=PChat.Protos">
 
     <Design.DataContext>
-        <pChat:ContactCard />
+        <pchat:ContactCard />
     </Design.DataContext>
 
     <Styles.Resources>
@@ -46,7 +46,7 @@
                         <Ellipse Width="40" Height="40">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill"
-                                            Source="{Binding AvatarImageSource, Converter={StaticResource BitmapValueConverter}}" />
+                                            Source="{Binding Avatar, Converter={StaticResource BitmapValueConverter}}" />
                                 <!--<SolidColorBrush Color="Aqua"/>-->
                             </Ellipse.Fill>
                         </Ellipse>
@@ -54,7 +54,7 @@
                         <StackPanel>
                             <Label Content="{Binding Name}"
                                    Foreground="White" />
-                            <Label Content="{Binding LastMessage}"
+                            <Label Content="{Binding Status}"
                                    Foreground="Gray" />
                         </StackPanel>
 
