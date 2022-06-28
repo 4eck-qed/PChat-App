@@ -1,6 +1,6 @@
 using Avalonia.Media;
 
-namespace PChat.GUI.MVVM.Models;
+namespace PChat.GUI.Models;
 
 public class ErrorText
 {

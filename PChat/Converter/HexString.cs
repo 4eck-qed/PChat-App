@@ -17,9 +17,12 @@ public static class HexString
     };
 
 
-    private static bool IsValid(string hexString)
+    public static bool IsValid(string hexString)
     {
+        Console.WriteLine("HS is valid called");
+        if (string.IsNullOrWhiteSpace(hexString)) return false;
         var regex = new Regex("[0-9A-F]+");
+        Console.WriteLine("Valid? {0}", regex.IsMatch(hexString) && hexString.Length % 2 == 0);
         return regex.IsMatch(hexString) && hexString.Length % 2 == 0;
     }
 

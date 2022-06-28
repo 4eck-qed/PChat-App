@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PChat.GUI.Controls.NotificationPanel"
+             x:Name="Self">
+
+    <Grid ColumnDefinitions="2*,.1*">
+        <ScrollViewer VerticalAlignment="Top" VerticalContentAlignment="Top"
+                      HorizontalAlignment="Right" HorizontalScrollBarVisibility="Auto"
+                      Padding="0,0,0,15">
+
+            <ListBox Items="{Binding Notifications, ElementName=Self}"
+                     SelectedItem="{Binding SelectedNotification, ElementName=Self}"
+                     Background="Transparent"
+                     BorderThickness="0">
+                <ListBox.Styles>
+                    <StyleInclude Source="/Themes/NotificationTheme.axaml" />
+                </ListBox.Styles>
+                <!-- TODO Implement animation -->
+                <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="Tapped">
+                        <InvokeCommandAction CommandParameter="{Binding}"
+                                             Command="{Binding SelectCommand, ElementName=Self}" />
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+            </ListBox>
+
+        </ScrollViewer>
+
+        <Button Grid.Column="1" Margin="0,0,0,0"
+                FontSize="20"
+                Background="Red"
+                Width="25" Height="25"
+                CornerRadius="0"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Command="{Binding ClearNotificationsCommand}">
+            <Button.Content>
+                <Label Content="✖"
+                       Margin="-8,-9,-8,-9" />
+            </Button.Content>
+            <Interaction.Behaviors>
+
+                <DataTriggerBehavior Binding="{Binding Notifications.Count, ElementName=Self}"
+                                     ComparisonCondition="Equal"
+                                     Value="0">
+                    <ChangePropertyAction PropertyName="IsVisible"
+                                          Value="False" />
+                </DataTriggerBehavior>
+
+                <DataTriggerBehavior Binding="{Binding Notifications.Count, ElementName=Self}"
+                                     ComparisonCondition="GreaterThan"
+                                     Value="0">
+                    <ChangePropertyAction PropertyName="IsVisible"
+                                          Value="True" />
+                </DataTriggerBehavior>
+
+            </Interaction.Behaviors>
+        </Button>
+    </Grid>
+</UserControl>

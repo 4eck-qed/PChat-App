@@ -26,14 +26,20 @@
 		<PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Update="MVVM\Views\LoginWindowWindow.axaml.cs">
-			<DependentUpon>LoginWindow.axaml</DependentUpon>
+		<Compile Update="Controls\FriendList.axaml.cs">
+		  <DependentUpon>FriendList.axaml</DependentUpon>
+		  <SubType>Code</SubType>
+		</Compile>
+		<Compile Update="Controls\DynamicExpander.axaml.cs">
+		  <DependentUpon>DynamicExpander.axaml</DependentUpon>
+		  <SubType>Code</SubType>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\PChat.API.Client\PChat.API.Client.csproj" />
 	  <ProjectReference Include="..\PChat.Log\PChat.Log.csproj" />
 	  <ProjectReference Include="..\PChat.Notify\PChat.Notify.csproj" />
+	  <ProjectReference Include="..\PChat.Shared\PChat.Shared.csproj" />
 	  <ProjectReference Include="..\PChat.Utils\PChat.Utils.csproj" />
 	</ItemGroup>
 </Project>

@@ -19,6 +19,11 @@ public class Group
     /// Description of this group.
     /// </summary>
     public string Description { get; set; }
+    
+    /// <summary>
+    /// Image.
+    /// </summary>
+    public string Avatar { get; set; }
 
     /// <summary>
     /// Messages contained in this group chat.

@@ -10,6 +10,7 @@ using Avalonia.Media;
 using Pchat;
 using PChat.GUI.Core;
 using PChat.Extensions;
+using PChat.Shared;
 using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
@@ -40,7 +41,7 @@ public class ChatViewModel : ViewModelBase
 
         Task.Run(async () =>
         {
-            var messages = await Shared.ApiClient.GetMessages(receiver.Id);
+            var messages = await Shared.Client.GetMessages(receiver.Id);
             
             if (!SessionContent.Messages.ContainsKey(receiver.Id))
                 SessionContent.Messages.Add(receiver.Id, new ObservableCollection<TextMessage>());
@@ -113,10 +114,11 @@ public class ChatViewModel : ViewModelBase
 
     private async Task Send(TextMessage message)
     {
+        message = new TextMessage(message);
         TextMessages.Add(message);
         this.RaisePropertyChanged(nameof(TextMessages));
 
-        await Shared.ApiClient.SendMessage(message).ContinueWith(sendTask =>
+        await Shared.Client.SendMessage(message).ContinueWith(sendTask =>
         {
             if (!sendTask.IsCompletedSuccessfully)
             {
@@ -128,7 +130,7 @@ public class ChatViewModel : ViewModelBase
 
     private async Task UpdateOnlineStatus()
     {
-        if (await Shared.ApiClient.Ping(Receiver))
+        if (await Shared.Client.Ping(Receiver))
         {
             IsOnlineIndicator = Brushes.LawnGreen;
             return;

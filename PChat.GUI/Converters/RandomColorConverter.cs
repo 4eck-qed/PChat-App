@@ -11,7 +11,7 @@ using Google.Protobuf;
 using PChat.Extensions;
 using Color = Avalonia.Media.Color;
 
-namespace PChat.GUI.Core.Converters
+namespace PChat.GUI.Converters
 {
     public class RandomColorConverter : IValueConverter
     {

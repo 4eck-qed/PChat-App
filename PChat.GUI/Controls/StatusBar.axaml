@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:PChat.GUI.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PChat.GUI.Controls.StatusBar"
+             x:Name="Self">
+    
+    <Border VerticalAlignment="Top" Background="#474A4F" BorderThickness="1" MaxHeight="25">
+        <ScrollViewer>
+            <StackPanel Orientation="Horizontal">
+                <Label VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Italic" FontSize="13"
+                       Foreground="#b5b5b5" Content=" to send: " />
+
+                <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="13"
+                           Foreground="Orange" Text="{Binding MessageQueue.Count, ElementName=Self, Mode=TwoWay}" />
+
+                <Label VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Italic" FontSize="13"
+                       Margin="20,0,0,0" Foreground="#b5b5b5" Content="new messages: " />
+
+                <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="13"
+                           Foreground="LightGreen" Text="{Binding Notifications.Count, ElementName=Self, Mode=TwoWay}" />
+
+                <Label VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Italic" FontSize="13"
+                       Margin="20,0,0,0" Foreground="#b5b5b5" Content="last login: " />
+
+                <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="13"
+                           Foreground="#e0e0e0" Text="{Binding LastLogin, ElementName=Self, Mode=TwoWay}" />
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

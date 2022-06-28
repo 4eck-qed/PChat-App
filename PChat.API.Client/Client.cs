@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Net;
 using Google.Protobuf;
 using Grpc.Net.Client;
@@ -7,7 +6,7 @@ using PChat.Extensions;
 
 namespace PChat.API.Client;
 
-public class ApiClient
+public class Client
 {
     private bool _isUnsecure;
 
@@ -15,7 +14,7 @@ public class ApiClient
     /// Returns an Instance with no credentials.
     /// </summary>
     /// <param name="isUnsecure"></param>
-    public ApiClient(bool isUnsecure)
+    public Client(bool isUnsecure)
     {
         IsUnsecure = isUnsecure;
     }
@@ -25,7 +24,7 @@ public class ApiClient
     /// </summary>
     /// <param name="login"></param>
     /// <param name="isUnsecure"></param>
-    public ApiClient(Credentials credentials, bool isUnsecure)
+    public Client(Credentials credentials, bool isUnsecure)
     {
         Credentials = credentials;
         IsUnsecure = isUnsecure;
@@ -93,6 +92,14 @@ public class ApiClient
         var client = new Api.ApiClient(channel);
         var response = await client.SendMessageAsync(message);
         return response.Status == PeerResponse.Types.Status.Received;
+    }
+
+    public async Task AddContact(ByteString id)
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var user = new User {Id = id};
+        var response = await client.AddFriendAsync(user);
     }
 
     /// <summary>

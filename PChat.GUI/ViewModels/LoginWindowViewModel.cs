@@ -6,8 +6,9 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Pchat;
 using PChat.API.Client;
-using PChat.GUI.MVVM.Models;
+using PChat.GUI.Models;
 using PChat.Notify;
+using PChat.Shared;
 using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
@@ -33,7 +34,7 @@ public class LoginWindowViewModel : ViewModelBase
 
             var id = HexString.ToByteString(IdHexString);
             var key = HexString.ToByteString(KeyHexString);
-            var apiClient = new ApiClient(true);
+            var apiClient = new Client(true);
             var loggedIn = false;
             Task.Run(async () => loggedIn = await apiClient.Login(new Credentials {Id = id, Key = key}))
                 .ContinueWith(o =>
@@ -53,7 +54,7 @@ public class LoginWindowViewModel : ViewModelBase
         CreateNewAccountCommand = ReactiveCommand.Create(() =>
         {
             ErrorText = new ErrorText("Generating new login..", Colors.LawnGreen);
-            Task.Run(async () => await new ApiClient(true).CreateAccount())
+            Task.Run(async () => await new Client(true).CreateAccount())
                 .ContinueWith(o =>
                 {
                     if (!o.IsCompletedSuccessfully)

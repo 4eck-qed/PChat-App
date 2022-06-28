@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PChat.Notify", "PChat.Notif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PChat.Protos", "PChat.Protos\PChat.Protos.csproj", "{0394F092-5A68-49A5-AC4A-22CB83216C89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PChat.Shared", "PChat.Shared\PChat.Shared.csproj", "{943C367E-E66F-4AA4-A78E-ED924C76E85D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +118,18 @@ Global
 		{0394F092-5A68-49A5-AC4A-22CB83216C89}.Release|x64.Build.0 = Release|Any CPU
 		{0394F092-5A68-49A5-AC4A-22CB83216C89}.Release|x86.ActiveCfg = Release|Any CPU
 		{0394F092-5A68-49A5-AC4A-22CB83216C89}.Release|x86.Build.0 = Release|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Debug|x64.Build.0 = Debug|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Debug|x86.Build.0 = Debug|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Release|x64.ActiveCfg = Release|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Release|x64.Build.0 = Release|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Release|x86.ActiveCfg = Release|Any CPU
+		{943C367E-E66F-4AA4-A78E-ED924C76E85D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

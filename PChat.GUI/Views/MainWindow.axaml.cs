@@ -67,17 +67,5 @@ namespace PChat.GUI
             var textBlock = (TextBlock) sender;
             CopyToClipboard(textBlock.Text);
         }
-
-        private void AddContact_Tapped(object? sender, RoutedEventArgs e)
-        {
-            var addContactBox = this.FindControl<Border>("AddContactBox");
-            if (addContactBox.IsVisible)
-            {
-                addContactBox.IsVisible = false;
-                return;
-            }
-
-            addContactBox.IsVisible = true;
-        }
     }
 }

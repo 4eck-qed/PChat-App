@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:PChat.GUI.Controls"
+             xmlns:converters="clr-namespace:PChat.GUI.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PChat.GUI.Controls.FriendList"
+             x:Name="Self">
+    <UserControl.Resources>
+        <converters:AvatarConverter x:Key="AvatarConverter" />
+        <converters:HexStringConverter x:Key="HexStringConverter" />
+    </UserControl.Resources>
+
+    <ListBox Items="{Binding Contacts, ElementName=Self, Mode=TwoWay}"
+             SelectedItem="{Binding SelectedContact, ElementName=Self, Mode=TwoWay}"
+             Background="Transparent">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="*,*">
+                    <Ellipse Grid.Column="0" Width="40" Height="40">
+                        <Ellipse.Fill>
+                            <ImageBrush Stretch="UniformToFill"
+                                        Source="{Binding Avatar, Converter={StaticResource AvatarConverter}}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <StackPanel Grid.Column="1">
+                        <Label Content="{Binding Id, Converter={StaticResource HexStringConverter}}" Foreground="White" />
+                        <Label Content="{Binding Status}" Foreground="Gray" />
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

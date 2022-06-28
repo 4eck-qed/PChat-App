@@ -1,0 +1,1 @@
+Contains contents that are shared betweend projects.

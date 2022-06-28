@@ -1,5 +1,6 @@
 using Grpc.Core;
 using Pchat;
+using PChat.Shared;
 
 namespace PChat.Notify.Services;
 
@@ -66,12 +67,6 @@ public class NotifyService : Pchat.Notify.NotifyBase
         };
         SessionContent.Messages[request.SenderId].Add(message);
 
-        var response = new ClientStatusResponse();
-        return Task.FromResult(response);
-    }
-
-    public override Task<ClientStatusResponse> ArrivedAtPeer(Sendable request, ServerCallContext context)
-    {
         var response = new ClientStatusResponse();
         return Task.FromResult(response);
     }

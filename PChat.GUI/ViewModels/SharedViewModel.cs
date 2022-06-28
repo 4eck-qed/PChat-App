@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using Pchat;
 using PChat.API.Client;
 using PChat.Extensions;
+using PChat.Shared;
 using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
@@ -20,16 +23,16 @@ public class SharedViewModel : ViewModelBase
 
     #endregion
 
-    public SharedViewModel(ApiClient apiClient)
+    public SharedViewModel(Client client)
     {
         IdHexString = SessionContent.Account.Id.ToHexString();
         KeyHexString = SessionContent.Account.Key.ToHexString();
-        ApiClient = apiClient;
+        Client = client;
 
         MessageQueue = new ConcurrentQueue<TextMessage>(); // TODO load from file
     }
 
-    public readonly ApiClient ApiClient;
+    public readonly Client Client;
     public LoginHistoryService LoginHistoryService { get; } = new LoginHistoryService();
 
     #region View-Relevant Properties
@@ -39,6 +42,8 @@ public class SharedViewModel : ViewModelBase
         get => _messageQueue;
         set => this.RaiseAndSetIfChanged(ref _messageQueue, value);
     }
+
+    public ObservableCollection<DateTime> LoginHistory => new(LoginHistoryService.GetLoginHistory());
 
     public string IdHexString { get; }
     public string KeyHexString { get; }

@@ -1,7 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:PChat.GUI"
-        xmlns:coreConverters="clr-namespace:PChat.GUI.Core.Converters"
+        xmlns:coreConverters="clr-namespace:PChat.GUI.Converters"
         xmlns:pchat="clr-namespace:Pchat;assembly=PChat.Protos">
 
     <Design.DataContext>
@@ -9,21 +8,8 @@
     </Design.DataContext>
 
     <Styles.Resources>
-        <coreConverters:BitmapValueConverter x:Key="BitmapValueConverter" />
+        <coreConverters:AvatarConverter x:Key="BitmapValueConverter" />
     </Styles.Resources>
-
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-            <ListBox Items="{Binding Friends}"
-                     Background="Gray"
-                     BorderThickness="0">
-                <ListBox.DataContext>
-                    <vm:MainWindowViewModel />
-                </ListBox.DataContext>
-            </ListBox>
-        </Border>
-    </Design.PreviewWith>
 
     <!-- Add Styles Here -->
     <Style Selector="ListBoxItem:selected">
@@ -36,13 +22,8 @@
         <Setter Property="Template">
             <ControlTemplate>
 
-                <Border Background="{TemplateBinding Background}"
-                        Height="50"
-                        CornerRadius="4"
-                        Margin="8,2,8,2">
-
-                    <StackPanel Orientation="Horizontal"
-                                Margin="10,0,0,0">
+                <Border Background="{TemplateBinding Background}" Height="50" CornerRadius="4" Margin="8,2,8,2">
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
                         <Ellipse Width="40" Height="40">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill"
@@ -59,9 +40,7 @@
                         </StackPanel>
 
                     </StackPanel>
-
                 </Border>
-
             </ControlTemplate>
         </Setter>
     </Style>

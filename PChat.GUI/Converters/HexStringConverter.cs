@@ -8,7 +8,7 @@ using Avalonia.Data.Converters;
 using Google.Protobuf;
 using PChat.Extensions;
 
-namespace PChat.GUI.Core.Converters
+namespace PChat.GUI.Converters
 {
     public class HexStringConverter : IValueConverter
     {

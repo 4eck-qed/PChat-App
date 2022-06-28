@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:PChat.GUI.Themes"
-        xmlns:converters="using:PChat.GUI.Core.Converters"
+        xmlns:converters="using:PChat.GUI.Converters"
         xmlns:pchat="clr-namespace:Pchat;assembly=PChat.Protos">
     <Design.PreviewWith>
         <controls:Notifications />
@@ -12,7 +12,7 @@
     </Design.DataContext>
 
     <Styles.Resources>
-        <converters:BitmapValueConverter x:Key="BitmapValueConverter" />
+        <converters:AvatarConverter x:Key="BitmapValueConverter" />
         <converters:HexStringConverter x:Key="HexStringConverter" />
     </Styles.Resources>
 

@@ -1,18 +1,15 @@
 using ReactiveUI;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
-using Avalonia.Media;
 using DynamicData;
 using Google.Protobuf;
 using Pchat;
 using PChat.API.Client;
 using PChat.Extensions;
-using PChat.GUI.Core.Converters;
-using PChat.Log;
+using PChat.Shared;
 
 // ReSharper disable once CheckNamespace
 namespace PChat.GUI
@@ -36,8 +33,8 @@ namespace PChat.GUI
         private ObservableCollection<ChatViewModel> _chats;
         private ChatViewModel _selectedChat;
 
-        private ObservableCollection<ContactCard> _friendRequests;
-        private ObservableCollection<ContactCard> _friends;
+        private ObservableCollection<FriendRequest> _friendRequests;
+        private ObservableCollection<ContactCard> _contacts;
         private ContactCard _selectedFriend;
 
         private ObservableCollection<Group> _groups;
@@ -50,10 +47,10 @@ namespace PChat.GUI
         {
             Console.WriteLine("Initializing main window view model..");
             _cancellationToken = cancellationToken;
-            
+
             Notifications = new ObservableCollection<TextMessage>();
-            FriendRequests = new ObservableCollection<ContactCard>();
-            Friends = new ObservableCollection<ContactCard>();
+            FriendRequests = new ObservableCollection<FriendRequest>();
+            Contacts = new ObservableCollection<ContactCard>();
             Chats = new ObservableCollection<ChatViewModel>();
             Groups = new ObservableCollection<Group>();
 
@@ -73,19 +70,12 @@ namespace PChat.GUI
                 Notifications.Remove(SelectedNotification);
             });
 
-            AddFriendCommand = ReactiveCommand.Create(() =>
-            {
-                if (string.IsNullOrWhiteSpace(AddContactIdHexString)) return;
-
-                // Shared.ApiClient.AddContact(HexString.ToByteString(AddContactIdHexString));
-            });
-
             AcceptFriendCommand = ReactiveCommand.Create(() =>
             {
                 // Friends.Add(SelectedFriendRequest);
                 // FriendRequests.Remove(SelectedFriendRequest);
             });
-            
+
             this.WhenAnyValue(x => x.Notifications)
                 .Subscribe(notifications => Console.WriteLine("Notifications updated."));
 
@@ -97,7 +87,7 @@ namespace PChat.GUI
                 Status = "My name is Earl!"
             };
             var credentials = new Credentials {Id = SessionContent.Account.Id, Key = SessionContent.Account.Key};
-            Shared = new SharedViewModel(new ApiClient(credentials, true));
+            Shared = new SharedViewModel(new Client(credentials, true));
             _metaViewModel = new MetaViewModel(Shared, cancellationToken);
 
             var randy = new ContactCard
@@ -107,8 +97,14 @@ namespace PChat.GUI
                 Name = "Randy",
                 Status = ".."
             };
-            Friends.Add(randy);
-            FriendRequests.Add(randy);
+            Contacts.Add(randy);
+            FriendRequests.Add(new FriendRequest
+            {
+                Id = SessionContent.Account.Id,
+                SenderId = SessionContent.Account.Id,
+                TargetId = SessionContent.Account.Id,
+                Status = FriendRequestStatus.Pending
+            });
             Chats.Add(new ChatViewModel(Shared, randy));
         }
 
@@ -119,12 +115,6 @@ namespace PChat.GUI
 
         #region Private Methods
 
-        private void AddContact(ContactCard contact)
-        {
-            Friends.Add(contact);
-            Chats.Add(new ChatViewModel(Shared, contact));
-        }
-
         private void OpenChat(ByteString contactId)
         {
             var contact = SessionContent.ContactList.FirstOrDefault(c => c.Id.Equals(contactId));
@@ -133,6 +123,7 @@ namespace PChat.GUI
                 Console.WriteLine("Contact not found. You are probably not friends with them.");
                 return;
             }
+
             SelectedFriend = contact;
             SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver.Equals(contact));
         }
@@ -184,16 +175,17 @@ namespace PChat.GUI
             }
         }
 
-        public ObservableCollection<ContactCard> FriendRequests
+        public ObservableCollection<FriendRequest> FriendRequests
         {
             get => _friendRequests;
             set => _friendRequests = value;
         }
 
-        public ObservableCollection<ContactCard> Friends
+        public ObservableCollection<ContactCard> Contacts
+
         {
-            get => _friends;
-            set => _friends = value;
+            get => _contacts;
+            set => _contacts = value;
         }
 
         public ContactCard? SelectedFriend
@@ -230,13 +222,9 @@ namespace PChat.GUI
                 this.RaiseAndSetIfChanged(ref _selectedGroup, value);
             }
         }
-
-        public DateTime LastLogin => _metaViewModel.GetLastLogin();
-
-        public string IdHexString => Shared.ApiClient.Credentials.Id.ToHexString();
-        public string KeyHexString => Shared.ApiClient.Credentials.Key.ToHexString();
-
-        public string AddContactIdHexString { get; set; }
+        
+        public string IdHexString => Shared.Client.Credentials.Id.ToHexString();
+        public string KeyHexString => Shared.Client.Credentials.Key.ToHexString();
 
         #endregion
 
@@ -245,8 +233,6 @@ namespace PChat.GUI
         public ICommand ClearNotificationsCommand { get; set; }
         public ICommand SelectNotificationCommand { get; set; }
         public ICommand SelectContactCommand { get; set; }
-
-        public ICommand AddFriendCommand { get; set; }
         public ICommand AcceptFriendCommand { get; set; }
 
         #endregion
