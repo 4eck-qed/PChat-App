@@ -30,13 +30,8 @@
         <core:NotNullConverter x:Key="NotNullConverter" />
     </Window.Resources>
 
-    <Window.Styles>
-        <!-- Custom Style -->
-        <StyleInclude Source="/Themes/MessageBox.axaml" />
-    </Window.Styles>
-
     <Grid ColumnDefinitions=".4*,*">
-        <Grid RowDefinitions="100,*">
+        <Grid RowDefinitions="100,*" MinWidth="500">
             <!--#region Profile-->
             <Border Grid.Row="0" Background="#292b2f">
                 <Grid RowDefinitions="*,50">
@@ -98,7 +93,7 @@
 
         </Grid>
 
-        <Grid Grid.Column="1" RowDefinitions=".2*,.3*,.3*,3*">
+        <Grid Grid.Column="1" RowDefinitions="50,50,*">
             <!--#region StatusBar-->
             <controls:StatusBar Grid.Row="0" MessageQueue="{Binding Shared.MessageQueue, Mode=TwoWay}"
                                 Notifications="{Binding Notifications, Mode=TwoWay}"
@@ -111,103 +106,68 @@
                                         SelectCommand="{Binding SelectNotificationCommand}" />
             <!--#endregion-->
 
-            <!--#region Chat Section-->
-
-            <!--#region Header-->
-            <Border Grid.Row="2" VerticalAlignment="Top" BorderBrush="#2f3136" BorderThickness="0,1,0,2"
-                    MinHeight="40" MaxHeight="40"
-                    IsVisible="{Binding SelectedChat, Converter={StaticResource NotNullConverter}}">
-                <Grid ColumnDefinitions="*,*" VerticalAlignment="Top">
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <Ellipse Stroke="{Binding SelectedChat.IsOnlineIndicator}" StrokeThickness="2"
-                                 Fill="{Binding SelectedChat.IsOnlineIndicator}" Width="5" Height="5" />
-                        
-                        <Label VerticalAlignment="Center" Content="{Binding SelectedFriend.Name}" />
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Column="1" Orientation="Horizontal"
-                                HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Button Background="Transparent" Command="{Binding SelectedChat.VoiceCallCommand}">
-                            <Image Width="40" Height="40" Source="/Assets/Images/phone.png" />
-                        </Button>
-                        
-                        <Button Background="Transparent" Command="{Binding SelectedChat.VideoCallCommand}">
-                            <Image Width="40" Height="40" Source="/Assets/Images/camera2.png" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </Border>
-            <!--#endregion-->
-
-            <Grid Grid.Row="3" RowDefinitions="*,.2*,50" ColumnDefinitions="*,*"
+            <!--#region Chat-->
+            <Grid Grid.Row="2" RowDefinitions="50,*"
                   IsVisible="{Binding SelectedChat, Converter={StaticResource NotNullConverter}}">
-                <!--#region History-->
-                <Border Background="#3a3b42" CornerRadius="10" Margin="0,0,-120,3">
-                    <ListBox Items="{Binding SelectedChat.TextMessages}"
-                             SelectedItem="{Binding SelectedChat.SelectedMessage}"
-                             VerticalAlignment="Top" Background="Transparent">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Background="Gray" CornerRadius="10">
-                                    <TextBlock Text="{Binding Content}" />
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        
-                        <ListBox.Styles>
-                            <StyleInclude Source="/Themes/ChatHistory.axaml" />
-                        </ListBox.Styles>
-                        
-                        <i:Interaction.Behaviors>
-                            <ia:EventTriggerBehavior EventName="ContextRequested">
-                                <ia:InvokeCommandAction CommandParameter="{Binding}"
-                                                        Command="{Binding SelectedChat.ContextMessageCommand}" />
-                            </ia:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </ListBox>
-                </Border>
-                <!--#endregion-->
+                <!--#region Header-->
+                <Border Grid.Row="0" VerticalAlignment="Top" BorderBrush="#2f3136" BorderThickness="0,1,0,2"
+                        MinHeight="40" MaxHeight="40">
+                    <Grid ColumnDefinitions="*,*" VerticalAlignment="Top">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <Ellipse Stroke="{Binding SelectedChat.IsOnlineIndicator}" StrokeThickness="2"
+                                     Fill="{Binding SelectedChat.IsOnlineIndicator}" Width="5" Height="5" />
 
-                <!--#region MessageBox Section-->
-                <Border Grid.Row="1" Grid.Column="0" Background="#3e4147" CornerRadius="8" Height="50" Width="525"
-                        Margin="120,0,0,20"
-                        IsVisible="{Binding SelectedChat, Converter={StaticResource NotNullConverter}}">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
-                                Command="{Binding SelectedChat.AttachCommand}">
-                            <Image Source="/Assets/Images/plus.png" Width="30" Height="30" />
-                        </Button>
-                        
-                        <themes:MessageBox
-                            MaxWidth="{Binding Width, RelativeSource={RelativeSource AncestorType=Window}}" Width="400">
-                            <themes:MessageBox.KeyBindings>
-                                <KeyBinding Command="{Binding SelectedChat.SendCommand}" Gesture="Enter" />
-                            </themes:MessageBox.KeyBindings>
-                        </themes:MessageBox>
-                        
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0">
-                            <Button Width="30" Height="30" Background="Transparent"
-                                    Command="{Binding SelectedChat.EmoteCommand}">
-                                <Image Source="/Assets/Images/Smileys/angry.png"
-                                       Width="30" Height="30" />
+                            <Label VerticalAlignment="Center" Content="{Binding SelectedFriend.Name}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                    HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Button Background="Transparent" Command="{Binding SelectedChat.VoiceCallCommand}">
+                                <Image Width="40" Height="40" Source="/Assets/Images/phone.png" />
                             </Button>
-                            <Button Width="30" Height="30" Background="Transparent"
-                                    Command="{Binding SelectedChat.SendCommand}">
-                                <Button.Content>
-                                    <Image Source="/Assets/Images/send.png" Width="30" Height="30" />
-                                </Button.Content>
+
+                            <Button Background="Transparent" Command="{Binding SelectedChat.VideoCallCommand}">
+                                <Image Width="40" Height="40" Source="/Assets/Images/camera2.png" />
                             </Button>
                         </StackPanel>
-                        
-                        <Button Width="30" Height="30" Background="Transparent" Margin="15,0,0,0"
-                                Command="{Binding SelectedChat.RecordCommand}">
-                            <Button.Content>
-                                <Image Source="/Assets/Images/mic.png" Width="30" Height="30" />
-                            </Button.Content>
-                        </Button>
-                    </StackPanel>
+                    </Grid>
                 </Border>
                 <!--#endregion-->
+
+                <Grid Grid.Row="1" RowDefinitions="*,*">
+                    <!--#region History-->
+                    <Border Grid.Row="0" Background="#3a3b42" CornerRadius="10">
+                        <ListBox Items="{Binding SelectedChat.TextMessages}"
+                                 SelectedItem="{Binding SelectedChat.SelectedMessage}"
+                                 VerticalAlignment="Top" Background="Transparent">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="Gray" CornerRadius="10">
+                                        <TextBlock Text="{Binding Content}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <ListBox.Styles>
+                                <StyleInclude Source="/Themes/ChatHistory.axaml" />
+                            </ListBox.Styles>
+
+                            <i:Interaction.Behaviors>
+                                <ia:EventTriggerBehavior EventName="ContextRequested">
+                                    <ia:InvokeCommandAction CommandParameter="{Binding}"
+                                                            Command="{Binding SelectedChat.ContextMessageCommand}" />
+                                </ia:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </ListBox>
+                    </Border>
+                    <!--#endregion-->
+
+                    <!--#region MessageBox-->
+                    <controls:MessageBox Grid.Row="1" VerticalAlignment="Bottom"
+                                         Command="{Binding SelectedChat.SendCommand, Mode=TwoWay}"
+                                         IsVisible="{Binding SelectedChat, Converter={StaticResource NotNullConverter}}" />
+                    <!--#endregion-->
+                </Grid>
             </Grid>
             <!--#endregion-->
         </Grid>

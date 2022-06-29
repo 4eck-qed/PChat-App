@@ -25,8 +25,6 @@ public class ChatViewModel : ViewModelBase
 
     #region Fields
 
-    private string _messageInput;
-
     // private ObservableCollection<Message> _messages;
     private TextMessage _selectedMessage;
     private ISolidColorBrush _isOnlineIndicator = Brushes.Red;
@@ -42,10 +40,10 @@ public class ChatViewModel : ViewModelBase
         Task.Run(async () =>
         {
             var messages = await Shared.Client.GetMessages(receiver.Id);
-            
+
             if (!SessionContent.Messages.ContainsKey(receiver.Id))
                 SessionContent.Messages.Add(receiver.Id, new ObservableCollection<TextMessage>());
-            
+
             SessionContent.Messages[receiver.Id] =
                 new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
         });
@@ -55,25 +53,34 @@ public class ChatViewModel : ViewModelBase
 
     private void InitializeCommands()
     {
-        SendCommand = ReactiveCommand.Create(() =>
+        SendCommand = ReactiveCommand.Create<object>(input =>
         {
-            if (string.IsNullOrEmpty(MessageInput)) return;
-
-            var message = new TextMessage
+            switch (input)
             {
-                Id = ByteStringExtensions.RandomByteString(16),
-                SenderId = SessionContent.Account.Id,
-                ReceiverId = Receiver.Id,
-                Content = MessageInput,
-                Time = DateTime.Now.ToString(CultureInfo.InvariantCulture)
-            };
+                case string text:
+                    if (string.IsNullOrEmpty(text)) return;
+                    var message = new TextMessage
+                    {
+                        Id = ByteStringExtensions.RandomByteString(16),
+                        SenderId = SessionContent.Account.Id,
+                        ReceiverId = Receiver.Id,
+                        Content = text,
+                        Time = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+                    };
+                    
+                    TextMessages.Add(message);
+                    this.RaisePropertyChanged(nameof(TextMessages));
 
-            MessageInput = "";
-            Task.Run(async () =>
-            {
-                await UpdateOnlineStatus();
-                await Send(message);
-            });
+                    Task.Run(async () =>
+                    {
+                        await UpdateOnlineStatus();
+                        await Send(message);
+                    });
+                    break;
+
+                default:
+                    throw new NotSupportedException("Only text messages are currently supported!");
+            }
         });
 
         RecordCommand = ReactiveCommand.Create(() =>
@@ -114,10 +121,6 @@ public class ChatViewModel : ViewModelBase
 
     private async Task Send(TextMessage message)
     {
-        message = new TextMessage(message);
-        TextMessages.Add(message);
-        this.RaisePropertyChanged(nameof(TextMessages));
-
         await Shared.Client.SendMessage(message).ContinueWith(sendTask =>
         {
             if (!sendTask.IsCompletedSuccessfully)
@@ -142,12 +145,6 @@ public class ChatViewModel : ViewModelBase
     #endregion
 
     #region Properties
-
-    public string MessageInput
-    {
-        get => _messageInput;
-        set => this.RaiseAndSetIfChanged(ref _messageInput, value);
-    }
 
     public ContactCard Receiver { get; }
 

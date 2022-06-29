@@ -30,6 +30,7 @@
         <entry key="PChat.GUI/Themes/FriendList.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/MessageBox.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/NotificationBar.axaml" value="PChat.GUI/PChat.GUI.csproj" />
+        <entry key="PChat.GUI/Themes/NotificationTheme.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/Notifications.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/Test.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Views/LoginWindow.axaml" value="PChat.GUI/PChat.GUI.csproj" />

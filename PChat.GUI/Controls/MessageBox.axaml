@@ -2,7 +2,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:PChat.GUI.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PChat.GUI.Controls.MessageBox">
-    Welcome to Avalonia!
+             x:Class="PChat.GUI.Controls.MessageBox"
+             x:Name="Self">
+    <UserControl.Resources>
+        <converters:CropWidthConverter x:Key="CropWidthConverter" />
+    </UserControl.Resources>
+
+    <Border Background="#3e4147" CornerRadius="8" Height="50" Width="530">
+        <Grid x:Name="Box" ColumnDefinitions="30,400,30,30,30">
+            <Button Grid.Column="0" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
+                    Tapped="AttachButton_OnTapped">
+                <Image Source="/Assets/Images/plus.png" Width="30" Height="30" />
+            </Button>
+
+            <Border Grid.Column="1" CornerRadius="8" Background="Transparent" Width="400" Height="50">
+                <TextBox VerticalAlignment="Stretch" VerticalContentAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         Height="{Binding (Border.Height), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}"
+                         Padding="10" TextWrapping="Wrap" BorderThickness="0"
+                         BorderBrush="Transparent"
+                         SelectionBrush="Purple" SelectionForegroundBrush="White" CaretBrush="Purple"
+                         Background="Transparent" Foreground="#e3e3e3" Opacity="0.5" FontWeight="Medium"
+                         AcceptsReturn="True" Watermark="Enter your message here.."
+                         Text="{Binding Input, ElementName=Self, Mode=TwoWay}">
+                    <TextBox.Styles>
+                        <Style Selector="TextBox:is:focus">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                    </TextBox.Styles>
+                    <TextBox.KeyBindings>
+                        <KeyBinding Gesture="Enter" Command="{Binding CommandWrapper, ElementName=Self, Mode=TwoWay}"
+                                    CommandParameter="{Binding Input, ElementName=Self, Mode=TwoWay}" />
+                    </TextBox.KeyBindings>
+                </TextBox>
+            </Border>
+
+            <Button Grid.Column="2" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
+                    Tapped="EmoteButton_OnTapped">
+                <Image Source="/Assets/Images/Smileys/angry.png" Width="30" Height="30" />
+            </Button>
+
+            <Button Grid.Column="3" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
+                    Command="{Binding CommandWrapper, ElementName=Self, Mode=TwoWay}"
+                    CommandParameter="{Binding Input, ElementName=Self, Mode=TwoWay}">
+                <Button.Content>
+                    <Image Source="/Assets/Images/send.png" Width="30" Height="30" />
+                </Button.Content>
+            </Button>
+
+            <Button Grid.Column="4" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
+                    Tapped="MicButton_OnTapped">
+                <Button.Content>
+                    <Image Source="/Assets/Images/mic.png" Width="30" Height="30" />
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Border>
 </UserControl>
