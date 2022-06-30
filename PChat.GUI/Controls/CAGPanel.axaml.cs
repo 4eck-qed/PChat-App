@@ -68,6 +68,8 @@ public partial class CAGPanel : UserControl
     {
         var addContactBox = this.FindControl<Border>("AddContactBox");
         addContactBox.IsVisible = !addContactBox.IsVisible;
+        var addContactButton = this.FindControl<Button>("AddContactButton");
+        addContactButton.IsVisible = !addContactButton.IsVisible;
 
         // Friends.Add(contact);
         // Chats.Add(new ChatViewModel(Shared, contact));

@@ -35,7 +35,7 @@ namespace PChat.GUI
 
         private ObservableCollection<FriendRequest> _friendRequests;
         private ObservableCollection<ContactCard> _contacts;
-        private ContactCard _selectedFriend;
+        private ContactCard _selectedContact;
 
         private ObservableCollection<Group> _groups;
         private Group _selectedGroup;
@@ -124,7 +124,7 @@ namespace PChat.GUI
                 return;
             }
 
-            SelectedFriend = contact;
+            SelectedContact = contact;
             SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver.Equals(contact));
         }
 
@@ -188,19 +188,19 @@ namespace PChat.GUI
             set => _contacts = value;
         }
 
-        public ContactCard? SelectedFriend
+        public ContactCard? SelectedContact
         {
-            get => _selectedFriend;
+            get => _selectedContact;
             set
             {
                 if (value == null) return;
-                this.RaiseAndSetIfChanged(ref _selectedFriend, value);
+                this.RaiseAndSetIfChanged(ref _selectedContact, value);
                 SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver.Equals(value));
 
                 Console.WriteLine($"Selected Contact: {value.Name}");
                 foreach (var notification in Notifications.ToArray())
                 {
-                    if (notification.SenderId != SelectedFriend?.Id) continue;
+                    if (notification.SenderId != SelectedContact?.Id) continue;
                     // remove notifications for this contact, since we are already looking at this chat
                     Notifications.RemoveMany(SessionContent.Messages[SelectedChat?.Receiver.Id!]);
                 }

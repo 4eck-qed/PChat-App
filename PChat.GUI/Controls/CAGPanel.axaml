@@ -6,22 +6,23 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PChat.GUI.Controls.CAGPanel"
              x:Name="Self">
-    
+
     <Grid RowDefinitions="50,*,50,*">
         <!--region Contacts-->
         <Grid Grid.Row="0" RowDefinitions="*,Auto" ColumnDefinitions="*,Auto">
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Contacts" VerticalAlignment="Center" FontWeight="Medium"
-                   Foreground="Gray" Margin="10,0,0,0" />
-            <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" FontSize="12" Tapped="AddContact_Tapped">
-                <Button.Content>
-                    <Label Content="Add" />
-                </Button.Content>
+                       Foreground="Gray" Margin="10,0,0,0" />
+            <Button x:Name="AddContactButton" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" FontSize="12" Background="Transparent"
+                    Tapped="AddContact_Tapped">
+                <Image Width="30" Height="30" Source="/Assets/Images/add_contact.png" />
             </Button>
             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="AddContactBox" IsVisible="False">
                 <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
                     <TextBox x:Name="AddContactTextBox" Watermark="ID" Width="300"
                              Text="{Binding AddContactIdHexString, ElementName=Self, Mode=TwoWay}" />
-                    <Button Content="Send" Tapped="AddContact_Tapped" />
+                    <Button Background="Transparent" Tapped="AddContact_Tapped">
+                        <Image Width="20" Height="20" Source="/Assets/Images/send.png" />
+                    </Button>
                 </StackPanel>
             </Border>
         </Grid>
@@ -31,20 +32,21 @@
                              SelectedContact="{Binding SelectedContact, ElementName=Self, Mode=TwoWay}" />
         <!--endregion-->
 
+        <!-- TBI -->
         <!--region Groups-->
-        <Grid Grid.Row="2" ColumnDefinitions="*,*">
-            <TextBlock Grid.Column="0" Text="Groups" VerticalAlignment="Center" FontWeight="Medium" Foreground="Gray"
-                   Margin="10,0,0,0" />
-            <Button Grid.Column="1" HorizontalAlignment="Right" FontSize="12">
-                <Button.Content>
-                    <Label Content="+" />
-                </Button.Content>
-            </Button>
-        </Grid>
-
-        <controls:GroupList Grid.Row="3"
-                            Groups="{Binding Groups, ElementName=Self, Mode=TwoWay}"
-                            SelectedGroup="{Binding SelectedGroup, ElementName=Self, Mode=TwoWay}" />
+        <!-- <Grid Grid.Row="2" ColumnDefinitions="*,*"> -->
+        <!--     <TextBlock Grid.Column="0" Text="Groups" VerticalAlignment="Center" FontWeight="Medium" Foreground="Gray" -->
+        <!--                Margin="10,0,0,0" /> -->
+        <!--     <Button Grid.Column="1" HorizontalAlignment="Right" FontSize="12"> -->
+        <!--         <Button.Content> -->
+        <!--             <Label Content="+" /> -->
+        <!--         </Button.Content> -->
+        <!--     </Button> -->
+        <!-- </Grid> -->
+        <!-- -->
+        <!-- <controls:GroupList Grid.Row="3" -->
+        <!--                     Groups="{Binding Groups, ElementName=Self, Mode=TwoWay}" -->
+        <!--                     SelectedGroup="{Binding SelectedGroup, ElementName=Self, Mode=TwoWay}" /> -->
         <!--endregion-->
     </Grid>
 </UserControl>
