@@ -25,13 +25,13 @@
     </Design.DataContext>
 
     <Window.Resources>
-        <core:AvatarConverter x:Key="BitmapValueConverter" />
+        <core:AvatarConverter x:Key="AvatarConverter" />
         <core:NullConverter x:Key="NullConverter" />
         <core:NotNullConverter x:Key="NotNullConverter" />
         <core:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
     </Window.Resources>
 
-    <Grid RowDefinitions="*,50" ColumnDefinitions="500,*">
+    <Grid RowDefinitions="*,50" ColumnDefinitions="300,*">
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" RowDefinitions="100,*">
             <!--#region Profile-->
             <Border Grid.Row="0" Background="#292b2f">
@@ -42,18 +42,18 @@
                         <Ellipse Width="40" Height="40" Margin="18,0,0,0">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill"
-                                            Source="{Binding Shared.Profile.AvatarImageSource, Converter={StaticResource BitmapValueConverter}}" />
+                                            Source="{Binding Session.Account.Avatar, Converter={StaticResource AvatarConverter}}" />
                             </Ellipse.Fill>
                         </Ellipse>
                         <!-- Name and Status -->
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Foreground="White" FontWeight="SemiBold" Margin="5,0,0,-5"
-                                       Text="{Binding Shared.Profile.Name}" />
+                                       Text="{Binding Shared.Account.Name}" />
                             <Label Foreground="Gray" FontWeight="SemiBold" FontSize="10" Margin="2,0,0,-5"
-                                   Content="{Binding Shared.Profile.Status}" />
+                                   Content="{Binding Shared.Account.Status}" />
                         </StackPanel>
                     </StackPanel>
-                    <!-- IDs -->
+                    <!-- ID & Key -->
                     <Grid Grid.Row="1" RowDefinitions="20,20" ColumnDefinitions="40,*,50">
                         <TextBlock Grid.Row="0" Grid.Column="0" Foreground="Gray" FontSize="15"
                                    VerticalAlignment="Center" Text="Id" />
@@ -82,7 +82,8 @@
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <!--#region Friend Requests-->
-                <controls:FriendRequestsPanel FriendRequests="{Binding FriendRequests, Mode=TwoWay}" />
+                <controls:FriendRequestsPanel FriendRequests="{Binding FriendRequests, Mode=TwoWay}"
+                                              ExpanderColor="#292b2f" />
                 <!--#endregion-->
                 <!--#region Contacts and Groups-->
                 <controls:CAGPanel Contacts="{Binding Contacts, Mode=TwoWay}"
@@ -94,24 +95,27 @@
 
         </Grid>
 
-        <Grid Grid.Row="0" Grid.Column="1" RowDefinitions="Auto, Auto, *">
+        <Grid Grid.Row="0" Grid.Column="1" RowDefinitions="Auto, Auto, *" Background="#2f3136">
             <!--#region StatusBar-->
             <controls:StatusBar Grid.Row="0"
-                                x:Name="StatusBar" Height="50" MessageQueue="{Binding Shared.MessageQueue, Mode=TwoWay}"
+                                x:Name="StatusBar" Height="50"
+                                MessageQueue="{Binding Shared.MessageQueue, Mode=TwoWay}"
                                 Notifications="{Binding Notifications, Mode=TwoWay}"
                                 LoginHistory="{Binding Shared.LoginHistory, Mode=TwoWay}" />
             <!--#endregion-->
 
             <!--#region Notifications-->
             <controls:NotificationPanel Grid.Row="1"
-                                        x:Name="NotificationPanel" RelativePanel.Below="StatusBar" Height="50" Notifications="{Binding Notifications, Mode=TwoWay}"
+                                        x:Name="NotificationPanel" Height="50"
+                                        Notifications="{Binding Notifications, Mode=TwoWay}"
                                         SelectedNotification="{Binding SelectedNotification, Mode=TwoWay}"
                                         SelectCommand="{Binding SelectNotificationCommand}"
                                         IsVisible="{Binding Notifications, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
             <!--#endregion-->
 
             <!--#region Chat-->
-            <Grid Grid.Row="2" RowDefinitions="50,*" RelativePanel.Below="NotificationPanel" IsVisible="{Binding SelectedChat, Converter={StaticResource NotNullConverter}}">
+            <Grid Grid.Row="2" RowDefinitions="50,*"
+                  IsVisible="{Binding SelectedChat, Converter={StaticResource NotNullConverter}}">
                 <!--#region Header-->
                 <Border Grid.Row="0" VerticalAlignment="Top" BorderBrush="#2f3136" BorderThickness="2"
                         Background="#2f3136" MinHeight="40" MaxHeight="40">
@@ -140,7 +144,7 @@
                 <!--#endregion-->
 
                 <!--#region History-->
-                <Border Grid.Row="1" Background="#3a3b42" CornerRadius="10">
+                <Border Grid.Row="1" Background="#3a3b42" CornerRadius="2">
                     <ListBox Items="{Binding SelectedChat.TextMessages}"
                              SelectedItem="{Binding SelectedChat.SelectedMessage}"
                              VerticalAlignment="Top" Background="Transparent">

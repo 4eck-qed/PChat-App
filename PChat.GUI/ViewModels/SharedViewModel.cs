@@ -19,34 +19,33 @@ public class SharedViewModel : ViewModelBase
 {
     #region Fields
 
+    private ObservableCollection<DateTime> _loginHistory;
     private ConcurrentQueue<TextMessage> _messageQueue;
 
     #endregion
 
     public SharedViewModel(Client client)
     {
-        IdHexString = SessionContent.Account.Id.ToHexString();
-        KeyHexString = SessionContent.Account.Key.ToHexString();
         Client = client;
-
+        LoginHistory = new ObservableCollection<DateTime>(LoginHistoryService.GetLoginHistory());
         MessageQueue = new ConcurrentQueue<TextMessage>(); // TODO load from file
     }
 
     public readonly Client Client;
-    public LoginHistoryService LoginHistoryService { get; } = new LoginHistoryService();
 
     #region View-Relevant Properties
+
+    public ObservableCollection<DateTime> LoginHistory
+    {
+        get => _loginHistory;
+        set => this.RaiseAndSetIfChanged(ref _loginHistory, value);
+    }
 
     public ConcurrentQueue<TextMessage> MessageQueue
     {
         get => _messageQueue;
         set => this.RaiseAndSetIfChanged(ref _messageQueue, value);
     }
-
-    public ObservableCollection<DateTime> LoginHistory => new(LoginHistoryService.GetLoginHistory());
-
-    public string IdHexString { get; }
-    public string KeyHexString { get; }
 
     #endregion
 }

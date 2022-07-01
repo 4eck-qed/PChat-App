@@ -26,8 +26,8 @@ public class MetaViewModel : ViewModelBase
         _cancellationToken = cancellationToken;
         
         // TODO (maybe) encode login history
-        Shared.LoginHistoryService.AddToLoginHistory(DateTime.Now);
-        LoginHistory = new ObservableCollection<DateTime>(Shared.LoginHistoryService.GetLoginHistory());
+        LoginHistoryService.AddToLoginHistory(DateTime.Now);
+        LoginHistory = new ObservableCollection<DateTime>(LoginHistoryService.GetLoginHistory());
     }
 
     #region Private Methods

@@ -33,7 +33,10 @@ public partial class DynamicExpander : UserControl
         var stackPanel = new StackPanel();
         _expanderButton = new Button
         {
-            Content = IsExpanded ? ParseButtonContent(direction) : ParseButtonContent(ParseOpposite(direction))
+            Content = IsExpanded
+                ? ParseButtonContent(direction, false)
+                : ParseButtonContent(ParseOpposite(direction), true),
+            Background = ButtonColor
         };
         _expanderButton.Tapped += ExpanderButton_OnTapped;
         _expandableContent = new ContentPresenter
@@ -75,7 +78,7 @@ public partial class DynamicExpander : UserControl
         AvaloniaXamlLoader.Load(this);
     }
 
-    private object ParseButtonContent(EDirection direction)
+    private object ParseButtonContent(EDirection direction, bool isCollapsed)
     {
         var stackedContent = new StackPanel();
         var symbol = new TextBlock
@@ -97,7 +100,9 @@ public partial class DynamicExpander : UserControl
                 header.RenderTransform = new RotateTransform(90);
                 header.Margin = new Thickness(-45, 0, -45, 0);
                 stackedContent.Height = Header.Length * header.FontSize - 60;
-                stackedContent.Children.Add(symbol);
+
+                if (!(isCollapsed && HeaderOnlyWhenCollapsed))
+                    stackedContent.Children.Add(symbol);
                 stackedContent.Children.Add(header);
                 break;
             case EDirection.Right:
@@ -106,17 +111,20 @@ public partial class DynamicExpander : UserControl
                 header.Margin = new Thickness(-45, 0, -45, 0);
                 stackedContent.Height = Header.Length * header.FontSize - 60;
                 stackedContent.Children.Add(header);
-                stackedContent.Children.Add(symbol);
+                if (!(isCollapsed && HeaderOnlyWhenCollapsed))
+                    stackedContent.Children.Add(symbol);
                 break;
             case EDirection.Up:
                 stackedContent.Orientation = Orientation.Vertical;
-                stackedContent.Children.Add(symbol);
+                if (!(isCollapsed && HeaderOnlyWhenCollapsed))
+                    stackedContent.Children.Add(symbol);
                 stackedContent.Children.Add(header);
                 break;
             case EDirection.Down:
                 stackedContent.Orientation = Orientation.Vertical;
                 stackedContent.Children.Add(header);
-                stackedContent.Children.Add(symbol);
+                if (!(isCollapsed && HeaderOnlyWhenCollapsed))
+                    stackedContent.Children.Add(symbol);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
@@ -187,6 +195,18 @@ public partial class DynamicExpander : UserControl
         set => SetValue(HeaderProperty, value);
     }
 
+    public IBrush ButtonColor
+    {
+        get => GetValue(ButtonColorProperty);
+        set => SetValue(ButtonColorProperty, value);
+    }
+
+    public bool HeaderOnlyWhenCollapsed
+    {
+        get => GetValue(HeaderOnlyWhenCollapsedProperty);
+        set => SetValue(HeaderOnlyWhenCollapsedProperty, value);
+    }
+
     public static readonly StyledProperty<ICollection<object>> ItemsProperty =
         AvaloniaProperty.Register<DynamicExpander, ICollection<object>>(nameof(Items));
 
@@ -202,10 +222,18 @@ public partial class DynamicExpander : UserControl
     public static readonly StyledProperty<string> HeaderProperty =
         AvaloniaProperty.Register<DynamicExpander, string>(nameof(Header));
 
+    public static readonly StyledProperty<IBrush> ButtonColorProperty =
+        AvaloniaProperty.Register<DynamicExpander, IBrush>(nameof(ButtonColor));
+
+    public static readonly StyledProperty<bool> HeaderOnlyWhenCollapsedProperty =
+        AvaloniaProperty.Register<DynamicExpander, bool>(nameof(HeaderOnlyWhenCollapsed));
+
     private void ExpanderButton_OnTapped(object? sender, RoutedEventArgs e)
     {
         IsExpanded = !IsExpanded;
         var button = (Button) sender!;
-        button.Content = IsExpanded ? ParseButtonContent(Direction) : ParseButtonContent(ParseOpposite(Direction));
+        button.Content = IsExpanded
+            ? ParseButtonContent(Direction, false)
+            : ParseButtonContent(ParseOpposite(Direction), true);
     }
 }

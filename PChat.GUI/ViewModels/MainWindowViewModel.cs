@@ -20,8 +20,7 @@ namespace PChat.GUI
     /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
-        protected SharedViewModel Shared { get; }
-
+        private readonly SharedViewModel _shared;
         private readonly MetaViewModel _metaViewModel;
         private readonly CancellationToken _cancellationToken;
 
@@ -222,9 +221,14 @@ namespace PChat.GUI
                 this.RaiseAndSetIfChanged(ref _selectedGroup, value);
             }
         }
-        
-        public string IdHexString => Shared.Client.Credentials.Id.ToHexString();
-        public string KeyHexString => Shared.Client.Credentials.Key.ToHexString();
+
+        public SharedViewModel Shared
+        {
+            get => _shared;
+            private init => this.RaiseAndSetIfChanged(ref _shared, value);
+        }
+
+        public SessionContent Session => SessionContent.Singleton;
 
         #endregion
 

@@ -12,6 +12,8 @@ namespace PChat.GUI.Controls;
 
 public partial class StatusBar : UserControl
 {
+    private string? _lastLogin;
+
     public StatusBar()
     {
         InitializeComponent();
@@ -21,9 +23,6 @@ public partial class StatusBar : UserControl
     {
         AvaloniaXamlLoader.Load(this);
     }
-
-    public string? LastLogin =>
-        LoginHistory == null || LoginHistory.Count == 0 ? "--" : LoginHistory.Last().ToString(CultureInfo.CurrentCulture);
 
     public ConcurrentQueue<TextMessage> MessageQueue
     {
@@ -40,7 +39,17 @@ public partial class StatusBar : UserControl
     public ObservableCollection<DateTime> LoginHistory
     {
         get => GetValue(LoginHistoryProperty);
-        set => SetValue(LoginHistoryProperty, value);
+        set
+        {
+            SetValue(LoginHistoryProperty, value);
+            SetValue(LastLoginProperty, value.Count == 0 ? "--" : value.Last().ToString(CultureInfo.CurrentCulture));
+        }
+    }
+
+    public string? LastLogin
+    {
+        get => LoginHistory.Count == 0 ? "--" : LoginHistory.Last().ToString(CultureInfo.CurrentCulture);
+        set => SetValue(LastLoginProperty, value);
     }
 
     public static readonly StyledProperty<ConcurrentQueue<TextMessage>> MessageQueueProperty =
@@ -51,4 +60,7 @@ public partial class StatusBar : UserControl
 
     public static readonly StyledProperty<ObservableCollection<DateTime>> LoginHistoryProperty =
         AvaloniaProperty.Register<StatusBar, ObservableCollection<DateTime>>(nameof(MessageQueue));
+
+    private static readonly StyledProperty<string?> LastLoginProperty =
+        AvaloniaProperty.Register<StatusBar, string?>(nameof(LastLogin));
 }

@@ -102,6 +102,22 @@ public class Client
         var response = await client.AddFriendAsync(user);
     }
 
+    public async Task AcceptFriendRequest(FriendRequest friendRequest)
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        friendRequest.Status = FriendRequestStatus.Accepted;
+        var response = await client.AcceptFriendRequestAsync(friendRequest);
+    }
+    
+    public async Task RejectFriendRequest(FriendRequest friendRequest)
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        friendRequest.Status = FriendRequestStatus.Rejected;
+        var response = await client.RejectFriendRequestAsync(friendRequest);
+    }
+
     /// <summary>
     /// Whether the connection is unsecure. <br/>
     /// Necessary if TLS is not supported.
