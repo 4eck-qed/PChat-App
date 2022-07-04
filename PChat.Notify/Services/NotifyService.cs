@@ -49,7 +49,18 @@ public class NotifyService : Pchat.Notify.NotifyBase
 
     public override Task<ClientStatusResponse> FriendRequestAnswered(FriendRequest request, ServerCallContext context)
     {
-        SessionContent.FriendRequests.FirstOrDefault(f => f.Id == request.Id)!.Status = request.Status;
+        // SessionContent.FriendRequests.FirstOrDefault(f => f.Id == request.Id)!.Status = request.Status;
+        if (request.Status == FriendRequestStatus.Accepted)
+        {
+            SessionContent.ContactList.Add(new ContactCard
+            {
+                Id = request.TargetId,
+                Name = "placeholder",
+                Status = "placeholder"
+            });
+        }
+        
+        
 
         var response = new ClientStatusResponse();
         return Task.FromResult(response);

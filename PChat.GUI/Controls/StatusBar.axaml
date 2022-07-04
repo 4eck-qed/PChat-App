@@ -14,19 +14,19 @@
                        Foreground="#b5b5b5" Content=" to send: " />
 
                 <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="13"
-                           Foreground="Orange" Text="{Binding MessageQueue.Count, ElementName=Self, Mode=TwoWay}" />
+                           Foreground="Orange" Text="{Binding MessageQueue.Count, ElementName=Self}" />
 
                 <Label VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Italic" FontSize="13"
                        Margin="20,0,0,0" Foreground="#b5b5b5" Content="new messages: " />
 
                 <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="13"
-                           Foreground="LightGreen" Text="{Binding Notifications.Count, ElementName=Self, Mode=TwoWay}" />
+                           Foreground="LightGreen" Text="{Binding Notifications.Count, ElementName=Self}" />
 
                 <Label VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Italic" FontSize="13"
                        Margin="20,0,0,0" Foreground="#b5b5b5" Content="last login: " />
 
-                <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="13"
-                           Foreground="#e0e0e0" Text="{Binding LastLogin, ElementName=Self, Mode=TwoWay}" />
+                <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="12"
+                           Foreground="#e0e0e0" Text="{Binding LastLogin, ElementName=Self}" /> <!-- #e0e0e0-->
             </StackPanel>
         </ScrollViewer>
     </Border>

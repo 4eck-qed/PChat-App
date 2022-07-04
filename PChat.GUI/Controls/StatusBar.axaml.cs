@@ -12,11 +12,20 @@ namespace PChat.GUI.Controls;
 
 public partial class StatusBar : UserControl
 {
-    private string? _lastLogin;
-
     public StatusBar()
     {
         InitializeComponent();
+        LoginHistoryProperty.Changed
+            .Subscribe(x =>
+            {
+                if (LoginHistory.Count < 2)
+                {
+                    LastLogin = "--";
+                    return;
+                }
+                var secondLast = LoginHistory.Count - 2;
+                LastLogin = LoginHistory[secondLast].ToLocalTime().ToString(CultureInfo.CurrentCulture);
+            });
     }
 
     private void InitializeComponent()
@@ -39,16 +48,12 @@ public partial class StatusBar : UserControl
     public ObservableCollection<DateTime> LoginHistory
     {
         get => GetValue(LoginHistoryProperty);
-        set
-        {
-            SetValue(LoginHistoryProperty, value);
-            SetValue(LastLoginProperty, value.Count == 0 ? "--" : value.Last().ToString(CultureInfo.CurrentCulture));
-        }
+        set => SetValue(LoginHistoryProperty, value);
     }
 
-    public string? LastLogin
+    private string LastLogin
     {
-        get => LoginHistory.Count == 0 ? "--" : LoginHistory.Last().ToString(CultureInfo.CurrentCulture);
+        get => GetValue(LastLoginProperty);
         set => SetValue(LastLoginProperty, value);
     }
 
@@ -56,11 +61,11 @@ public partial class StatusBar : UserControl
         AvaloniaProperty.Register<StatusBar, ConcurrentQueue<TextMessage>>(nameof(MessageQueue));
 
     public static readonly StyledProperty<ObservableCollection<TextMessage>> NotificationsProperty =
-        AvaloniaProperty.Register<StatusBar, ObservableCollection<TextMessage>>(nameof(MessageQueue));
+        AvaloniaProperty.Register<StatusBar, ObservableCollection<TextMessage>>(nameof(Notifications));
 
     public static readonly StyledProperty<ObservableCollection<DateTime>> LoginHistoryProperty =
-        AvaloniaProperty.Register<StatusBar, ObservableCollection<DateTime>>(nameof(MessageQueue));
+        AvaloniaProperty.Register<StatusBar, ObservableCollection<DateTime>>(nameof(LoginHistory));
 
-    private static readonly StyledProperty<string?> LastLoginProperty =
-        AvaloniaProperty.Register<StatusBar, string?>(nameof(LastLogin));
+    private static readonly StyledProperty<string> LastLoginProperty =
+        AvaloniaProperty.Register<StatusBar, string>(nameof(LastLogin));
 }

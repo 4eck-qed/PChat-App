@@ -26,6 +26,7 @@ public partial class FriendRequestsPanel : UserControl
     {
         if (sender is not Button {DataContext: FriendRequest friendRequest}) return;
         FriendRequests.Remove(friendRequest);
+        FriendRequests = new List<FriendRequest>(FriendRequests);
         Task.Run(async () => await SessionContent.Client.AcceptFriendRequest(friendRequest));
     }
 
@@ -33,6 +34,7 @@ public partial class FriendRequestsPanel : UserControl
     {
         if (sender is not Button {DataContext: FriendRequest friendRequest}) return;
         FriendRequests.Remove(friendRequest);
+        FriendRequests = new List<FriendRequest>(FriendRequests);
         Task.Run(async () => await SessionContent.Client.RejectFriendRequest(friendRequest));
     }
 

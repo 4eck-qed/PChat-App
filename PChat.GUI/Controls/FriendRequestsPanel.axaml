@@ -9,6 +9,8 @@
              x:Name="Self">
     <UserControl.Resources>
         <converters:HexStringConverter x:Key="HexStringConverter" />
+        <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
+        <converters:FriendRequestsForMeConverter x:Key="FriendRequestsForMeConverter" />
     </UserControl.Resources>
 
     <!-- <Expander ExpandDirection="Down" Margin="0,70,-70,0" Padding="5" Width="150" Height="30" Header="Friend Requests"> -->
@@ -36,23 +38,28 @@
     <local:DynamicExpander Header="Friend Requests" Background="{Binding ExpanderColor, ElementName=Self}"
                            HeaderOnlyWhenCollapsed="True">
         <local:DynamicExpander.ExpandableContent>
-            <ListBox Background="{Binding Background, ElementName=Self}"
-                     Items="{Binding FriendRequests, ElementName=Self, Mode=TwoWay}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="100,40,40">
-                            <TextBlock Grid.Column="0" Foreground="Gray" FontSize="10"
-                                       Text="{Binding Id, Converter={StaticResource HexStringConverter}}" />
+            <StackPanel Width="303">
+                <TextBlock Text="Nothing to see here.." Foreground="Gray"
+                           Margin="50"
+                           IsVisible="{Binding FriendRequests, ElementName=Self, Converter={StaticResource IsNullOrEmptyConverter}}" />
+                <ListBox Background="{Binding Background, ElementName=Self}"
+                         Items="{Binding FriendRequests, ElementName=Self, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,40,40">
+                                <TextBlock Grid.Column="0" Foreground="Gray" FontSize="10" Margin="10"
+                                           Text="{Binding Id, Converter={StaticResource HexStringConverter}}"/>
 
-                            <Button Grid.Column="1" HorizontalAlignment="Right" Content="✔️️️"
-                                    Tapped="AcceptFriend_OnTapped" />
+                                <Button Grid.Column="1" HorizontalAlignment="Right" Content="✔️️️"
+                                        Tapped="AcceptFriend_OnTapped" />
 
-                            <Button Grid.Column="2" HorizontalAlignment="Right" Content="✘"
-                                    Tapped="RejectFriend_OnTapped" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                                <Button Grid.Column="2" HorizontalAlignment="Right" Content="✘"
+                                        Tapped="RejectFriend_OnTapped" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
         </local:DynamicExpander.ExpandableContent>
     </local:DynamicExpander>
 

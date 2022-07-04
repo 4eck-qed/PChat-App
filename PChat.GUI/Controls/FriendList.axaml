@@ -26,8 +26,10 @@
                     </Ellipse>
 
                     <StackPanel Grid.Column="1">
-                        <Label Content="{Binding Id, Converter={StaticResource HexStringConverter}}" Foreground="White" />
-                        <Label Content="{Binding Status}" Foreground="Gray" />
+                        <Label Content="{Binding Id, Converter={StaticResource HexStringConverter}}" Foreground="White"
+                               FontSize="11"/>
+                        <Label Content="{Binding Status}" Foreground="Gray"
+                               FontSize="10"/>
                     </StackPanel>
                 </Grid>
             </DataTemplate>

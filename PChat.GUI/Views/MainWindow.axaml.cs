@@ -39,7 +39,7 @@ namespace PChat.GUI
 
         private void IdTextBlock_OnDoubleTapped(object? sender, RoutedEventArgs e)
         {
-            this.FindControl<TextBlock>("IdCopied").Text = "copied";
+            this.FindControl<TextBlock>("IdCopied").Text = "📋";
             var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2), IsEnabled = true};
             timer.Tick += (_, _) =>
             {
@@ -51,7 +51,7 @@ namespace PChat.GUI
 
         private void KeyTextBlock_OnDoubleTapped(object? sender, RoutedEventArgs e)
         {
-            this.FindControl<TextBlock>("KeyCopied").Text = "copied";
+            this.FindControl<TextBlock>("KeyCopied").Text = "📋";
             var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2), IsEnabled = true};
             timer.Tick += (_, _) =>
             {
