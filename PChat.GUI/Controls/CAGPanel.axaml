@@ -17,7 +17,7 @@
                 <Image Width="30" Height="30" Source="/Assets/Images/add_contact.png" />
             </Button>
             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="AddContactBox" IsVisible="False">
-                <Grid Margin="10,0,0,0" ColumnDefinitions="*,20">
+                <Grid Margin="10,0,0,0" ColumnDefinitions="250,20">
                     <TextBox Grid.Column="0" x:Name="AddContactTextBox" Watermark="ID"
                              Text="{Binding AddContactIdHexString, ElementName=Self, Mode=TwoWay}" />
                     <Button Grid.Column="1" Background="Transparent" Tapped="AddContact_Tapped">
