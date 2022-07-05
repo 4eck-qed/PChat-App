@@ -37,7 +37,7 @@ namespace PChat.GUI.Converters
             switch (value)
             {
                 case ByteString byteString:
-                    return ToBitmap(byteString.ToStringUtf8());
+                    return ToBitmap(byteString.ToStringUtf8()); //TODO handle if image is in byte format instead of avares link
                 case string s:
                     return ToBitmap(s);
                 default:

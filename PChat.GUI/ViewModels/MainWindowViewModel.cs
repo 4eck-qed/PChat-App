@@ -32,11 +32,8 @@ namespace PChat.GUI
         private ObservableCollection<ChatViewModel> _chats;
         private ChatViewModel _selectedChat;
 
-        private ObservableCollection<FriendRequest> _friendRequests;
-        private ObservableCollection<ContactCard> _contacts;
         private ContactCard _selectedContact;
 
-        private ObservableCollection<Group> _groups;
         private Group _selectedGroup;
 
         #endregion
@@ -48,10 +45,7 @@ namespace PChat.GUI
             _cancellationToken = cancellationToken;
 
             Notifications = new ObservableCollection<TextMessage>();
-            FriendRequests = new ObservableCollection<FriendRequest>();
-            Contacts = new ObservableCollection<ContactCard>();
             Chats = new ObservableCollection<ChatViewModel>();
-            Groups = new ObservableCollection<Group>();
 
             ClearNotificationsCommand = ReactiveCommand.Create(() =>
             {
@@ -96,8 +90,8 @@ namespace PChat.GUI
                 Name = "Randy",
                 Status = ".."
             };
-            Contacts.Add(randy);
-            FriendRequests.Add(new FriendRequest
+            SessionContent.Contacts.Add(randy);
+            SessionContent.FriendRequests.Add(new FriendRequest
             {
                 Id = SessionContent.Account.Id,
                 SenderId = SessionContent.Account.Id,
@@ -116,7 +110,7 @@ namespace PChat.GUI
 
         private void OpenChat(ByteString contactId)
         {
-            var contact = SessionContent.ContactList.FirstOrDefault(c => c.Id.Equals(contactId));
+            var contact = SessionContent.Contacts.FirstOrDefault(c => c.Id.Equals(contactId));
             if (contact == null) // TODO Display a red message in place of chat.
             {
                 Console.WriteLine("Contact not found. You are probably not friends with them.");
@@ -174,18 +168,9 @@ namespace PChat.GUI
             }
         }
 
-        public ObservableCollection<FriendRequest> FriendRequests
-        {
-            get => _friendRequests;
-            set => _friendRequests = value;
-        }
-
-        public ObservableCollection<ContactCard> Contacts
-
-        {
-            get => _contacts;
-            set => _contacts = value;
-        }
+        // public ObservableCollection<FriendRequest> FriendRequests { get; set; }
+        //
+        // public ObservableCollection<ContactCard> ContactList { get; set; }
 
         public ContactCard? SelectedContact
         {
@@ -206,11 +191,7 @@ namespace PChat.GUI
             }
         }
 
-        public ObservableCollection<Group> Groups
-        {
-            get => _groups;
-            set => _groups = value;
-        }
+        // public ObservableCollection<Group> Groups { get; set; }
 
         public Group? SelectedGroup
         {
@@ -228,7 +209,7 @@ namespace PChat.GUI
             private init => this.RaiseAndSetIfChanged(ref _shared, value);
         }
 
-        public SessionContent Session => SessionContent.Singleton;
+        public static SessionContent Session => SessionContent.Singleton;
 
         #endregion
 

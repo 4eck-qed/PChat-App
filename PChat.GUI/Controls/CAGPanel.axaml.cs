@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using Google.Protobuf;
 using Pchat;
 using PChat.Shared;
 
@@ -12,8 +13,8 @@ namespace PChat.GUI.Controls;
 
 public partial class CAGPanel : UserControl
 {
-    private object _addContactButtonContent;
-    
+    private readonly object _addContactButtonContent;
+
     public CAGPanel()
     {
         InitializeComponent();
@@ -76,17 +77,23 @@ public partial class CAGPanel : UserControl
         var addContactButton = this.FindControl<Button>("AddContactButton");
         addContactButton.IsVisible = !addContactButton.IsVisible;
         addContactButton.Content = "✔️";
-        
+
         var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2), IsEnabled = true};
         timer.Tick += (_, _) =>
         {
             addContactButton.Content = _addContactButtonContent;
             timer.Stop();
         };
-        
+
         // Friends.Add(contact);
         // Chats.Add(new ChatViewModel(Shared, contact));
         if (string.IsNullOrWhiteSpace(AddContactIdHexString)) return;
+        Contacts.Add(new ContactCard
+        {
+            Id = HexString.ToByteString(AddContactIdHexString),
+            Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png")
+        });
+        Contacts = new List<ContactCard>(Contacts);
         await SessionContent.Client.AddContact(HexString.ToByteString(AddContactIdHexString)!);
         // WhenAnyMixin
         //     .WhenAnyValue(

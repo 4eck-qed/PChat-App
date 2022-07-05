@@ -16,7 +16,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
     public override Task<ClientStatusResponse> NewFriend(User request, ServerCallContext context)
     {
         var contact = new ContactCard {Id = request.Id};
-        SessionContent.ContactList.Add(contact);
+        SessionContent.Contacts.Add(contact);
 
         var response = new ClientStatusResponse();
         return Task.FromResult(response);
@@ -24,9 +24,9 @@ public class NotifyService : Pchat.Notify.NotifyBase
 
     public override Task<ClientStatusResponse> Unfriended(User request, ServerCallContext context)
     {
-        var unfriendedUser = SessionContent.ContactList.FirstOrDefault(u => u.Id == request.Id);
+        var unfriendedUser = SessionContent.Contacts.FirstOrDefault(u => u.Id == request.Id);
         if (unfriendedUser != null)
-            SessionContent.ContactList.Remove(unfriendedUser);
+            SessionContent.Contacts.Remove(unfriendedUser);
 
         var response = new ClientStatusResponse();
         return Task.FromResult(response);
@@ -42,6 +42,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
             TargetId = request.TargetId,
         };
         SessionContent.FriendRequests.Add(friendRequest);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
 
         var response = new ClientStatusResponse();
         return Task.FromResult(response);
@@ -52,7 +53,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
         // SessionContent.FriendRequests.FirstOrDefault(f => f.Id == request.Id)!.Status = request.Status;
         if (request.Status == FriendRequestStatus.Accepted)
         {
-            SessionContent.ContactList.Add(new ContactCard
+            SessionContent.Contacts.Add(new ContactCard
             {
                 Id = request.TargetId,
                 Name = "placeholder",
@@ -60,7 +61,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
             });
         }
         
-        
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
 
         var response = new ClientStatusResponse();
         return Task.FromResult(response);
@@ -77,6 +78,8 @@ public class NotifyService : Pchat.Notify.NotifyBase
             Time = request.Time,
         };
         SessionContent.Messages[request.SenderId].Add(message);
+        
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
 
         var response = new ClientStatusResponse();
         return Task.FromResult(response);

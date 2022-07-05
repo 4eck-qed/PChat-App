@@ -19,7 +19,7 @@ public class NotifyServer
         _server = new Server()
         {
             Services = {Pchat.Notify.BindService(new NotifyService(logger))},
-            Ports = {new ServerPort("localhost", 50053, ServerCredentials.Insecure)}
+            Ports = {new ServerPort("localhost", 50052, ServerCredentials.Insecure)}
         };
     }
 

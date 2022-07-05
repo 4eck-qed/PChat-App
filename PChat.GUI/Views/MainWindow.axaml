@@ -85,12 +85,12 @@
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <!--#region Friend Requests-->
-                <controls:FriendRequestsPanel FriendRequests="{Binding FriendRequests, Mode=TwoWay}"
+                <controls:FriendRequestsPanel FriendRequests="{Binding Session.FriendRequests, Mode=TwoWay}"
                                               ExpanderColor="#292b2f" />
                 <!--#endregion-->
                 <!--#region Contacts and Groups-->
-                <controls:CAGPanel Contacts="{Binding Contacts, Mode=TwoWay}"
-                                   Groups="{Binding Groups, Mode=TwoWay}"
+                <controls:CAGPanel Contacts="{Binding Session.Contacts, Mode=TwoWay}"
+                                   Groups="{Binding Session.Groups, Mode=TwoWay}"
                                    SelectedContact="{Binding SelectedContact, Mode=TwoWay}"
                                    SelectedGroup="{Binding SelectedGroup, Mode=TwoWay}" />
                 <!--#endregion-->
