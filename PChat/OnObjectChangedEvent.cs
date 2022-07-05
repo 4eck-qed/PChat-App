@@ -1,4 +1,4 @@
-namespace PChat.Shared;
+namespace PChat;
 
 public class OnObjectChangedEvent
 {

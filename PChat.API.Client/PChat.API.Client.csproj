@@ -12,6 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PChat.Events\PChat.Events.csproj" />
+      <ProjectReference Include="..\PChat.Shared\PChat.Shared.csproj" />
       <ProjectReference Include="..\PChat\PChat.csproj" />
     </ItemGroup>
 

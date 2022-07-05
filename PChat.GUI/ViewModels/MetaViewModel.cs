@@ -2,9 +2,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using PChat.Notify;
 using PChat.Shared;
 using ReactiveUI;
 
@@ -33,19 +30,13 @@ public class MetaViewModel : ViewModelBase
         LoginHistoryService.AddToLoginHistory(DateTime.Now);
         LoginHistory = new ObservableCollection<DateTime>(LoginHistoryService.GetLoginHistory());
         EventBus.Instance.Register(this);
+        Console.WriteLine("[DEBUG] registered listener '{0}' to EventBus", this);
     }
 
-    public void OnEvent(object e)
+    public void OnEvent(OnObjectChangedEvent e)
     {
-        switch (e)
-        {
-            case OnObjectChangedEvent oe:
-                Console.WriteLine("OnObjectChangedEvent '{0}'", oe.ObjectName);
-                this.RaisePropertyChanged(oe.ObjectName);
-                break;
-            default:
-                throw new UnsupportedContentTypeException($"{e.GetType()} is not supported.");
-        }
+        Console.WriteLine("[DEBUG] OnObjectChangedEvent '{0}'", e.ObjectName);
+        this.RaisePropertyChanged(e.ObjectName);
     }
 
     public DateTime GetLastLogin() => LoginHistory.Any() ? LoginHistory.Last() : DateTime.Now;

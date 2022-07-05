@@ -7,7 +7,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Google.Protobuf;
 using Pchat;
-using PChat.Shared;
+using PChat.API.Client;
 
 namespace PChat.GUI.Controls;
 
@@ -93,8 +93,8 @@ public partial class CAGPanel : UserControl
             Id = HexString.ToByteString(AddContactIdHexString),
             Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png")
         });
-        Contacts = new List<ContactCard>(Contacts);
-        await SessionContent.Client.AddContact(HexString.ToByteString(AddContactIdHexString)!);
+        
+        await new Client(true).AddContact(HexString.ToByteString(AddContactIdHexString)!);
         // WhenAnyMixin
         //     .WhenAnyValue(
         //         x => AddContactIdHexString, HexString.IsValid).AsObservable());

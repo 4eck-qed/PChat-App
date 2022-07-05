@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace PChat.Shared;
+namespace PChat;
 
 // yoinked from https://stackoverflow.com/a/23489097
 public class EventBus
@@ -28,6 +28,7 @@ public class EventBus
 
     public void PostEvent(object e)
     {
+        Console.WriteLine("[DEBUG] Posted event '{0}'", e.GetType());
         _listeners.Where(l => l.EventType == e.GetType()).ToList().ForEach(l => l.PostEvent(e));
     }
 

@@ -80,7 +80,7 @@ namespace PChat.GUI
                 Status = "My name is Earl!"
             };
             var credentials = new Credentials {Id = SessionContent.Account.Id, Key = SessionContent.Account.Key};
-            Shared = new SharedViewModel(new Client(credentials, true));
+            Shared = new SharedViewModel(new Client(true));
             _metaViewModel = new MetaViewModel(Shared, cancellationToken);
 
             var randy = new ContactCard

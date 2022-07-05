@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PChat.API.Client\PChat.API.Client.csproj" />
       <ProjectReference Include="..\PChat.Protos\PChat.Protos.csproj" />
     </ItemGroup>
 

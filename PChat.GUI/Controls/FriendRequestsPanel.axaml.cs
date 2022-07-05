@@ -6,6 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Pchat;
+using PChat.API.Client;
 using PChat.Shared;
 
 namespace PChat.GUI.Controls;
@@ -27,7 +28,7 @@ public partial class FriendRequestsPanel : UserControl
         if (sender is not Button {DataContext: FriendRequest friendRequest}) return;
         FriendRequests.Remove(friendRequest);
         FriendRequests = new List<FriendRequest>(FriendRequests);
-        Task.Run(async () => await SessionContent.Client.AcceptFriendRequest(friendRequest));
+        Task.Run(async () => await new Client(true).AcceptFriendRequest(friendRequest));
     }
 
     private void RejectFriend_OnTapped(object? sender, RoutedEventArgs e)
@@ -35,7 +36,7 @@ public partial class FriendRequestsPanel : UserControl
         if (sender is not Button {DataContext: FriendRequest friendRequest}) return;
         FriendRequests.Remove(friendRequest);
         FriendRequests = new List<FriendRequest>(FriendRequests);
-        Task.Run(async () => await SessionContent.Client.RejectFriendRequest(friendRequest));
+        Task.Run(async () => await new Client(true).RejectFriendRequest(friendRequest));
     }
 
     public ICollection<FriendRequest> FriendRequests

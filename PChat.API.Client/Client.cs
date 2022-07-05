@@ -3,6 +3,7 @@ using Google.Protobuf;
 using Grpc.Net.Client;
 using Pchat;
 using PChat.Extensions;
+using PChat.Shared;
 
 namespace PChat.API.Client;
 
@@ -16,17 +17,6 @@ public class Client
     /// <param name="isUnsecure"></param>
     public Client(bool isUnsecure)
     {
-        IsUnsecure = isUnsecure;
-    }
-
-    /// <summary>
-    /// Returns an Instance with given login credentials.
-    /// </summary>
-    /// <param name="login"></param>
-    /// <param name="isUnsecure"></param>
-    public Client(Credentials credentials, bool isUnsecure)
-    {
-        Credentials = credentials;
         IsUnsecure = isUnsecure;
     }
 
@@ -100,6 +90,7 @@ public class Client
         var client = new Api.ApiClient(channel);
         var user = new User {Id = id};
         var response = await client.AddFriendAsync(user);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
     }
 
     public async Task AcceptFriendRequest(FriendRequest friendRequest)
@@ -141,9 +132,7 @@ public class Client
             _isUnsecure = value;
         }
     }
-
-    public Credentials Credentials { get; }
-
+    
     private string ApiIp { get; set; }
     private const int ApiPort = 50051;
 
