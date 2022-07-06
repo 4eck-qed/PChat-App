@@ -39,21 +39,32 @@ public class NotifyService : Pchat.Notify.NotifyBase
         return Task.FromResult(new ClientStatusResponse());
     }
 
-    public override Task<ClientStatusResponse> FriendRequestReceived(FriendRequest friendRequest, ServerCallContext context)
+    public override Task<ClientStatusResponse> NewFriendRequest(FriendRequest friendRequest,
+        ServerCallContext context)
     {
         if (Global.Debug)
-            _logger.LogDebug($"[Notify] {nameof(FriendRequestReceived)} called");
-        
+            _logger.LogDebug($"[Notify] {nameof(NewFriendRequest)} called");
+
         SessionContent.FriendRequests.Add(friendRequest);
 
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
         return Task.FromResult(new ClientStatusResponse());
     }
 
-    public override Task<ClientStatusResponse> FriendRequestAnswered(FriendRequest friendRequest, ServerCallContext context)
+    public override Task<ClientStatusResponse> ReceivedFriendRequest(FriendRequest friendRequest,
+        ServerCallContext context)
     {
         if (Global.Debug)
-            _logger.LogDebug($"[Notify] {nameof(FriendRequestAnswered)} called");
+            _logger.LogDebug($"[Notify] {nameof(ReceivedFriendRequest)} called");
+
+        throw new NotImplementedException();
+    }
+
+    public override Task<ClientStatusResponse> AnsweredFriendRequest(FriendRequest friendRequest,
+        ServerCallContext context)
+    {
+        if (Global.Debug)
+            _logger.LogDebug($"[Notify] {nameof(AnsweredFriendRequest)} called");
 
         switch (friendRequest.Status)
         {
@@ -66,7 +77,8 @@ public class NotifyService : Pchat.Notify.NotifyBase
                 });
                 break;
             case FriendRequestStatus.Rejected:
-                SessionContent.Contacts.Remove(SessionContent.Contacts.FirstOrDefault(x => x.Id == friendRequest.TargetId)!);
+                SessionContent.Contacts.Remove(
+                    SessionContent.Contacts.FirstOrDefault(x => x.Id == friendRequest.TargetId)!);
                 break;
         }
 
@@ -74,28 +86,47 @@ public class NotifyService : Pchat.Notify.NotifyBase
         return Task.FromResult(new ClientStatusResponse());
     }
 
-    public override Task<ClientStatusResponse> MessageReceived(TextMessage message, ServerCallContext context)
+    public override Task<ClientStatusResponse> NewMessage(TextMessage message, ServerCallContext context)
     {
         if (Global.Debug)
-            _logger.LogDebug($"[Notify] {nameof(MessageReceived)} called");
+            _logger.LogDebug($"[Notify] {nameof(NewMessage)} called");
 
-        if (message.SenderId == SessionContent.Account.Id)
+        var contact = SessionContent.Contacts.FirstOrDefault(x => x.Id == message.SenderId);
+
+        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.SenderId);
+        if (conversation == null)
         {
-            // SessionContent.Messages[request.SenderId].FirstOrDefault(x => x.Id == request.Id).Status == Received;
+            conversation = new Conversation(contact!);
+            SessionContent.Conversations.Add(conversation);
         }
-        else
-        {
-            // not a friend
-            if (!SessionContent.Contacts.Select(x => x.Id).Contains(message.SenderId))
-                return Task.FromResult(new ClientStatusResponse());
-            
-            if (!SessionContent.Messages.ContainsKey(message.SenderId))
-                SessionContent.Messages.Add(message.SenderId, new ObservableCollection<TextMessage>());
-            
-            SessionContent.Messages[message.SenderId].Add(message);
-        }
+
+        conversation.Messages.Add(message);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+
+        return Task.FromResult(new ClientStatusResponse());
+    }
+
+    public override Task<ClientStatusResponse> SeenMessage(TextMessage message, ServerCallContext context)
+    {
+        if (Global.Debug)
+            _logger.LogDebug($"[Notify] {nameof(SeenMessage)} called");
         
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
+        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
+        conversation!.Messages.FirstOrDefault(x => x.Id == message.Id)!.Status = TextMessage.Types.Status.Seen;
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+
+        return Task.FromResult(new ClientStatusResponse());
+    }
+
+    public override Task<ClientStatusResponse> ReceivedMessage(TextMessage message, ServerCallContext context)
+    {
+        if (Global.Debug)
+            _logger.LogDebug($"[Notify] {nameof(ReceivedMessage)} called");
+        
+        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
+        conversation!.Messages.FirstOrDefault(x => x.Id == message.Id)!.Status = TextMessage.Types.Status.Received;
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+        
         return Task.FromResult(new ClientStatusResponse());
     }
 }

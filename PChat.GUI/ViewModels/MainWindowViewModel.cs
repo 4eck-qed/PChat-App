@@ -99,6 +99,7 @@ namespace PChat.GUI
                 Chats.RemoveMany(notFriendsAnymore);
                 Chats.Add(newFriends.Select(x => new ChatViewModel(Shared, x)));
             }
+
             this.RaisePropertyChanged(nameof(e.ObjectName));
         }
 
@@ -178,7 +179,7 @@ namespace PChat.GUI
                 {
                     if (notification.SenderId != SelectedContact?.Id) continue;
                     // remove notifications for this contact, since we are already looking at this chat
-                    Notifications.RemoveMany(SessionContent.Messages[SelectedChat?.Contact.Id!]);
+                    Notifications.RemoveMany(Notifications.Where(x => x.SenderId == SelectedChat?.Contact.Id));
                 }
             }
         }

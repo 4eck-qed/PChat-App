@@ -24,12 +24,15 @@ namespace Pchat {
     static P2PReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CglwMnAucHJvdG8SBXBjaGF0Ggt0eXBlcy5wcm90bzLMAQoDUDJwEjkKDlJl",
-            "Y2VpdmVNZXNzYWdlEhIucGNoYXQuVGV4dE1lc3NhZ2UaEy5wY2hhdC5QZWVy",
-            "UmVzcG9uc2USQQoUUmVjZWl2ZUZyaWVuZFJlcXVlc3QSFC5wY2hhdC5Gcmll",
-            "bmRSZXF1ZXN0GhMucGNoYXQuUGVlclJlc3BvbnNlEkcKGlJlY2VpdmVGcmll",
-            "bmRSZXF1ZXN0VXBkYXRlEhQucGNoYXQuRnJpZW5kUmVxdWVzdBoTLnBjaGF0",
-            "LlBlZXJSZXNwb25zZWIGcHJvdG8z"));
+            "CglwMnAucHJvdG8SBXBjaGF0Ggt0eXBlcy5wcm90bzLMAgoDUDJwEj0KElJl",
+            "Y2VpdmVDb250YWN0Q2FyZBISLnBjaGF0LkNvbnRhY3RDYXJkGhMucGNoYXQu",
+            "UGVlclJlc3BvbnNlEjkKDlJlY2VpdmVNZXNzYWdlEhIucGNoYXQuVGV4dE1l",
+            "c3NhZ2UaEy5wY2hhdC5QZWVyUmVzcG9uc2USPwoUUmVjZWl2ZU1lc3NhZ2VV",
+            "cGRhdGUSEi5wY2hhdC5UZXh0TWVzc2FnZRoTLnBjaGF0LlBlZXJSZXNwb25z",
+            "ZRJBChRSZWNlaXZlRnJpZW5kUmVxdWVzdBIULnBjaGF0LkZyaWVuZFJlcXVl",
+            "c3QaEy5wY2hhdC5QZWVyUmVzcG9uc2USRwoaUmVjZWl2ZUZyaWVuZFJlcXVl",
+            "c3RVcGRhdGUSFC5wY2hhdC5GcmllbmRSZXF1ZXN0GhMucGNoYXQuUGVlclJl",
+            "c3BvbnNlYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Pchat.TypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, null));

@@ -148,7 +148,7 @@
 
                 <!--#region History-->
                 <Border Grid.Row="1" Background="#3a3b42" CornerRadius="2">
-                    <ListBox Items="{Binding SelectedChat.TextMessages}"
+                    <ListBox Items="{Binding SelectedChat.Conversation.Messages}"
                              SelectedItem="{Binding SelectedChat.SelectedMessage}"
                              VerticalAlignment="Top" Background="Transparent">
                         <ListBox.ItemTemplate>

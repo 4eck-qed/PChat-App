@@ -71,26 +71,50 @@ namespace Pchat {
         __Marshaller_pchat_ClientStatusResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse> __Method_FriendRequestReceived = new grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(
+    static readonly grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse> __Method_NewFriendRequest = new grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "FriendRequestReceived",
+        "NewFriendRequest",
         __Marshaller_pchat_FriendRequest,
         __Marshaller_pchat_ClientStatusResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse> __Method_FriendRequestAnswered = new grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(
+    static readonly grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse> __Method_AnsweredFriendRequest = new grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "FriendRequestAnswered",
+        "AnsweredFriendRequest",
         __Marshaller_pchat_FriendRequest,
         __Marshaller_pchat_ClientStatusResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse> __Method_MessageReceived = new grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(
+    static readonly grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse> __Method_ReceivedFriendRequest = new grpc::Method<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "MessageReceived",
+        "ReceivedFriendRequest",
+        __Marshaller_pchat_FriendRequest,
+        __Marshaller_pchat_ClientStatusResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse> __Method_NewMessage = new grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "NewMessage",
+        __Marshaller_pchat_TextMessage,
+        __Marshaller_pchat_ClientStatusResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse> __Method_SeenMessage = new grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SeenMessage",
+        __Marshaller_pchat_TextMessage,
+        __Marshaller_pchat_ClientStatusResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse> __Method_ReceivedMessage = new grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ReceivedMessage",
         __Marshaller_pchat_TextMessage,
         __Marshaller_pchat_ClientStatusResponse);
 
@@ -104,32 +128,98 @@ namespace Pchat {
     [grpc::BindServiceMethod(typeof(Notify), "BindService")]
     public abstract partial class NotifyBase
     {
+      /// <summary>
+      /// You got a new friend. Useless atm since FriendRequestAnswered does the job
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewFriend(global::Pchat.User user, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewFriend(global::Pchat.User request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      /// <summary>
+      /// You got unfriended.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> Unfriended(global::Pchat.User user, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> Unfriended(global::Pchat.User request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      /// <summary>
+      /// You received a new friend request.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestReceived(global::Pchat.FriendRequest friendRequest, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewFriendRequest(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      /// <summary>
+      /// Your friend request was answered.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestAnswered(global::Pchat.FriendRequest friendRequest, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> AnsweredFriendRequest(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      /// <summary>
+      /// Your friend request was received.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> MessageReceived(global::Pchat.TextMessage message, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ReceivedFriendRequest(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// You received a new message.
+      /// </summary>
+      /// <param name="message">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewMessage(global::Pchat.TextMessage message, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Your message was seen.
+      /// </summary>
+      /// <param name="message">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> SeenMessage(global::Pchat.TextMessage message, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Your message was received.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ReceivedMessage(global::Pchat.TextMessage request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -163,105 +253,389 @@ namespace Pchat {
       {
       }
 
+      /// <summary>
+      /// You got a new friend. Useless atm since FriendRequestAnswered does the job
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::Pchat.ClientStatusResponse NewFriend(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return NewFriend(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// You got a new friend. Useless atm since FriendRequestAnswered does the job
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::Pchat.ClientStatusResponse NewFriend(global::Pchat.User request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_NewFriend, null, options, request);
       }
+      /// <summary>
+      /// You got a new friend. Useless atm since FriendRequestAnswered does the job
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> NewFriendAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return NewFriendAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// You got a new friend. Useless atm since FriendRequestAnswered does the job
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> NewFriendAsync(global::Pchat.User request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_NewFriend, null, options, request);
       }
+      /// <summary>
+      /// You got unfriended.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::Pchat.ClientStatusResponse Unfriended(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Unfriended(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// You got unfriended.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::Pchat.ClientStatusResponse Unfriended(global::Pchat.User request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Unfriended, null, options, request);
       }
+      /// <summary>
+      /// You got unfriended.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> UnfriendedAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return UnfriendedAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// You got unfriended.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> UnfriendedAsync(global::Pchat.User request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Unfriended, null, options, request);
       }
+      /// <summary>
+      /// You received a new friend request.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.ClientStatusResponse FriendRequestReceived(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Pchat.ClientStatusResponse NewFriendRequest(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return FriendRequestReceived(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return NewFriendRequest(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// You received a new friend request.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.ClientStatusResponse FriendRequestReceived(global::Pchat.FriendRequest request, grpc::CallOptions options)
+      public virtual global::Pchat.ClientStatusResponse NewFriendRequest(global::Pchat.FriendRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_FriendRequestReceived, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_NewFriendRequest, null, options, request);
       }
+      /// <summary>
+      /// You received a new friend request.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> FriendRequestReceivedAsync(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> NewFriendRequestAsync(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return FriendRequestReceivedAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return NewFriendRequestAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// You received a new friend request.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> FriendRequestReceivedAsync(global::Pchat.FriendRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> NewFriendRequestAsync(global::Pchat.FriendRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_FriendRequestReceived, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_NewFriendRequest, null, options, request);
       }
+      /// <summary>
+      /// Your friend request was answered.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.ClientStatusResponse FriendRequestAnswered(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Pchat.ClientStatusResponse AnsweredFriendRequest(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return FriendRequestAnswered(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return AnsweredFriendRequest(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// Your friend request was answered.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.ClientStatusResponse FriendRequestAnswered(global::Pchat.FriendRequest request, grpc::CallOptions options)
+      public virtual global::Pchat.ClientStatusResponse AnsweredFriendRequest(global::Pchat.FriendRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_FriendRequestAnswered, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_AnsweredFriendRequest, null, options, request);
       }
+      /// <summary>
+      /// Your friend request was answered.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> FriendRequestAnsweredAsync(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> AnsweredFriendRequestAsync(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return FriendRequestAnsweredAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return AnsweredFriendRequestAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// Your friend request was answered.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> FriendRequestAnsweredAsync(global::Pchat.FriendRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> AnsweredFriendRequestAsync(global::Pchat.FriendRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_FriendRequestAnswered, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_AnsweredFriendRequest, null, options, request);
       }
+      /// <summary>
+      /// Your friend request was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.ClientStatusResponse MessageReceived(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Pchat.ClientStatusResponse ReceivedFriendRequest(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return MessageReceived(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return ReceivedFriendRequest(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// Your friend request was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.ClientStatusResponse MessageReceived(global::Pchat.TextMessage request, grpc::CallOptions options)
+      public virtual global::Pchat.ClientStatusResponse ReceivedFriendRequest(global::Pchat.FriendRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_MessageReceived, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_ReceivedFriendRequest, null, options, request);
       }
+      /// <summary>
+      /// Your friend request was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> MessageReceivedAsync(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ReceivedFriendRequestAsync(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return MessageReceivedAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return ReceivedFriendRequestAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
+      /// <summary>
+      /// Your friend request was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> MessageReceivedAsync(global::Pchat.TextMessage request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ReceivedFriendRequestAsync(global::Pchat.FriendRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_MessageReceived, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_ReceivedFriendRequest, null, options, request);
+      }
+      /// <summary>
+      /// You received a new message.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse NewMessage(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return NewMessage(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// You received a new message.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse NewMessage(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_NewMessage, null, options, request);
+      }
+      /// <summary>
+      /// You received a new message.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> NewMessageAsync(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return NewMessageAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// You received a new message.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> NewMessageAsync(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_NewMessage, null, options, request);
+      }
+      /// <summary>
+      /// Your message was seen.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse SeenMessage(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SeenMessage(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Your message was seen.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse SeenMessage(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SeenMessage, null, options, request);
+      }
+      /// <summary>
+      /// Your message was seen.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> SeenMessageAsync(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SeenMessageAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Your message was seen.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> SeenMessageAsync(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SeenMessage, null, options, request);
+      }
+      /// <summary>
+      /// Your message was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ReceivedMessage(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReceivedMessage(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Your message was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ReceivedMessage(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ReceivedMessage, null, options, request);
+      }
+      /// <summary>
+      /// Your message was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ReceivedMessageAsync(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReceivedMessageAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Your message was received.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ReceivedMessageAsync(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ReceivedMessage, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -279,9 +653,12 @@ namespace Pchat {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_NewFriend, serviceImpl.NewFriend)
           .AddMethod(__Method_Unfriended, serviceImpl.Unfriended)
-          .AddMethod(__Method_FriendRequestReceived, serviceImpl.FriendRequestReceived)
-          .AddMethod(__Method_FriendRequestAnswered, serviceImpl.FriendRequestAnswered)
-          .AddMethod(__Method_MessageReceived, serviceImpl.MessageReceived).Build();
+          .AddMethod(__Method_NewFriendRequest, serviceImpl.NewFriendRequest)
+          .AddMethod(__Method_AnsweredFriendRequest, serviceImpl.AnsweredFriendRequest)
+          .AddMethod(__Method_ReceivedFriendRequest, serviceImpl.ReceivedFriendRequest)
+          .AddMethod(__Method_NewMessage, serviceImpl.NewMessage)
+          .AddMethod(__Method_SeenMessage, serviceImpl.SeenMessage)
+          .AddMethod(__Method_ReceivedMessage, serviceImpl.ReceivedMessage).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -293,9 +670,12 @@ namespace Pchat {
     {
       serviceBinder.AddMethod(__Method_NewFriend, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.ClientStatusResponse>(serviceImpl.NewFriend));
       serviceBinder.AddMethod(__Method_Unfriended, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.ClientStatusResponse>(serviceImpl.Unfriended));
-      serviceBinder.AddMethod(__Method_FriendRequestReceived, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(serviceImpl.FriendRequestReceived));
-      serviceBinder.AddMethod(__Method_FriendRequestAnswered, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(serviceImpl.FriendRequestAnswered));
-      serviceBinder.AddMethod(__Method_MessageReceived, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.MessageReceived));
+      serviceBinder.AddMethod(__Method_NewFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(serviceImpl.NewFriendRequest));
+      serviceBinder.AddMethod(__Method_AnsweredFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(serviceImpl.AnsweredFriendRequest));
+      serviceBinder.AddMethod(__Method_ReceivedFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.ClientStatusResponse>(serviceImpl.ReceivedFriendRequest));
+      serviceBinder.AddMethod(__Method_NewMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.NewMessage));
+      serviceBinder.AddMethod(__Method_SeenMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.SeenMessage));
+      serviceBinder.AddMethod(__Method_ReceivedMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.ReceivedMessage));
     }
 
   }

@@ -34,8 +34,8 @@ namespace Pchat {
             "CgdhY2NvdW50GAEgASgLMg4ucGNoYXQuQWNjb3VudBInCghyZXNwb25zZRgC",
             "IAEoCzIVLnBjaGF0Lkxvb2t1cFJlc3BvbnNlIiYKC0NyZWRlbnRpYWxzEgoK",
             "AmlkGAEgASgMEgsKA2tleRgCIAEoDCISCgRVc2VyEgoKAmlkGAEgASgMIm0K",
-            "DUZyaWVuZFJlcXVlc3QSKgoGc3RhdHVzGAEgASgOMhoucGNoYXQuRnJpZW5k",
-            "UmVxdWVzdFN0YXR1cxIKCgJpZBgCIAEoDBIRCglzZW5kZXJfaWQYAyABKAwS",
+            "DUZyaWVuZFJlcXVlc3QSCgoCaWQYASABKAwSKgoGc3RhdHVzGAIgASgOMhou",
+            "cGNoYXQuRnJpZW5kUmVxdWVzdFN0YXR1cxIRCglzZW5kZXJfaWQYAyABKAwS",
             "EQoJdGFyZ2V0X2lkGAQgASgMIlAKEkdldEVuZHBvaW50UmVxdWVzdBInCgtD",
             "cmVkZW50aWFscxgBIAEoCzISLnBjaGF0LkNyZWRlbnRpYWxzEhEKCXRhcmdl",
             "dF9pZBgCIAEoDCK7AQoTR2V0RW5kcG9pbnRSZXNwb25zZRIvCgRjb2RlGAEg",
@@ -58,11 +58,13 @@ namespace Pchat {
             "UmVzcG9uc2UuU3RhdHVzIkgKBlN0YXR1cxIPCgtVTlNQRUNJRklFRBAAEg4K",
             "ClJFR0lTVEVSRUQQARIQCgxVTkFVVEhPUklaRUQQAhILCgdJTlZBTElEEAMi",
             "OAoSU2VuZE1lc3NhZ2VSZXF1ZXN0EhEKCXNlbmRlcl9pZBgBIAEoDBIPCgdt",
-            "ZXNzYWdlGAIgASgJImAKC1RleHRNZXNzYWdlEgoKAmlkGAEgASgMEhEKCXNl",
-            "bmRlcl9pZBgCIAEoDBITCgtyZWNlaXZlcl9pZBgDIAEoDBIPCgdjb250ZW50",
-            "GAQgASgJEgwKBHRpbWUYBSABKAkqTwoTRnJpZW5kUmVxdWVzdFN0YXR1cxIP",
-            "CgtVTlNQRUNJRklFRBAAEgsKB1BFTkRJTkcQARIMCghBQ0NFUFRFRBACEgwK",
-            "CFJFSkVDVEVEEANiBnByb3RvMw=="));
+            "ZXNzYWdlGAIgASgJIsoBCgtUZXh0TWVzc2FnZRIKCgJpZBgBIAEoDBIRCglz",
+            "ZW5kZXJfaWQYAiABKAwSEwoLcmVjZWl2ZXJfaWQYAyABKAwSDwoHY29udGVu",
+            "dBgEIAEoCRIMCgR0aW1lGAUgASgJEikKBnN0YXR1cxgGIAEoDjIZLnBjaGF0",
+            "LlRleHRNZXNzYWdlLlN0YXR1cyI9CgZTdGF0dXMSDwoLVU5TUEVDSUZJRUQQ",
+            "ABIKCgZRVUVVRUQQARIMCghSRUNFSVZFRBACEggKBFNFRU4QAypPChNGcmll",
+            "bmRSZXF1ZXN0U3RhdHVzEg8KC1VOU1BFQ0lGSUVEEAASCwoHUEVORElORxAB",
+            "EgwKCEFDQ0VQVEVEEAISDAoIUkVKRUNURUQQA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Pchat.FriendRequestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -75,7 +77,7 @@ namespace Pchat {
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.CreateAccountResponse), global::Pchat.CreateAccountResponse.Parser, new[]{ "Account", "Response" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.Credentials), global::Pchat.Credentials.Parser, new[]{ "Id", "Key" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.User), global::Pchat.User.Parser, new[]{ "Id" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.FriendRequest), global::Pchat.FriendRequest.Parser, new[]{ "Status", "Id", "SenderId", "TargetId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.FriendRequest), global::Pchat.FriendRequest.Parser, new[]{ "Id", "Status", "SenderId", "TargetId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.GetEndpointRequest), global::Pchat.GetEndpointRequest.Parser, new[]{ "Credentials", "TargetId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.GetEndpointResponse), global::Pchat.GetEndpointResponse.Parser, new[]{ "Code", "Ip", "Port" }, null, new[]{ typeof(global::Pchat.GetEndpointResponse.Types.Status) }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.LookupResponse), global::Pchat.LookupResponse.Parser, new[]{ "Status" }, null, new[]{ typeof(global::Pchat.LookupResponse.Types.Status) }, null, null),
@@ -84,7 +86,7 @@ namespace Pchat {
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.RegisterEndpointRequest), global::Pchat.RegisterEndpointRequest.Parser, new[]{ "Credentials", "Port" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.RegisterEndpointResponse), global::Pchat.RegisterEndpointResponse.Parser, new[]{ "Status" }, null, new[]{ typeof(global::Pchat.RegisterEndpointResponse.Types.Status) }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.SendMessageRequest), global::Pchat.SendMessageRequest.Parser, new[]{ "SenderId", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.TextMessage), global::Pchat.TextMessage.Parser, new[]{ "Id", "SenderId", "ReceiverId", "Content", "Time" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.TextMessage), global::Pchat.TextMessage.Parser, new[]{ "Id", "SenderId", "ReceiverId", "Content", "Time", "Status" }, null, new[]{ typeof(global::Pchat.TextMessage.Types.Status) }, null, null)
           }));
     }
     #endregion
@@ -2165,8 +2167,8 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public FriendRequest(FriendRequest other) : this() {
-      status_ = other.status_;
       id_ = other.id_;
+      status_ = other.status_;
       senderId_ = other.senderId_;
       targetId_ = other.targetId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -2178,20 +2180,8 @@ namespace Pchat {
       return new FriendRequest(this);
     }
 
-    /// <summary>Field number for the "status" field.</summary>
-    public const int StatusFieldNumber = 1;
-    private global::Pchat.FriendRequestStatus status_ = global::Pchat.FriendRequestStatus.Unspecified;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Pchat.FriendRequestStatus Status {
-      get { return status_; }
-      set {
-        status_ = value;
-      }
-    }
-
     /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 2;
+    public const int IdFieldNumber = 1;
     private pb::ByteString id_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2199,6 +2189,18 @@ namespace Pchat {
       get { return id_; }
       set {
         id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "status" field.</summary>
+    public const int StatusFieldNumber = 2;
+    private global::Pchat.FriendRequestStatus status_ = global::Pchat.FriendRequestStatus.Unspecified;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Pchat.FriendRequestStatus Status {
+      get { return status_; }
+      set {
+        status_ = value;
       }
     }
 
@@ -2241,8 +2243,8 @@ namespace Pchat {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Status != other.Status) return false;
       if (Id != other.Id) return false;
+      if (Status != other.Status) return false;
       if (SenderId != other.SenderId) return false;
       if (TargetId != other.TargetId) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -2252,8 +2254,8 @@ namespace Pchat {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Status != global::Pchat.FriendRequestStatus.Unspecified) hash ^= Status.GetHashCode();
       if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Status != global::Pchat.FriendRequestStatus.Unspecified) hash ^= Status.GetHashCode();
       if (SenderId.Length != 0) hash ^= SenderId.GetHashCode();
       if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
       if (_unknownFields != null) {
@@ -2274,13 +2276,13 @@ namespace Pchat {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Status != global::Pchat.FriendRequestStatus.Unspecified) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Status);
-      }
       if (Id.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(10);
         output.WriteBytes(Id);
+      }
+      if (Status != global::Pchat.FriendRequestStatus.Unspecified) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) Status);
       }
       if (SenderId.Length != 0) {
         output.WriteRawTag(26);
@@ -2300,13 +2302,13 @@ namespace Pchat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Status != global::Pchat.FriendRequestStatus.Unspecified) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Status);
-      }
       if (Id.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(10);
         output.WriteBytes(Id);
+      }
+      if (Status != global::Pchat.FriendRequestStatus.Unspecified) {
+        output.WriteRawTag(16);
+        output.WriteEnum((int) Status);
       }
       if (SenderId.Length != 0) {
         output.WriteRawTag(26);
@@ -2326,11 +2328,11 @@ namespace Pchat {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Status != global::Pchat.FriendRequestStatus.Unspecified) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
-      }
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Id);
+      }
+      if (Status != global::Pchat.FriendRequestStatus.Unspecified) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
       }
       if (SenderId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(SenderId);
@@ -2350,11 +2352,11 @@ namespace Pchat {
       if (other == null) {
         return;
       }
-      if (other.Status != global::Pchat.FriendRequestStatus.Unspecified) {
-        Status = other.Status;
-      }
       if (other.Id.Length != 0) {
         Id = other.Id;
+      }
+      if (other.Status != global::Pchat.FriendRequestStatus.Unspecified) {
+        Status = other.Status;
       }
       if (other.SenderId.Length != 0) {
         SenderId = other.SenderId;
@@ -2377,12 +2379,12 @@ namespace Pchat {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            Status = (global::Pchat.FriendRequestStatus) input.ReadEnum();
+          case 10: {
+            Id = input.ReadBytes();
             break;
           }
-          case 18: {
-            Id = input.ReadBytes();
+          case 16: {
+            Status = (global::Pchat.FriendRequestStatus) input.ReadEnum();
             break;
           }
           case 26: {
@@ -2408,12 +2410,12 @@ namespace Pchat {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            Status = (global::Pchat.FriendRequestStatus) input.ReadEnum();
+          case 10: {
+            Id = input.ReadBytes();
             break;
           }
-          case 18: {
-            Id = input.ReadBytes();
+          case 16: {
+            Status = (global::Pchat.FriendRequestStatus) input.ReadEnum();
             break;
           }
           case 26: {
@@ -4292,9 +4294,6 @@ namespace Pchat {
 
   }
 
-  /// <summary>
-  /// TODO: oneof fuer message types in den requests/responses
-  /// </summary>
   public sealed partial class TextMessage : pb::IMessage<TextMessage>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -4334,6 +4333,7 @@ namespace Pchat {
       receiverId_ = other.receiverId_;
       content_ = other.content_;
       time_ = other.time_;
+      status_ = other.status_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -4403,6 +4403,18 @@ namespace Pchat {
       }
     }
 
+    /// <summary>Field number for the "status" field.</summary>
+    public const int StatusFieldNumber = 6;
+    private global::Pchat.TextMessage.Types.Status status_ = global::Pchat.TextMessage.Types.Status.Unspecified;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Pchat.TextMessage.Types.Status Status {
+      get { return status_; }
+      set {
+        status_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -4423,6 +4435,7 @@ namespace Pchat {
       if (ReceiverId != other.ReceiverId) return false;
       if (Content != other.Content) return false;
       if (Time != other.Time) return false;
+      if (Status != other.Status) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4435,6 +4448,7 @@ namespace Pchat {
       if (ReceiverId.Length != 0) hash ^= ReceiverId.GetHashCode();
       if (Content.Length != 0) hash ^= Content.GetHashCode();
       if (Time.Length != 0) hash ^= Time.GetHashCode();
+      if (Status != global::Pchat.TextMessage.Types.Status.Unspecified) hash ^= Status.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4473,6 +4487,10 @@ namespace Pchat {
         output.WriteRawTag(42);
         output.WriteString(Time);
       }
+      if (Status != global::Pchat.TextMessage.Types.Status.Unspecified) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) Status);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -4503,6 +4521,10 @@ namespace Pchat {
         output.WriteRawTag(42);
         output.WriteString(Time);
       }
+      if (Status != global::Pchat.TextMessage.Types.Status.Unspecified) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) Status);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -4527,6 +4549,9 @@ namespace Pchat {
       }
       if (Time.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Time);
+      }
+      if (Status != global::Pchat.TextMessage.Types.Status.Unspecified) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4554,6 +4579,9 @@ namespace Pchat {
       }
       if (other.Time.Length != 0) {
         Time = other.Time;
+      }
+      if (other.Status != global::Pchat.TextMessage.Types.Status.Unspecified) {
+        Status = other.Status;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4588,6 +4616,10 @@ namespace Pchat {
           }
           case 42: {
             Time = input.ReadString();
+            break;
+          }
+          case 48: {
+            Status = (global::Pchat.TextMessage.Types.Status) input.ReadEnum();
             break;
           }
         }
@@ -4625,10 +4657,29 @@ namespace Pchat {
             Time = input.ReadString();
             break;
           }
+          case 48: {
+            Status = (global::Pchat.TextMessage.Types.Status) input.ReadEnum();
+            break;
+          }
         }
       }
     }
     #endif
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the TextMessage message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static partial class Types {
+      public enum Status {
+        [pbr::OriginalName("UNSPECIFIED")] Unspecified = 0,
+        [pbr::OriginalName("QUEUED")] Queued = 1,
+        [pbr::OriginalName("RECEIVED")] Received = 2,
+        [pbr::OriginalName("SEEN")] Seen = 3,
+      }
+
+    }
+    #endregion
 
   }
 

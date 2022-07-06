@@ -15,6 +15,6 @@ public class SessionContent
     public static Account Account { get; set; } = new();
     public static ObservableCollection<ContactCard> Contacts { get; set; } = new();
     public static ObservableCollection<ContactCard> Groups { get; set; } = new();
-    public static Dictionary<ByteString, ObservableCollection<TextMessage>> Messages { get; set; } = new();
+    public static ObservableCollection<Conversation> Conversations { get; set; } = new();
     public static ObservableCollection<FriendRequest> FriendRequests { get; set; } = new();
 }

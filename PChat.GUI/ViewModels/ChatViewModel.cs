@@ -28,6 +28,7 @@ public class ChatViewModel : ViewModelBase
     // private ObservableCollection<Message> _messages;
     private TextMessage _selectedMessage;
     private ISolidColorBrush _isOnlineIndicator = Brushes.Red;
+    private Conversation _conversation;
 
     #endregion
 
@@ -37,7 +38,16 @@ public class ChatViewModel : ViewModelBase
         Contact = contact;
         InitializeCommands();
 
-        Task.Run(async () => await Shared.Client.LoadMessages(contact.Id));
+        EventBus.Instance.Subscribe(this);
+        Task.Run(async () => Conversation = await Shared.Client.LoadConversation(contact));
+    }
+
+    public void OnEvent(OnObjectChangedEvent e)
+    {
+        if (e.ObjectName != nameof(SessionContent.Conversations)) return;
+        
+        Conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == Contact.Id)!;
+        this.RaisePropertyChanged(nameof(Conversation));
     }
 
     #region Private Methods
@@ -58,9 +68,6 @@ public class ChatViewModel : ViewModelBase
                         Content = text,
                         Time = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                     };
-
-                    TextMessages.Add(message);
-                    this.RaisePropertyChanged(nameof(TextMessages));
 
                     Task.Run(async () =>
                     {
@@ -151,7 +158,13 @@ public class ChatViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedMessage, value);
     }
 
-    public ObservableCollection<TextMessage> TextMessages => SessionContent.Messages[Contact.Id];
+    public Conversation Conversation
+    {
+        get => _conversation;
+        set => this.RaiseAndSetIfChanged(ref _conversation, value);
+    }
+
+    public SessionContent Session => SessionContent.Singleton;
 
     public ISolidColorBrush IsOnlineIndicator
     {

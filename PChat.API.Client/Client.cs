@@ -29,13 +29,14 @@ public class Client
     #endregion
 
     /// <summary>
-    /// Get all messages that you send or received to/from this user id.
+    /// Loads the conversation with given contact. <br/>
+    /// Automatically adds the conversation to the session.
     /// </summary>
     /// <returns></returns>
-    public async Task LoadMessages(ByteString id)
+    public async Task<Conversation> LoadConversation(ContactCard contact)
     {
-        if (!SessionContent.Messages.ContainsKey(id))
-            SessionContent.Messages.Add(id, new ObservableCollection<TextMessage>());
+        if (SessionContent.Conversations.All(x => x.Contact.Id != contact.Id))
+            SessionContent.Conversations.Add(new Conversation(contact));
 
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
@@ -48,8 +49,11 @@ public class Client
             messages.Add(msg);
         }
 
-        SessionContent.Messages[id] = new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
+        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
+        conversation!.Messages = new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+
+        return conversation;
     }
 
     public async Task<bool> Login(Credentials credentials)
@@ -99,9 +103,13 @@ public class Client
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
 
-        SessionContent.Messages[message.ReceiverId].Add(message);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
-        
+        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
+        if (conversation is null)
+            throw new ArgumentException("Conversation does not exist!");
+
+        conversation.Messages.Add(message);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+
         var response = await client.SendMessageAsync(message);
         return response.Status == PeerResponse.Types.Status.Received;
     }
@@ -126,13 +134,20 @@ public class Client
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         friendRequest.Status = FriendRequestStatus.Accepted;
-        SessionContent.Contacts.Add(new ContactCard
+        var contact = new ContactCard
         {
             Id = friendRequest.SenderId,
-        });
+        };
+        SessionContent.Contacts.Add(contact);
         SessionContent.FriendRequests.Remove(friendRequest);
-        SessionContent.Messages.Add(friendRequest.SenderId, new ObservableCollection<TextMessage>());
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
+        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
+        if (conversation == null)
+        {
+            conversation = new Conversation(contact);
+            SessionContent.Conversations.Add(conversation);
+        }
+        
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
 

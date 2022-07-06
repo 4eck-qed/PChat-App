@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PChat.Protos\PChat.Protos.csproj" />
+      <ProjectReference Include="..\PChat\PChat.csproj" />
     </ItemGroup>
 
 </Project>
