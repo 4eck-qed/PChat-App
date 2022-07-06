@@ -51,7 +51,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
             TargetId = request.TargetId,
         };
         SessionContent.FriendRequests.Add(friendRequest);
-        
+
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
         return Task.FromResult(new ClientStatusResponse());
     }
@@ -61,15 +61,19 @@ public class NotifyService : Pchat.Notify.NotifyBase
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(FriendRequestAnswered)} called");
 
-        // SessionContent.FriendRequests.FirstOrDefault(f => f.Id == request.Id)!.Status = request.Status;
-        if (request.Status == FriendRequestStatus.Accepted)
+        switch (request.Status)
         {
-            SessionContent.Contacts.Add(new ContactCard
-            {
-                Id = request.TargetId,
-                Name = "placeholder",
-                Status = "placeholder"
-            });
+            case FriendRequestStatus.Accepted:
+                SessionContent.Contacts.Add(new ContactCard
+                {
+                    Id = request.TargetId,
+                    Name = "placeholder",
+                    Status = "placeholder"
+                });
+                break;
+            case FriendRequestStatus.Rejected:
+                SessionContent.Contacts.Remove(SessionContent.Contacts.FirstOrDefault(x => x.Id == request.TargetId)!);
+                break;
         }
 
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));

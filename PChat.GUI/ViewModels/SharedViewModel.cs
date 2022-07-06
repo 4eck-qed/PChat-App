@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using JetBrains.Annotations;
 using Pchat;
 using PChat.API.Client;
-using PChat.Extensions;
-using PChat.Shared;
 using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
@@ -29,9 +28,16 @@ public class SharedViewModel : ViewModelBase
         Client = client;
         LoginHistory = new ObservableCollection<DateTime>(LoginHistoryService.GetLoginHistory());
         MessageQueue = new ConcurrentQueue<TextMessage>(); // TODO load from file
+        EventBus.Instance.Subscribe(this);
     }
 
     public readonly Client Client;
+    
+    [UsedImplicitly]
+    public void OnEvent(OnObjectChangedEvent e)
+    {
+        this.RaisePropertyChanged(nameof(e.ObjectName));
+    }
 
     #region View-Relevant Properties
 

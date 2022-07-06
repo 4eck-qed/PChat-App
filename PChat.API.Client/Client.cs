@@ -1,5 +1,7 @@
+using System.Collections.ObjectModel;
 using System.Net;
 using Google.Protobuf;
+using Grpc.Core;
 using Grpc.Net.Client;
 using Pchat;
 using PChat.Extensions;
@@ -30,9 +32,24 @@ public class Client
     /// Get all messages that you send or received to/from this user id.
     /// </summary>
     /// <returns></returns>
-    public async Task<IEnumerable<TextMessage>> GetMessages(ByteString userId)
+    public async Task LoadMessages(ByteString id)
     {
-        return null; // TBI
+        if (!SessionContent.Messages.ContainsKey(id))
+            SessionContent.Messages.Add(id, new ObservableCollection<TextMessage>());
+
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var filter = new MessageFilter();
+        var response = client.GetMessages(filter);
+        var asyncMessages = response.ResponseStream.ReadAllAsync();
+        var messages = new ObservableCollection<TextMessage>();
+        await foreach (var msg in asyncMessages)
+        {
+            messages.Add(msg);
+        }
+
+        SessionContent.Messages[id] = new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
     }
 
     public async Task<bool> Login(Credentials credentials)
@@ -69,17 +86,21 @@ public class Client
         var client = new Api.ApiClient(channel);
         var response = await client.PingAsync(new User {Id = contact.Id});
         Console.WriteLine(response.Status == PeerResponse.Types.Status.Received ? "Success!" : "Failed.");
+
         return response.Status == PeerResponse.Types.Status.Received;
     }
 
     /// <summary>
     /// Sends a message.
     /// </summary>
-    /// <param name="messageToBeRemoved"></param>
+    /// <param name="message"></param>
     public async Task<bool> SendMessage(TextMessage message)
     {
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
+
+        SessionContent.Messages[message.ReceiverId].Add(message);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
         var response = await client.SendMessageAsync(message);
         return response.Status == PeerResponse.Types.Status.Received;
     }
@@ -89,8 +110,14 @@ public class Client
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         var user = new User {Id = id};
-        var response = await client.AddFriendAsync(user);
+        SessionContent.Contacts.Add(new ContactCard
+        {
+            Id = id,
+            Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png")
+        });
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
+
+        var response = await client.AddFriendAsync(user);
     }
 
     public async Task AcceptFriendRequest(FriendRequest friendRequest)
@@ -98,14 +125,27 @@ public class Client
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         friendRequest.Status = FriendRequestStatus.Accepted;
+        SessionContent.Contacts.Add(new ContactCard
+        {
+            Id = friendRequest.SenderId,
+        });
+        SessionContent.FriendRequests.Remove(friendRequest);
+        SessionContent.Messages.Add(friendRequest.SenderId, new ObservableCollection<TextMessage>());
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
+
         var response = await client.AcceptFriendRequestAsync(friendRequest);
     }
-    
+
     public async Task RejectFriendRequest(FriendRequest friendRequest)
     {
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         friendRequest.Status = FriendRequestStatus.Rejected;
+        SessionContent.FriendRequests.Remove(friendRequest);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
+
         var response = await client.RejectFriendRequestAsync(friendRequest);
     }
 
@@ -132,7 +172,7 @@ public class Client
             _isUnsecure = value;
         }
     }
-    
+
     private string ApiIp { get; set; }
     private const int ApiPort = 50051;
 

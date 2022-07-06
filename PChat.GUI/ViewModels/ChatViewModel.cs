@@ -31,22 +31,13 @@ public class ChatViewModel : ViewModelBase
 
     #endregion
 
-    public ChatViewModel(SharedViewModel shared, ContactCard receiver)
+    public ChatViewModel(SharedViewModel shared, ContactCard contact)
     {
         Shared = shared;
-        Receiver = receiver;
+        Contact = contact;
         InitializeCommands();
 
-        Task.Run(async () =>
-        {
-            var messages = await Shared.Client.GetMessages(receiver.Id);
-
-            if (!SessionContent.Messages.ContainsKey(receiver.Id))
-                SessionContent.Messages.Add(receiver.Id, new ObservableCollection<TextMessage>());
-
-            SessionContent.Messages[receiver.Id] =
-                new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
-        });
+        Task.Run(async () => await Shared.Client.LoadMessages(contact.Id));
     }
 
     #region Private Methods
@@ -63,11 +54,11 @@ public class ChatViewModel : ViewModelBase
                     {
                         Id = ByteStringExtensions.RandomByteString(16),
                         SenderId = SessionContent.Account.Id,
-                        ReceiverId = Receiver.Id,
+                        ReceiverId = Contact.Id,
                         Content = text,
                         Time = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                     };
-                    
+
                     TextMessages.Add(message);
                     this.RaisePropertyChanged(nameof(TextMessages));
 
@@ -133,7 +124,7 @@ public class ChatViewModel : ViewModelBase
 
     private async Task UpdateOnlineStatus()
     {
-        if (await Shared.Client.Ping(Receiver))
+        if (await Shared.Client.Ping(Contact))
         {
             IsOnlineIndicator = Brushes.LawnGreen;
             return;
@@ -146,7 +137,7 @@ public class ChatViewModel : ViewModelBase
 
     #region Properties
 
-    public ContactCard Receiver { get; }
+    public ContactCard Contact { get; }
 
     // public ObservableCollection<Message> Messages
     // {
@@ -160,7 +151,7 @@ public class ChatViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedMessage, value);
     }
 
-    public ObservableCollection<TextMessage> TextMessages => SessionContent.Messages[Receiver.Id];
+    public ObservableCollection<TextMessage> TextMessages => SessionContent.Messages[Contact.Id];
 
     public ISolidColorBrush IsOnlineIndicator
     {

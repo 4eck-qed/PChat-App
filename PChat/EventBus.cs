@@ -15,13 +15,13 @@ public class EventBus
 
     public static EventBus Instance => _instance ??= new EventBus();
 
-    public void Register(object listener)
+    public void Subscribe(object listener)
     {
         if (_listeners.All(l => l.Listener != listener))
             _listeners.Add(new EventListenerWrapper(listener));
     }
 
-    public void Unregister(object listener)
+    public void Unsubscribe(object listener)
     {
         _listeners.RemoveAll(l => l.Listener == listener);
     }

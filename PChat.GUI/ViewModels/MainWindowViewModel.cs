@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Input;
 using DynamicData;
 using Google.Protobuf;
+using JetBrains.Annotations;
 using Pchat;
 using PChat.API.Client;
 using PChat.Extensions;
@@ -43,10 +44,21 @@ namespace PChat.GUI
         {
             Console.WriteLine("Initializing main window view model..");
             _cancellationToken = cancellationToken;
-
             Notifications = new ObservableCollection<TextMessage>();
             Chats = new ObservableCollection<ChatViewModel>();
+            InitCommands();
 
+            this.WhenAnyValue(x => x.Notifications)
+                .Subscribe(notifications => Console.WriteLine("Notifications updated."));
+
+            Shared = new SharedViewModel(new Client(true));
+            _metaViewModel = new MetaViewModel(Shared, cancellationToken);
+
+            EventBus.Instance.Subscribe(this);
+        }
+
+        private void InitCommands()
+        {
             ClearNotificationsCommand = ReactiveCommand.Create(() =>
             {
                 Notifications.Clear();
@@ -68,42 +80,26 @@ namespace PChat.GUI
                 // Friends.Add(SelectedFriendRequest);
                 // FriendRequests.Remove(SelectedFriendRequest);
             });
-
-            this.WhenAnyValue(x => x.Notifications)
-                .Subscribe(notifications => Console.WriteLine("Notifications updated."));
-
-            var earl = new ContactCard
-            {
-                Id = SessionContent.Account.Id,
-                Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/samples/earl.png"),
-                Name = "Earl",
-                Status = "My name is Earl!"
-            };
-            var credentials = new Credentials {Id = SessionContent.Account.Id, Key = SessionContent.Account.Key};
-            Shared = new SharedViewModel(new Client(true));
-            _metaViewModel = new MetaViewModel(Shared, cancellationToken);
-
-            var randy = new ContactCard
-            {
-                Id = SessionContent.Account.Id,
-                Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/samples/randy.png"),
-                Name = "Randy",
-                Status = ".."
-            };
-            SessionContent.Contacts.Add(randy);
-            SessionContent.FriendRequests.Add(new FriendRequest
-            {
-                Id = SessionContent.Account.Id,
-                SenderId = SessionContent.Account.Id,
-                TargetId = SessionContent.Account.Id,
-                Status = FriendRequestStatus.Pending
-            });
-            Chats.Add(new ChatViewModel(Shared, randy));
         }
 
         public MainWindowViewModel() : this(new CancellationToken())
         {
             Console.WriteLine("[TEST] MainWindowViewModel was initialized.");
+        }
+
+        [UsedImplicitly]
+        public void OnEvent(OnObjectChangedEvent e)
+        {
+            if (e.ObjectName == nameof(SessionContent.Contacts))
+            {
+                var contactsIds = SessionContent.Contacts.Select(x => x.Id);
+                var chatsIds = Chats.Select(x => x.Contact.Id);
+                var notFriendsAnymore = Chats.Where(x => !contactsIds.Contains(x.Contact.Id));
+                var newFriends = SessionContent.Contacts.Where(x => !chatsIds.Contains(x.Id));
+                Chats.RemoveMany(notFriendsAnymore);
+                Chats.Add(newFriends.Select(x => new ChatViewModel(Shared, x)));
+            }
+            this.RaisePropertyChanged(nameof(e.ObjectName));
         }
 
         #region Private Methods
@@ -118,7 +114,7 @@ namespace PChat.GUI
             }
 
             SelectedContact = contact;
-            SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver.Equals(contact));
+            SelectedChat = Chats.FirstOrDefault(chat => chat.Contact.Equals(contact));
         }
 
         private void ReplaceNotification(ByteString senderId, TextMessage newTextMessage)
@@ -168,10 +164,6 @@ namespace PChat.GUI
             }
         }
 
-        // public ObservableCollection<FriendRequest> FriendRequests { get; set; }
-        //
-        // public ObservableCollection<ContactCard> ContactList { get; set; }
-
         public ContactCard? SelectedContact
         {
             get => _selectedContact;
@@ -179,19 +171,17 @@ namespace PChat.GUI
             {
                 if (value == null) return;
                 this.RaiseAndSetIfChanged(ref _selectedContact, value);
-                SelectedChat = Chats.FirstOrDefault(chat => chat.Receiver.Equals(value));
+                SelectedChat = Chats.FirstOrDefault(chat => chat.Contact.Equals(value));
 
                 Console.WriteLine($"Selected Contact: {value.Name}");
                 foreach (var notification in Notifications.ToArray())
                 {
                     if (notification.SenderId != SelectedContact?.Id) continue;
                     // remove notifications for this contact, since we are already looking at this chat
-                    Notifications.RemoveMany(SessionContent.Messages[SelectedChat?.Receiver.Id!]);
+                    Notifications.RemoveMany(SessionContent.Messages[SelectedChat?.Contact.Id!]);
                 }
             }
         }
-
-        // public ObservableCollection<Group> Groups { get; set; }
 
         public Group? SelectedGroup
         {

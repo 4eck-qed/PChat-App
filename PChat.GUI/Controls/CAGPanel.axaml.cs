@@ -76,6 +76,7 @@ public partial class CAGPanel : UserControl
         addContactBox.IsVisible = !addContactBox.IsVisible;
         var addContactButton = this.FindControl<Button>("AddContactButton");
         addContactButton.IsVisible = !addContactButton.IsVisible;
+        if (sender is Button btn && Equals(btn, addContactButton)) return;
         addContactButton.Content = "✔️";
 
         var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2), IsEnabled = true};
@@ -85,19 +86,8 @@ public partial class CAGPanel : UserControl
             timer.Stop();
         };
 
-        // Friends.Add(contact);
-        // Chats.Add(new ChatViewModel(Shared, contact));
         if (string.IsNullOrWhiteSpace(AddContactIdHexString)) return;
-        Contacts.Add(new ContactCard
-        {
-            Id = HexString.ToByteString(AddContactIdHexString),
-            Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png")
-        });
-        
         await new Client(true).AddContact(HexString.ToByteString(AddContactIdHexString)!);
-        // WhenAnyMixin
-        //     .WhenAnyValue(
-        //         x => AddContactIdHexString, HexString.IsValid).AsObservable());
     }
 
     #endregion

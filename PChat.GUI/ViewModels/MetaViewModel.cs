@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using PChat.Shared;
+using JetBrains.Annotations;
 using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
@@ -29,10 +29,11 @@ public class MetaViewModel : ViewModelBase
         // TODO (maybe) encode login history
         LoginHistoryService.AddToLoginHistory(DateTime.Now);
         LoginHistory = new ObservableCollection<DateTime>(LoginHistoryService.GetLoginHistory());
-        EventBus.Instance.Register(this);
+        EventBus.Instance.Subscribe(this);
         Console.WriteLine("[DEBUG] registered listener '{0}' to EventBus", this);
     }
 
+    [UsedImplicitly]
     public void OnEvent(OnObjectChangedEvent e)
     {
         Console.WriteLine("[DEBUG] OnObjectChangedEvent '{0}'", e.ObjectName);

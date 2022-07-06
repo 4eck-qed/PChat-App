@@ -26,7 +26,7 @@
                         <DataTemplate>
                             <Grid ColumnDefinitions="*,40,40">
                                 <TextBlock Grid.Column="0" Foreground="Gray" FontSize="10" Margin="10"
-                                           Text="{Binding Id, Converter={StaticResource HexStringConverter}}" />
+                                           Text="{Binding SenderId, Converter={StaticResource HexStringConverter}}" />
 
                                 <Button Grid.Column="1" HorizontalAlignment="Right" Content="✔️️️"
                                         Tapped="AcceptFriend_OnTapped" />
