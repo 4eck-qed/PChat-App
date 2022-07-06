@@ -105,31 +105,31 @@ namespace Pchat {
     public abstract partial class NotifyBase
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewFriend(global::Pchat.User request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewFriend(global::Pchat.User user, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> Unfriended(global::Pchat.User request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> Unfriended(global::Pchat.User user, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestReceived(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestReceived(global::Pchat.FriendRequest friendRequest, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestAnswered(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> FriendRequestAnswered(global::Pchat.FriendRequest friendRequest, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> MessageReceived(global::Pchat.TextMessage request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> MessageReceived(global::Pchat.TextMessage message, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }

@@ -101,6 +101,7 @@ public class Client
 
         SessionContent.Messages[message.ReceiverId].Add(message);
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Messages)));
+        
         var response = await client.SendMessageAsync(message);
         return response.Status == PeerResponse.Types.Status.Received;
     }
