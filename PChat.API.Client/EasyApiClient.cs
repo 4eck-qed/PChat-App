@@ -41,16 +41,16 @@ public class EasyApiClient
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         var filter = new MessageFilter();
-        var response = client.GetMessages(filter);
-        var asyncMessages = response.ResponseStream.ReadAllAsync();
-        var messages = new ObservableCollection<TextMessage>();
-        await foreach (var msg in asyncMessages)
-        {
-            messages.Add(msg);
-        }
-
+        var response = await client.GetMessagesAsync(filter);
+        var messages = response.Items.ToList();
+        
         var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
-        conversation!.Messages = new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
+        if (messages?.Any() == false)
+        {
+            return conversation ?? throw new InvalidDataException("No conversation for that contact!");
+        }
+        
+        conversation!.Messages = new ObservableCollection<TextMessage>(messages!.OrderBy(m => m.Time));
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
 
         return conversation;

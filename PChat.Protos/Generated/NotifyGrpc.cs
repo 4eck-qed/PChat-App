@@ -53,6 +53,8 @@ namespace Pchat {
     static readonly grpc::Marshaller<global::Pchat.FriendRequest> __Marshaller_pchat_FriendRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.FriendRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.TextMessage> __Marshaller_pchat_TextMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.TextMessage.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Pchat.ContactCard> __Marshaller_pchat_ContactCard = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.ContactCard.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Pchat.User, global::Pchat.ClientStatusResponse> __Method_NewFriend = new grpc::Method<global::Pchat.User, global::Pchat.ClientStatusResponse>(
@@ -116,6 +118,30 @@ namespace Pchat {
         __ServiceName,
         "ReceivedMessage",
         __Marshaller_pchat_TextMessage,
+        __Marshaller_pchat_ClientStatusResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse> __Method_ContactOnline = new grpc::Method<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ContactOnline",
+        __Marshaller_pchat_ContactCard,
+        __Marshaller_pchat_ClientStatusResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse> __Method_ContactOffline = new grpc::Method<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ContactOffline",
+        __Marshaller_pchat_ContactCard,
+        __Marshaller_pchat_ClientStatusResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse> __Method_ReceivedContactCard = new grpc::Method<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ReceivedContactCard",
+        __Marshaller_pchat_ContactCard,
         __Marshaller_pchat_ClientStatusResponse);
 
     /// <summary>Service descriptor</summary>
@@ -191,11 +217,11 @@ namespace Pchat {
       /// <summary>
       /// You received a new message.
       /// </summary>
-      /// <param name="message">The request received from the client.</param>
+      /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewMessage(global::Pchat.TextMessage message, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> NewMessage(global::Pchat.TextMessage request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -203,11 +229,11 @@ namespace Pchat {
       /// <summary>
       /// Your message was seen.
       /// </summary>
-      /// <param name="message">The request received from the client.</param>
+      /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> SeenMessage(global::Pchat.TextMessage message, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> SeenMessage(global::Pchat.TextMessage request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -220,6 +246,42 @@ namespace Pchat {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ReceivedMessage(global::Pchat.TextMessage request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// A Contact of yours is now online.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ContactOnline(global::Pchat.ContactCard request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// A Contact of yours is now offline.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ContactOffline(global::Pchat.ContactCard request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// A Contact of yours send you their contact card.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ReceivedContactCard(global::Pchat.ContactCard request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -637,6 +699,150 @@ namespace Pchat {
       {
         return CallInvoker.AsyncUnaryCall(__Method_ReceivedMessage, null, options, request);
       }
+      /// <summary>
+      /// A Contact of yours is now online.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ContactOnline(global::Pchat.ContactCard request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ContactOnline(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// A Contact of yours is now online.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ContactOnline(global::Pchat.ContactCard request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ContactOnline, null, options, request);
+      }
+      /// <summary>
+      /// A Contact of yours is now online.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ContactOnlineAsync(global::Pchat.ContactCard request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ContactOnlineAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// A Contact of yours is now online.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ContactOnlineAsync(global::Pchat.ContactCard request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ContactOnline, null, options, request);
+      }
+      /// <summary>
+      /// A Contact of yours is now offline.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ContactOffline(global::Pchat.ContactCard request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ContactOffline(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// A Contact of yours is now offline.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ContactOffline(global::Pchat.ContactCard request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ContactOffline, null, options, request);
+      }
+      /// <summary>
+      /// A Contact of yours is now offline.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ContactOfflineAsync(global::Pchat.ContactCard request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ContactOfflineAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// A Contact of yours is now offline.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ContactOfflineAsync(global::Pchat.ContactCard request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ContactOffline, null, options, request);
+      }
+      /// <summary>
+      /// A Contact of yours send you their contact card.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ReceivedContactCard(global::Pchat.ContactCard request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReceivedContactCard(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// A Contact of yours send you their contact card.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse ReceivedContactCard(global::Pchat.ContactCard request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ReceivedContactCard, null, options, request);
+      }
+      /// <summary>
+      /// A Contact of yours send you their contact card.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ReceivedContactCardAsync(global::Pchat.ContactCard request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReceivedContactCardAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// A Contact of yours send you their contact card.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> ReceivedContactCardAsync(global::Pchat.ContactCard request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ReceivedContactCard, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override NotifyClient NewInstance(ClientBaseConfiguration configuration)
@@ -658,7 +864,10 @@ namespace Pchat {
           .AddMethod(__Method_ReceivedFriendRequest, serviceImpl.ReceivedFriendRequest)
           .AddMethod(__Method_NewMessage, serviceImpl.NewMessage)
           .AddMethod(__Method_SeenMessage, serviceImpl.SeenMessage)
-          .AddMethod(__Method_ReceivedMessage, serviceImpl.ReceivedMessage).Build();
+          .AddMethod(__Method_ReceivedMessage, serviceImpl.ReceivedMessage)
+          .AddMethod(__Method_ContactOnline, serviceImpl.ContactOnline)
+          .AddMethod(__Method_ContactOffline, serviceImpl.ContactOffline)
+          .AddMethod(__Method_ReceivedContactCard, serviceImpl.ReceivedContactCard).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -676,6 +885,9 @@ namespace Pchat {
       serviceBinder.AddMethod(__Method_NewMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.NewMessage));
       serviceBinder.AddMethod(__Method_SeenMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.SeenMessage));
       serviceBinder.AddMethod(__Method_ReceivedMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.ReceivedMessage));
+      serviceBinder.AddMethod(__Method_ContactOnline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse>(serviceImpl.ContactOnline));
+      serviceBinder.AddMethod(__Method_ContactOffline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse>(serviceImpl.ContactOffline));
+      serviceBinder.AddMethod(__Method_ReceivedContactCard, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse>(serviceImpl.ReceivedContactCard));
     }
 
   }
