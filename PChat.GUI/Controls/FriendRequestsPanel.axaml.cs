@@ -26,13 +26,13 @@ public partial class FriendRequestsPanel : UserControl
     private void AcceptFriend_OnTapped(object? sender, RoutedEventArgs e)
     {
         if (sender is not Button {DataContext: FriendRequest friendRequest}) return;
-        Task.Run(async () => await new Client(true).AcceptFriendRequest(friendRequest));
+        Task.Run(async () => await new EasyApiClient(true).AcceptFriendRequest(friendRequest));
     }
 
     private void RejectFriend_OnTapped(object? sender, RoutedEventArgs e)
     {
         if (sender is not Button {DataContext: FriendRequest friendRequest}) return;
-        Task.Run(async () => await new Client(true).RejectFriendRequest(friendRequest));
+        Task.Run(async () => await new EasyApiClient(true).RejectFriendRequest(friendRequest));
     }
 
     public ICollection<FriendRequest> FriendRequests

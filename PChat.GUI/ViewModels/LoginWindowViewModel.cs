@@ -34,7 +34,7 @@ public class LoginWindowViewModel : ViewModelBase
 
             var id = HexString.ToByteString(IdHexString);
             var key = HexString.ToByteString(KeyHexString);
-            var apiClient = new Client(true);
+            var apiClient = new EasyApiClient(true);
             var loggedIn = false;
             Task.Run(async () => loggedIn = await apiClient.Login(new Credentials {Id = id, Key = key}))
                 .ContinueWith(o =>
@@ -54,7 +54,7 @@ public class LoginWindowViewModel : ViewModelBase
         CreateNewAccountCommand = ReactiveCommand.Create(() =>
         {
             ErrorText = new ErrorText("Generating new login..", Colors.LawnGreen);
-            Task.Run(async () => await new Client(true).CreateAccount())
+            Task.Run(async () => await new EasyApiClient(true).CreateAccount())
                 .ContinueWith(o =>
                 {
                     if (!o.IsCompletedSuccessfully)

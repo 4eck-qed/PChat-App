@@ -9,7 +9,7 @@ using PChat.Shared;
 
 namespace PChat.API.Client;
 
-public class Client
+public class EasyApiClient
 {
     private bool _isUnsecure;
 
@@ -17,7 +17,7 @@ public class Client
     /// Returns an Instance with no credentials.
     /// </summary>
     /// <param name="isUnsecure"></param>
-    public Client(bool isUnsecure)
+    public EasyApiClient(bool isUnsecure)
     {
         IsUnsecure = isUnsecure;
     }
@@ -85,11 +85,11 @@ public class Client
     /// <returns></returns>
     public async Task<bool> Ping(ContactCard contact)
     {
-        Console.WriteLine($"Trying to ping {contact.Name}..");
+        Console.WriteLine($"[DEBUG] Trying to ping {contact.Name}..");
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         var response = await client.PingAsync(new User {Id = contact.Id});
-        Console.WriteLine(response.Status == PeerResponse.Types.Status.Received ? "Success!" : "Failed.");
+        Console.WriteLine(response.Status == PeerResponse.Types.Status.Received ? "\t..Success!" : "\t..Failed.");
 
         return response.Status == PeerResponse.Types.Status.Received;
     }

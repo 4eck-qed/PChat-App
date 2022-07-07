@@ -37,9 +37,13 @@ public class ChatViewModel : ViewModelBase
         Shared = shared;
         Contact = contact;
         InitializeCommands();
-
+        
         EventBus.Instance.Subscribe(this);
-        Task.Run(async () => Conversation = await Shared.Client.LoadConversation(contact));
+        Task.Run(async () =>
+        {
+            await UpdateOnlineStatus();
+            return Conversation = await Shared.EasyApiClient.LoadConversation(contact);
+        });
     }
 
     public void OnEvent(OnObjectChangedEvent e)
@@ -71,8 +75,14 @@ public class ChatViewModel : ViewModelBase
 
                     Task.Run(async () =>
                     {
-                        await UpdateOnlineStatus();
-                        await Send(message);
+                        await Shared.EasyApiClient.SendMessage(message).ContinueWith(sendTask =>
+                        {
+                            if (!sendTask.IsCompletedSuccessfully)
+                            {
+                                // Shared.MessageQueueToBeRemoved.Enqueue(outgoingMessage);
+                                Shared.MessageQueue.Enqueue(message);
+                            }
+                        });
                     });
                     break;
 
@@ -116,22 +126,10 @@ public class ChatViewModel : ViewModelBase
 
         SelectMessageCommand = ReactiveCommand.Create<MainWindowViewModel, Unit>(o => Unit.Default);
     }
-
-    private async Task Send(TextMessage message)
-    {
-        await Shared.Client.SendMessage(message).ContinueWith(sendTask =>
-        {
-            if (!sendTask.IsCompletedSuccessfully)
-            {
-                // Shared.MessageQueueToBeRemoved.Enqueue(outgoingMessage);
-                Shared.MessageQueue.Enqueue(message);
-            }
-        });
-    }
-
+    
     private async Task UpdateOnlineStatus()
     {
-        if (await Shared.Client.Ping(Contact))
+        if (await Shared.EasyApiClient.Ping(Contact))
         {
             IsOnlineIndicator = Brushes.LawnGreen;
             return;
@@ -145,12 +143,6 @@ public class ChatViewModel : ViewModelBase
     #region Properties
 
     public ContactCard Contact { get; }
-
-    // public ObservableCollection<Message> Messages
-    // {
-    //     get => _messages;
-    //     set => this.RaiseAndSetIfChanged(ref _messages, value);
-    // }
 
     public TextMessage SelectedMessage
     {

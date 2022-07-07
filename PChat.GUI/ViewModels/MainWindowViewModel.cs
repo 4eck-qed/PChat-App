@@ -51,7 +51,7 @@ namespace PChat.GUI
             this.WhenAnyValue(x => x.Notifications)
                 .Subscribe(notifications => Console.WriteLine("Notifications updated."));
 
-            Shared = new SharedViewModel(new Client(true));
+            Shared = new SharedViewModel(new EasyApiClient(true));
             _metaViewModel = new MetaViewModel(Shared, cancellationToken);
 
             EventBus.Instance.Subscribe(this);

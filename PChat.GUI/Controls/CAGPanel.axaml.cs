@@ -87,7 +87,7 @@ public partial class CAGPanel : UserControl
         };
 
         if (string.IsNullOrWhiteSpace(AddContactIdHexString)) return;
-        await new Client(true).AddContact(HexString.ToByteString(AddContactIdHexString)!);
+        await new EasyApiClient(true).AddContact(HexString.ToByteString(AddContactIdHexString)!);
     }
 
     #endregion
