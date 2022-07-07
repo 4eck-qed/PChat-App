@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using Grpc.Core;
 using Pchat;
 using PChat.Shared;
@@ -64,24 +65,27 @@ public class NotifyService : Pchat.Notify.NotifyBase
     {
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(AnsweredFriendRequest)} called");
+        var contact = SessionContent.Contacts.FirstOrDefault(x => x.Id == friendRequest.TargetId);
+        if (contact == null)
+        {
+            _logger.LogError(
+                "[Notify] A Friend Request was answered but there has not been a placeholder added in the contact list!");
+            throw new ArgumentNullException($"{nameof(contact)}");
+        }
 
         switch (friendRequest.Status)
         {
             case FriendRequestStatus.Accepted:
-                SessionContent.Contacts.Add(new ContactCard
-                {
-                    Id = friendRequest.TargetId,
-                    Name = "placeholder",
-                    Status = "placeholder"
-                });
+                contact.Avatar = ByteString.Empty;
+                SessionContent.Conversations.Add(new Conversation(contact));
                 break;
             case FriendRequestStatus.Rejected:
-                SessionContent.Contacts.Remove(
-                    SessionContent.Contacts.FirstOrDefault(x => x.Id == friendRequest.TargetId)!);
+                SessionContent.Contacts.Remove(contact);
                 break;
         }
 
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
         return Task.FromResult(new ClientStatusResponse());
     }
 
@@ -109,7 +113,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
     {
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(SeenMessage)} called");
-        
+
         var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
         conversation!.Messages.FirstOrDefault(x => x.Id == message.Id)!.Status = TextMessage.Types.Status.Seen;
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
@@ -121,11 +125,11 @@ public class NotifyService : Pchat.Notify.NotifyBase
     {
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(ReceivedMessage)} called");
-        
+
         var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
         conversation!.Messages.FirstOrDefault(x => x.Id == message.Id)!.Status = TextMessage.Types.Status.Received;
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
-        
+
         return Task.FromResult(new ClientStatusResponse());
     }
 }

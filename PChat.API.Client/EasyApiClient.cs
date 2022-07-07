@@ -122,7 +122,9 @@ public class EasyApiClient
         SessionContent.Contacts.Add(new ContactCard
         {
             Id = id,
-            Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png")
+            Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png"),
+            Name = "Pending",
+            Status = "Pending,"
         });
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
 
