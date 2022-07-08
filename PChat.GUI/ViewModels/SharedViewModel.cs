@@ -23,15 +23,15 @@ public class SharedViewModel : ViewModelBase
 
     #endregion
 
-    public SharedViewModel(EasyApiClient easyApiClient)
+    public SharedViewModel(EasyApiClient client)
     {
-        EasyApiClient = easyApiClient;
+        Client = client;
         LoginHistory = new ObservableCollection<DateTime>(LoginHistoryService.GetLoginHistory());
         MessageQueue = new ConcurrentQueue<TextMessage>(); // TODO load from file
         EventBus.Instance.Subscribe(this);
     }
 
-    public readonly EasyApiClient EasyApiClient;
+    public readonly EasyApiClient Client;
 
     [UsedImplicitly]
     public void OnEvent(OnObjectChangedEvent e)

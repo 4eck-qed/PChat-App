@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DynamicData;
 using Google.Protobuf;
@@ -46,27 +47,21 @@ namespace PChat.GUI
         public MainWindowViewModel(CancellationToken cancellationToken)
         {
             Console.WriteLine("Initializing main window view model..");
+            InitProperties();
+
+            var client = new EasyApiClient(true);
+            Shared = new SharedViewModel(client);
+            _metaViewModel = new MetaViewModel(Shared, cancellationToken);
             _cancellationToken = cancellationToken;
-            Notifications = new ObservableCollection<TextMessage>();
-            Chats = new ObservableCollection<ChatViewModel>();
-            SessionProperties = new Dictionary<string, string>
-            {
-                {nameof(Account), nameof(Session.Account)},
-                {nameof(Contacts), nameof(Session.Contacts)},
-                {nameof(Conversations), nameof(Session.Conversations)},
-                {nameof(Groups), nameof(Session.Groups)},
-                {nameof(FriendRequests), nameof(Session.FriendRequests)}
-            };
-            Contacts = Contacts = new ObservableCollection<ContactViewModel>(
-                Session.Contacts.Select(x => new ContactViewModel(x)));
+
+            Task.Run(async () => await client.LoadContacts())
+                .ContinueWith(_ => Contacts =
+                    new ObservableCollection<ContactViewModel>(Session.Contacts.Select(x => new ContactViewModel(x))));
 
             InitCommands();
 
             this.WhenAnyValue(x => x.Notifications)
-                .Subscribe(notifications => Console.WriteLine("Notifications updated."));
-
-            Shared = new SharedViewModel(new EasyApiClient(true));
-            _metaViewModel = new MetaViewModel(Shared, cancellationToken);
+                .Subscribe(notifications => Console.WriteLine("Notifications updated ({0}).", notifications.Count));
 
             EventBus.Instance.Subscribe(this);
         }
@@ -94,6 +89,20 @@ namespace PChat.GUI
                 // Friends.Add(SelectedFriendRequest);
                 // FriendRequests.Remove(SelectedFriendRequest);
             });
+        }
+
+        private void InitProperties()
+        {
+            Notifications = new ObservableCollection<TextMessage>();
+            Chats = new ObservableCollection<ChatViewModel>();
+            SessionProperties = new Dictionary<string, string>
+            {
+                {nameof(Account), nameof(Session.Account)},
+                {nameof(Contacts), nameof(Session.Contacts)},
+                {nameof(Conversations), nameof(Session.Conversations)},
+                {nameof(Groups), nameof(Session.Groups)},
+                {nameof(FriendRequests), nameof(Session.FriendRequests)}
+            };
         }
 
         public MainWindowViewModel() : this(new CancellationToken())

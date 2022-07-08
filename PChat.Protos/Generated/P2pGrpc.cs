@@ -56,6 +56,8 @@ namespace Pchat {
     static readonly grpc::Marshaller<global::Pchat.TextMessage> __Marshaller_pchat_TextMessage = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.TextMessage.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.FriendRequest> __Marshaller_pchat_FriendRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.FriendRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Pchat.User> __Marshaller_pchat_User = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.User.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Pchat.ContactCard, global::Pchat.PeerResponse> __Method_ReceiveContactCard = new grpc::Method<global::Pchat.ContactCard, global::Pchat.PeerResponse>(
@@ -111,6 +113,14 @@ namespace Pchat {
         __ServiceName,
         "ReportOffline",
         __Marshaller_pchat_ContactCard,
+        __Marshaller_pchat_PeerResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.User, global::Pchat.PeerResponse> __Method_ReportUnfriended = new grpc::Method<global::Pchat.User, global::Pchat.PeerResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "ReportUnfriended",
+        __Marshaller_pchat_User,
         __Marshaller_pchat_PeerResponse);
 
     /// <summary>Service descriptor</summary>
@@ -184,7 +194,7 @@ namespace Pchat {
       }
 
       /// <summary>
-      /// Tell peer you are online
+      /// Tell peer you are online.
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -196,13 +206,26 @@ namespace Pchat {
       }
 
       /// <summary>
-      /// Tell peer you are offline
+      /// Tell peer you are offline.
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> ReportOffline(global::Pchat.ContactCard request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Tell peer you have unfriended them. \
+      /// request = you
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> ReportUnfriended(global::Pchat.User request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -477,7 +500,7 @@ namespace Pchat {
         return CallInvoker.AsyncUnaryCall(__Method_ReceiveFriendRequestUpdate, null, options, request);
       }
       /// <summary>
-      /// Tell peer you are online
+      /// Tell peer you are online.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -490,7 +513,7 @@ namespace Pchat {
         return ReportOnline(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Tell peer you are online
+      /// Tell peer you are online.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -501,7 +524,7 @@ namespace Pchat {
         return CallInvoker.BlockingUnaryCall(__Method_ReportOnline, null, options, request);
       }
       /// <summary>
-      /// Tell peer you are online
+      /// Tell peer you are online.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -514,7 +537,7 @@ namespace Pchat {
         return ReportOnlineAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Tell peer you are online
+      /// Tell peer you are online.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -525,7 +548,7 @@ namespace Pchat {
         return CallInvoker.AsyncUnaryCall(__Method_ReportOnline, null, options, request);
       }
       /// <summary>
-      /// Tell peer you are offline
+      /// Tell peer you are offline.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -538,7 +561,7 @@ namespace Pchat {
         return ReportOffline(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Tell peer you are offline
+      /// Tell peer you are offline.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -549,7 +572,7 @@ namespace Pchat {
         return CallInvoker.BlockingUnaryCall(__Method_ReportOffline, null, options, request);
       }
       /// <summary>
-      /// Tell peer you are offline
+      /// Tell peer you are offline.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -562,7 +585,7 @@ namespace Pchat {
         return ReportOfflineAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Tell peer you are offline
+      /// Tell peer you are offline.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -571,6 +594,58 @@ namespace Pchat {
       public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> ReportOfflineAsync(global::Pchat.ContactCard request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_ReportOffline, null, options, request);
+      }
+      /// <summary>
+      /// Tell peer you have unfriended them. \
+      /// request = you
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.PeerResponse ReportUnfriended(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReportUnfriended(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Tell peer you have unfriended them. \
+      /// request = you
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.PeerResponse ReportUnfriended(global::Pchat.User request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_ReportUnfriended, null, options, request);
+      }
+      /// <summary>
+      /// Tell peer you have unfriended them. \
+      /// request = you
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> ReportUnfriendedAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return ReportUnfriendedAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Tell peer you have unfriended them. \
+      /// request = you
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> ReportUnfriendedAsync(global::Pchat.User request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_ReportUnfriended, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -592,7 +667,8 @@ namespace Pchat {
           .AddMethod(__Method_ReceiveFriendRequest, serviceImpl.ReceiveFriendRequest)
           .AddMethod(__Method_ReceiveFriendRequestUpdate, serviceImpl.ReceiveFriendRequestUpdate)
           .AddMethod(__Method_ReportOnline, serviceImpl.ReportOnline)
-          .AddMethod(__Method_ReportOffline, serviceImpl.ReportOffline).Build();
+          .AddMethod(__Method_ReportOffline, serviceImpl.ReportOffline)
+          .AddMethod(__Method_ReportUnfriended, serviceImpl.ReportUnfriended).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -609,6 +685,7 @@ namespace Pchat {
       serviceBinder.AddMethod(__Method_ReceiveFriendRequestUpdate, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.PeerResponse>(serviceImpl.ReceiveFriendRequestUpdate));
       serviceBinder.AddMethod(__Method_ReportOnline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.ContactCard, global::Pchat.PeerResponse>(serviceImpl.ReportOnline));
       serviceBinder.AddMethod(__Method_ReportOffline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.ContactCard, global::Pchat.PeerResponse>(serviceImpl.ReportOffline));
+      serviceBinder.AddMethod(__Method_ReportUnfriended, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.ReportUnfriended));
     }
 
   }

@@ -92,7 +92,9 @@ public partial class CAGPanel : UserControl
         };
 
         if (string.IsNullOrWhiteSpace(AddContactIdHexString)) return;
-        await new EasyApiClient(true).AddContact(HexString.ToByteString(AddContactIdHexString)!);
+        var id = HexString.ToByteString(AddContactIdHexString);
+        AddContactIdHexString = string.Empty;
+        await new EasyApiClient(true).AddContact(id!);
     }
 
     #endregion
@@ -100,6 +102,8 @@ public partial class CAGPanel : UserControl
     private async void RemoveContact_OnClick(object? sender, RoutedEventArgs e)
     {
         Console.WriteLine($"[DEBUG] {nameof(RemoveContact_OnClick)} called");
-        await new EasyApiClient(true).RemoveContact(SelectedContact.Card.Id);
+        var id = SelectedContact.Card.Id;
+        SelectedContact = null;
+        await new EasyApiClient(true).RemoveContact(id);
     }
 }

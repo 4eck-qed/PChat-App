@@ -76,7 +76,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
         switch (friendRequest.Status)
         {
             case FriendRequestStatus.Accepted:
-                contact.Name = "Anon";
+                contact.Name = "?";
                 contact.Avatar = ByteString.Empty;
                 contact.Status = "?";
                 Session.Conversations.Add(new Conversation(contact));

@@ -4,6 +4,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using System;
 using System.Globalization;
+using System.IO;
 using Avalonia.Data.Converters;
 using Google.Protobuf;
 using PChat.Extensions;
@@ -24,6 +25,15 @@ namespace PChat.GUI.Converters
             switch (scheme)
             {
                 case "file":
+                    try
+                    {
+                        File.Open(s, FileMode.Open);
+                    }
+                    catch (Exception e)
+                    {
+                        return ToBitmap(DefaultAvatar);
+                    }
+
                     return new Bitmap(s);
 
                 default:
@@ -37,7 +47,9 @@ namespace PChat.GUI.Converters
             switch (value)
             {
                 case ByteString byteString:
-                    return ToBitmap(byteString.ToStringUtf8()); //TODO handle if image is in byte format instead of avares link
+                    return
+                        ToBitmap(byteString
+                            .ToStringUtf8()); //TODO handle if image is in byte format instead of avares link
                 case string s:
                     return ToBitmap(s);
                 default:

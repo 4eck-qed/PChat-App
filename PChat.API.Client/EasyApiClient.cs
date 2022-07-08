@@ -28,6 +28,15 @@ public class EasyApiClient
 
     #endregion
 
+    public async Task LoadContacts()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var response = await client.GetContactsAsync(new Empty());
+        Session.Contacts = new ObservableCollection<ContactCard>(response.Items);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+    }
+
     /// <summary>
     /// Loads the conversation with given contact. <br/>
     /// Automatically adds the conversation to the session.
@@ -116,8 +125,20 @@ public class EasyApiClient
 
     public async Task AddContact(ByteString id)
     {
+        if (id == Session.Account.Id)
+        {
+            Console.WriteLine("[ERROR] You cannot add yourself");
+            return;
+        }
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
+        var contact = Session.Contacts.FirstOrDefault(x => x.Id == id);
+        if (contact != null)
+        {
+            Console.WriteLine("[ERROR] You cannot add a contact that you already have!");
+            return;
+        }
+
         Session.Contacts.Add(new ContactCard
         {
             Id = id,
@@ -127,7 +148,7 @@ public class EasyApiClient
         });
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
 
-        var response = await client.AddFriendAsync(new User {Id = id});
+        var response = await client.AddContactAsync(new User {Id = id});
     }
 
     public async Task RemoveContact(ByteString id)
@@ -145,7 +166,7 @@ public class EasyApiClient
         Session.Contacts.Remove(contact);
 
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
-        await client.RemoveFriendAsync(new User {Id = id});
+        await client.RemoveContactAsync(new User {Id = id});
     }
 
     public async Task AcceptFriendRequest(FriendRequest friendRequest)

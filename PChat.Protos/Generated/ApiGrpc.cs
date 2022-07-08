@@ -52,8 +52,6 @@ namespace Pchat {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.Empty> __Marshaller_pchat_Empty = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.Empty.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Pchat.User> __Marshaller_pchat_User = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.User.Parser));
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.FriendRequests> __Marshaller_pchat_FriendRequests = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.FriendRequests.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.ContactCards> __Marshaller_pchat_ContactCards = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.ContactCards.Parser));
@@ -61,6 +59,8 @@ namespace Pchat {
     static readonly grpc::Marshaller<global::Pchat.MessageFilter> __Marshaller_pchat_MessageFilter = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.MessageFilter.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.TextMessages> __Marshaller_pchat_TextMessages = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.TextMessages.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Pchat.User> __Marshaller_pchat_User = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.User.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.PeerResponse> __Marshaller_pchat_PeerResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.PeerResponse.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -84,14 +84,6 @@ namespace Pchat {
         __ServiceName,
         "Logout",
         __Marshaller_pchat_Empty,
-        __Marshaller_pchat_Empty);
-
-    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Pchat.User, global::Pchat.Empty> __Method_RemoveFriend = new grpc::Method<global::Pchat.User, global::Pchat.Empty>(
-        grpc::MethodType.Unary,
-        __ServiceName,
-        "RemoveFriend",
-        __Marshaller_pchat_User,
         __Marshaller_pchat_Empty);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
@@ -127,12 +119,20 @@ namespace Pchat {
         __Marshaller_pchat_PeerResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Pchat.User, global::Pchat.PeerResponse> __Method_AddFriend = new grpc::Method<global::Pchat.User, global::Pchat.PeerResponse>(
+    static readonly grpc::Method<global::Pchat.User, global::Pchat.PeerResponse> __Method_AddContact = new grpc::Method<global::Pchat.User, global::Pchat.PeerResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "AddFriend",
+        "AddContact",
         __Marshaller_pchat_User,
         __Marshaller_pchat_PeerResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.User, global::Pchat.Empty> __Method_RemoveContact = new grpc::Method<global::Pchat.User, global::Pchat.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "RemoveContact",
+        __Marshaller_pchat_User,
+        __Marshaller_pchat_Empty);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Pchat.FriendRequest, global::Pchat.PeerResponse> __Method_AcceptFriendRequest = new grpc::Method<global::Pchat.FriendRequest, global::Pchat.PeerResponse>(
@@ -194,12 +194,6 @@ namespace Pchat {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.Empty> RemoveFriend(global::Pchat.User request, grpc::ServerCallContext context)
-      {
-        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
-      }
-
       /// <summary>
       /// Local Storage 
       /// </summary>
@@ -237,7 +231,13 @@ namespace Pchat {
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> AddFriend(global::Pchat.User request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> AddContact(global::Pchat.User request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.Empty> RemoveContact(global::Pchat.User request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -368,26 +368,6 @@ namespace Pchat {
       public virtual grpc::AsyncUnaryCall<global::Pchat.Empty> LogoutAsync(global::Pchat.Empty request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Logout, null, options, request);
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.Empty RemoveFriend(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return RemoveFriend(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.Empty RemoveFriend(global::Pchat.User request, grpc::CallOptions options)
-      {
-        return CallInvoker.BlockingUnaryCall(__Method_RemoveFriend, null, options, request);
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.Empty> RemoveFriendAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return RemoveFriendAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.Empty> RemoveFriendAsync(global::Pchat.User request, grpc::CallOptions options)
-      {
-        return CallInvoker.AsyncUnaryCall(__Method_RemoveFriend, null, options, request);
       }
       /// <summary>
       /// Local Storage 
@@ -526,24 +506,44 @@ namespace Pchat {
         return CallInvoker.AsyncUnaryCall(__Method_Ping, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.PeerResponse AddFriend(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Pchat.PeerResponse AddContact(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return AddFriend(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return AddContact(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Pchat.PeerResponse AddFriend(global::Pchat.User request, grpc::CallOptions options)
+      public virtual global::Pchat.PeerResponse AddContact(global::Pchat.User request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_AddFriend, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_AddContact, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> AddFriendAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> AddContactAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return AddFriendAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return AddContactAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> AddFriendAsync(global::Pchat.User request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> AddContactAsync(global::Pchat.User request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_AddFriend, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_AddContact, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.Empty RemoveContact(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RemoveContact(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.Empty RemoveContact(global::Pchat.User request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_RemoveContact, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.Empty> RemoveContactAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RemoveContactAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.Empty> RemoveContactAsync(global::Pchat.User request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_RemoveContact, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::Pchat.PeerResponse AcceptFriendRequest(global::Pchat.FriendRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
@@ -669,12 +669,12 @@ namespace Pchat {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_Login, serviceImpl.Login)
           .AddMethod(__Method_Logout, serviceImpl.Logout)
-          .AddMethod(__Method_RemoveFriend, serviceImpl.RemoveFriend)
           .AddMethod(__Method_GetFriendRequests, serviceImpl.GetFriendRequests)
           .AddMethod(__Method_GetContacts, serviceImpl.GetContacts)
           .AddMethod(__Method_GetMessages, serviceImpl.GetMessages)
           .AddMethod(__Method_Ping, serviceImpl.Ping)
-          .AddMethod(__Method_AddFriend, serviceImpl.AddFriend)
+          .AddMethod(__Method_AddContact, serviceImpl.AddContact)
+          .AddMethod(__Method_RemoveContact, serviceImpl.RemoveContact)
           .AddMethod(__Method_AcceptFriendRequest, serviceImpl.AcceptFriendRequest)
           .AddMethod(__Method_RejectFriendRequest, serviceImpl.RejectFriendRequest)
           .AddMethod(__Method_SendMessage, serviceImpl.SendMessage)
@@ -690,12 +690,12 @@ namespace Pchat {
     {
       serviceBinder.AddMethod(__Method_Login, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Credentials, global::Pchat.Account>(serviceImpl.Login));
       serviceBinder.AddMethod(__Method_Logout, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.Empty>(serviceImpl.Logout));
-      serviceBinder.AddMethod(__Method_RemoveFriend, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.Empty>(serviceImpl.RemoveFriend));
       serviceBinder.AddMethod(__Method_GetFriendRequests, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.FriendRequests>(serviceImpl.GetFriendRequests));
       serviceBinder.AddMethod(__Method_GetContacts, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.ContactCards>(serviceImpl.GetContacts));
       serviceBinder.AddMethod(__Method_GetMessages, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.MessageFilter, global::Pchat.TextMessages>(serviceImpl.GetMessages));
       serviceBinder.AddMethod(__Method_Ping, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.Ping));
-      serviceBinder.AddMethod(__Method_AddFriend, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.AddFriend));
+      serviceBinder.AddMethod(__Method_AddContact, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.AddContact));
+      serviceBinder.AddMethod(__Method_RemoveContact, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.Empty>(serviceImpl.RemoveContact));
       serviceBinder.AddMethod(__Method_AcceptFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.PeerResponse>(serviceImpl.AcceptFriendRequest));
       serviceBinder.AddMethod(__Method_RejectFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.PeerResponse>(serviceImpl.RejectFriendRequest));
       serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.PeerResponse>(serviceImpl.SendMessage));

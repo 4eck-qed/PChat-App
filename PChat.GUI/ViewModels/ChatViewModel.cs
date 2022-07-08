@@ -41,7 +41,7 @@ public class ChatViewModel : ViewModelBase
         Task.Run(async () =>
         {
             await UpdateOnlineStatus();
-            return Conversation = await Shared.EasyApiClient.LoadConversation(contact);
+            return Conversation = await Shared.Client.LoadConversation(contact);
         });
     }
 
@@ -77,7 +77,7 @@ public class ChatViewModel : ViewModelBase
 
                     Task.Run(async () =>
                     {
-                        await Shared.EasyApiClient.SendMessage(message).ContinueWith(sendTask =>
+                        await Shared.Client.SendMessage(message).ContinueWith(sendTask =>
                         {
                             if (!sendTask.IsCompletedSuccessfully)
                             {
@@ -131,7 +131,7 @@ public class ChatViewModel : ViewModelBase
 
     private async Task UpdateOnlineStatus()
     {
-        if (await Shared.EasyApiClient.Ping(Contact))
+        if (await Shared.Client.Ping(Contact))
         {
             IsOnlineIndicator = Brushes.LawnGreen;
             return;
