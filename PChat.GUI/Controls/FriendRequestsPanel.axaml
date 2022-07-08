@@ -10,7 +10,6 @@
     <UserControl.Resources>
         <converters:HexStringConverter x:Key="HexStringConverter" />
         <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
-        <converters:FriendRequestsForMeConverter x:Key="FriendRequestsForMeConverter" />
     </UserControl.Resources>
 
     <local:DynamicExpander Header="Friend Requests" Background="{Binding ExpanderColor, ElementName=Self}"
