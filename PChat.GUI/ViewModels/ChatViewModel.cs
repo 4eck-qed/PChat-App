@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
+using JetBrains.Annotations;
 using Pchat;
 using PChat.GUI.Core;
 using PChat.Extensions;
@@ -37,7 +36,7 @@ public class ChatViewModel : ViewModelBase
         Shared = shared;
         Contact = contact;
         InitializeCommands();
-        
+
         EventBus.Instance.Subscribe(this);
         Task.Run(async () =>
         {
@@ -46,12 +45,15 @@ public class ChatViewModel : ViewModelBase
         });
     }
 
+    [UsedImplicitly]
     public void OnEvent(OnObjectChangedEvent e)
     {
-        if (e.ObjectName != nameof(SessionContent.Conversations)) return;
-        
-        Conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == Contact.Id)!;
-        this.RaisePropertyChanged(nameof(Conversation));
+        if (e.ObjectName == nameof(Session.Conversations))
+        {
+            Conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == Contact.Id)!;
+        }
+
+        this.RaisePropertyChanged(e.ObjectName);
     }
 
     #region Private Methods
@@ -67,7 +69,7 @@ public class ChatViewModel : ViewModelBase
                     var message = new TextMessage
                     {
                         Id = ByteStringExtensions.RandomByteString(16),
-                        SenderId = SessionContent.Account.Id,
+                        SenderId = Session.Account.Id,
                         ReceiverId = Contact.Id,
                         Content = text,
                         Time = DateTime.Now.ToString(CultureInfo.InvariantCulture)
@@ -126,7 +128,7 @@ public class ChatViewModel : ViewModelBase
 
         SelectMessageCommand = ReactiveCommand.Create<MainWindowViewModel, Unit>(o => Unit.Default);
     }
-    
+
     private async Task UpdateOnlineStatus()
     {
         if (await Shared.EasyApiClient.Ping(Contact))
@@ -155,8 +157,6 @@ public class ChatViewModel : ViewModelBase
         get => _conversation;
         set => this.RaiseAndSetIfChanged(ref _conversation, value);
     }
-
-    public SessionContent Session => SessionContent.Singleton;
 
     public ISolidColorBrush IsOnlineIndicator
     {

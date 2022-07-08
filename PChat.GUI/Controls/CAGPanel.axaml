@@ -2,10 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:PChat.GUI.Controls"
+             xmlns:converters="clr-namespace:PChat.GUI.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PChat.GUI.Controls.CAGPanel"
              x:Name="Self">
+    <UserControl.Resources>
+        <converters:AvatarConverter x:Key="AvatarConverter" />
+        <converters:HexStringConverter x:Key="HexStringConverter" />
+    </UserControl.Resources>
 
     <Grid RowDefinitions="50,*,50,*">
         <!--region Contacts-->
@@ -27,9 +31,45 @@
             </Border>
         </Grid>
 
-        <controls:FriendList Grid.Row="1"
-                             Contacts="{Binding Contacts, ElementName=Self, Mode=TwoWay}"
-                             SelectedContact="{Binding SelectedContact, ElementName=Self, Mode=TwoWay}" />
+        <ListBox Grid.Row="1" Background="Transparent"
+                 Items="{Binding Contacts, ElementName=Self, Mode=TwoWay}"
+                 SelectedItem="{Binding SelectedContact, ElementName=Self, Mode=TwoWay}">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <ContextMenu.Items>
+                        <MenuItem Header="Remove" Command="{Binding RemoveContactCommand, ElementName=Self}"
+                                  Click="RemoveContact_OnClick">
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/Images/Buttons/delete.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Cancel">
+                            <MenuItem.Icon>
+                                <Image Source="/Assets/Images/Buttons/cancel.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu.Items>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,*">
+                        <Ellipse Grid.Column="0" Width="40" Height="40">
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="UniformToFill"
+                                            Source="{Binding Avatar, Converter={StaticResource AvatarConverter}}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <StackPanel Grid.Column="1">
+                            <Label Foreground="White" FontSize="11"
+                                   Content="{Binding Card.Id, Converter={StaticResource HexStringConverter}}" />
+                            <Label Foreground="Gray" FontSize="10" Content="{Binding Status}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <!--endregion-->
 
         <!-- TBI -->
@@ -44,9 +84,27 @@
         <!--     </Button> -->
         <!-- </Grid> -->
         <!-- -->
-        <!-- <controls:GroupList Grid.Row="3" -->
-        <!--                     Groups="{Binding Groups, ElementName=Self, Mode=TwoWay}" -->
-        <!--                     SelectedGroup="{Binding SelectedGroup, ElementName=Self, Mode=TwoWay}" /> -->
+        <!-- <ListBox Items="{Binding Groups, ElementName=Self, Mode=TwoWay}" -->
+        <!--          SelectedItem="{Binding SelectedGroup, ElementName=Self, Mode=TwoWay}" -->
+        <!--          Background="Transparent"> -->
+        <!--     <ListBox.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <Grid ColumnDefinitions="*,*"> -->
+        <!--                 <Ellipse Grid.Column="0" Width="40" Height="40"> -->
+        <!--                     <Ellipse.Fill> -->
+        <!--                         <ImageBrush Stretch="UniformToFill" -->
+        <!--                                     Source="{Binding Avatar, Converter={StaticResource AvatarConverter}}" /> -->
+        <!--                     </Ellipse.Fill> -->
+        <!--                 </Ellipse> -->
+        <!-- -->
+        <!--                 <StackPanel Grid.Column="1"> -->
+        <!--                     <Label Content="{Binding Name}" Foreground="White" /> -->
+        <!--                     <Label Content="{Binding Description}" Foreground="Gray" /> -->
+        <!--                 </StackPanel> -->
+        <!--             </Grid> -->
+        <!--         </DataTemplate> -->
+        <!--     </ListBox.ItemTemplate> -->
+        <!-- </ListBox> -->
         <!--endregion-->
     </Grid>
 </UserControl>

@@ -1,5 +1,6 @@
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -24,6 +25,7 @@ namespace PChat.GUI
         private readonly SharedViewModel _shared;
         private readonly MetaViewModel _metaViewModel;
         private readonly CancellationToken _cancellationToken;
+        private Dictionary<string, string> _sessionProperties;
 
         #region Fields
 
@@ -33,9 +35,10 @@ namespace PChat.GUI
         private ObservableCollection<ChatViewModel> _chats;
         private ChatViewModel _selectedChat;
 
-        private ContactCard _selectedContact;
+        private ContactViewModel _selectedContact;
 
         private Group _selectedGroup;
+        private ObservableCollection<ContactViewModel> _contacts;
 
         #endregion
 
@@ -46,6 +49,17 @@ namespace PChat.GUI
             _cancellationToken = cancellationToken;
             Notifications = new ObservableCollection<TextMessage>();
             Chats = new ObservableCollection<ChatViewModel>();
+            SessionProperties = new Dictionary<string, string>
+            {
+                {nameof(Account), nameof(Session.Account)},
+                {nameof(Contacts), nameof(Session.Contacts)},
+                {nameof(Conversations), nameof(Session.Conversations)},
+                {nameof(Groups), nameof(Session.Groups)},
+                {nameof(FriendRequests), nameof(Session.FriendRequests)}
+            };
+            Contacts = Contacts = new ObservableCollection<ContactViewModel>(
+                Session.Contacts.Select(x => new ContactViewModel(x)));
+
             InitCommands();
 
             this.WhenAnyValue(x => x.Notifications)
@@ -90,24 +104,32 @@ namespace PChat.GUI
         [UsedImplicitly]
         public void OnEvent(OnObjectChangedEvent e)
         {
-            if (e.ObjectName == nameof(SessionContent.Contacts))
+            if (e.ObjectName == nameof(Session.Contacts))
             {
-                var contactsIds = SessionContent.Contacts.Select(x => x.Id);
+                var contactsIds = Session.Contacts.Select(x => x.Id);
                 var chatsIds = Chats.Select(x => x.Contact.Id);
                 var notFriendsAnymore = Chats.Where(x => !contactsIds.Contains(x.Contact.Id));
-                var newFriends = SessionContent.Contacts.Where(x => !chatsIds.Contains(x.Id));
+                var newFriends = Session.Contacts.Where(x => !chatsIds.Contains(x.Id));
                 Chats.RemoveMany(notFriendsAnymore);
                 Chats.Add(newFriends.Select(x => new ChatViewModel(Shared, x)));
+                Contacts = new ObservableCollection<ContactViewModel>(
+                    Session.Contacts.Select(x => new ContactViewModel(x)));
             }
 
-            this.RaisePropertyChanged(nameof(e.ObjectName));
+            foreach (var (k, v) in SessionProperties.Where(x => e.ObjectName == x.Value))
+            {
+                Console.WriteLine($"[DEBUG] '{k}' ('{v}') changed");
+                this.RaisePropertyChanged(k);
+            }
+
+            this.RaisePropertyChanged(e.ObjectName);
         }
 
         #region Private Methods
 
         private void OpenChat(ByteString contactId)
         {
-            var contact = SessionContent.Contacts.FirstOrDefault(c => c.Id.Equals(contactId));
+            var contact = Contacts.FirstOrDefault(x => x.Card.Id.Equals(contactId));
             if (contact == null) // TODO Display a red message in place of chat.
             {
                 Console.WriteLine("Contact not found. You are probably not friends with them.");
@@ -115,7 +137,7 @@ namespace PChat.GUI
             }
 
             SelectedContact = contact;
-            SelectedChat = Chats.FirstOrDefault(chat => chat.Contact.Equals(contact));
+            SelectedChat = Chats.FirstOrDefault(chat => chat.Contact.Equals(contact.Card));
         }
 
         private void ReplaceNotification(ByteString senderId, TextMessage newTextMessage)
@@ -132,6 +154,29 @@ namespace PChat.GUI
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Used for collectively calling property changed events. 
+        /// </summary>
+        private Dictionary<string, string> SessionProperties
+        {
+            get => _sessionProperties;
+            set => this.RaiseAndSetIfChanged(ref _sessionProperties, value);
+        }
+
+        public Account Account => Session.Account;
+
+        public ObservableCollection<ContactViewModel> Contacts
+        {
+            get => _contacts;
+            set => this.RaiseAndSetIfChanged(ref _contacts, value);
+        }
+
+        public ObservableCollection<Conversation> Conversations => Session.Conversations;
+
+        public ObservableCollection<ContactCard> Groups => Session.Groups;
+
+        public ObservableCollection<FriendRequest> FriendRequests => Session.FriendRequests;
 
         public ObservableCollection<TextMessage> Notifications
         {
@@ -165,19 +210,19 @@ namespace PChat.GUI
             }
         }
 
-        public ContactCard? SelectedContact
+        public ContactViewModel? SelectedContact
         {
             get => _selectedContact;
             set
             {
                 if (value == null) return;
                 this.RaiseAndSetIfChanged(ref _selectedContact, value);
-                SelectedChat = Chats.FirstOrDefault(chat => chat.Contact.Equals(value));
+                SelectedChat = Chats.FirstOrDefault(chat => chat.Contact.Equals(value.Card));
 
-                Console.WriteLine($"Selected Contact: {value.Name}");
+                Console.WriteLine($"Selected Contact: {value.Card.Name}");
                 foreach (var notification in Notifications.ToArray())
                 {
-                    if (notification.SenderId != SelectedContact?.Id) continue;
+                    if (notification.SenderId != SelectedContact?.Card.Id) continue;
                     // remove notifications for this contact, since we are already looking at this chat
                     Notifications.RemoveMany(Notifications.Where(x => x.SenderId == SelectedChat?.Contact.Id));
                 }
@@ -199,8 +244,6 @@ namespace PChat.GUI
             get => _shared;
             private init => this.RaiseAndSetIfChanged(ref _shared, value);
         }
-
-        public static SessionContent Session => SessionContent.Singleton;
 
         #endregion
 

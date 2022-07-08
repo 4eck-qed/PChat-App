@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -49,7 +50,7 @@ public partial class FriendRequestsPanel : UserControl
 
     public static readonly StyledProperty<ICollection<FriendRequest>> FriendRequestsProperty =
         AvaloniaProperty.Register<FriendRequestsPanel, ICollection<FriendRequest>>(nameof(FriendRequests),
-            new List<FriendRequest>());
+            new ObservableCollection<FriendRequest>());
 
     public static readonly StyledProperty<IBrush> ExpanderColorProperty =
         AvaloniaProperty.Register<FriendRequestsPanel, IBrush>(nameof(ExpanderColor));

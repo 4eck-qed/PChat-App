@@ -73,7 +73,7 @@ public class LoginWindowViewModel : ViewModelBase
 
     private void OpenMainWindow(Account account, CancellationToken cancellationToken)
     {
-        SessionContent.Account = account;
+        Session.Account = account;
         new NotifyServer().Start(Array.Empty<string>());
         Dispatcher.UIThread.InvokeAsync(() =>
         {

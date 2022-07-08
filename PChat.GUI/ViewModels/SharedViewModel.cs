@@ -32,11 +32,11 @@ public class SharedViewModel : ViewModelBase
     }
 
     public readonly EasyApiClient EasyApiClient;
-    
+
     [UsedImplicitly]
     public void OnEvent(OnObjectChangedEvent e)
     {
-        this.RaisePropertyChanged(nameof(e.ObjectName));
+        this.RaisePropertyChanged(e.ObjectName);
     }
 
     #region View-Relevant Properties

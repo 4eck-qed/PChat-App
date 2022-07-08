@@ -14,9 +14,9 @@ namespace PChat.GUI.Converters
             switch (value)
             {
                 case string stringValue:
-                    return stringValue != SessionContent.Account.Id.ToHexString();
+                    return stringValue != Session.Account.Id.ToHexString();
                 case ByteString byteString:
-                    return byteString.ToHexString() != SessionContent.Account.Id.ToHexString();
+                    return byteString.ToHexString() != Session.Account.Id.ToHexString();
             }
 
             return true;

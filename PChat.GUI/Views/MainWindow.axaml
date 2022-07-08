@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:core="using:PChat.GUI.Converters"
-        xmlns:themes="clr-namespace:PChat.GUI.Themes"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         xmlns:controls="clr-namespace:PChat.GUI.Controls"
@@ -26,7 +25,6 @@
 
     <Window.Resources>
         <core:AvatarConverter x:Key="AvatarConverter" />
-        <core:IsNullConverter x:Key="IsNullConverter" />
         <core:IsNotNullConverter x:Key="IsNotNullConverter" />
         <core:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
         <core:HexStringConverter x:Key="HexStringConverter" />
@@ -43,15 +41,15 @@
                         <Ellipse Width="40" Height="40" Margin="18,0,0,0">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill"
-                                            Source="{Binding Session.Account.Avatar, Converter={StaticResource AvatarConverter}}" />
+                                            Source="{Binding Account.Avatar, Converter={StaticResource AvatarConverter}}" />
                             </Ellipse.Fill>
                         </Ellipse>
                         <!-- Name and Status -->
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Foreground="White" FontWeight="SemiBold" Margin="5,0,0,-5"
-                                       Text="{Binding Session.Account.Name}" />
+                                       Text="{Binding Account.Name}" />
                             <Label Foreground="Gray" FontWeight="SemiBold" FontSize="10" Margin="2,0,0,-5"
-                                   Content="{Binding Session.Account.Status}" />
+                                   Content="{Binding Account.Status}" />
                         </StackPanel>
                     </StackPanel>
                     <!-- ID & Key -->
@@ -61,7 +59,7 @@
 
                         <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" FontSize="11"
                                    VerticalAlignment="Center"
-                                   Text="{Binding Session.Account.Id, Converter={StaticResource HexStringConverter}}"
+                                   Text="{Binding Account.Id, Converter={StaticResource HexStringConverter}}"
                                    DoubleTapped="IdTextBlock_OnDoubleTapped" />
 
                         <TextBlock Grid.Row="0" Grid.Column="2" Foreground="Pink" VerticalAlignment="Center"
@@ -72,7 +70,7 @@
 
                         <TextBlock Grid.Row="1" Grid.Column="1" Foreground="White" FontSize="11"
                                    VerticalAlignment="Center"
-                                   Text="{Binding Session.Account.Key, Converter={StaticResource HexStringConverter}}"
+                                   Text="{Binding Account.Key, Converter={StaticResource HexStringConverter}}"
                                    DoubleTapped="KeyTextBlock_OnDoubleTapped" />
 
                         <TextBlock Grid.Row="1" Grid.Column="2" x:Name="KeyCopied" Foreground="Pink"
@@ -85,12 +83,12 @@
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <!--#region Friend Requests-->
-                <controls:FriendRequestsPanel FriendRequests="{Binding Session.FriendRequests, Mode=TwoWay}"
+                <controls:FriendRequestsPanel FriendRequests="{Binding FriendRequests, Mode=TwoWay}"
                                               ExpanderColor="#292b2f" />
                 <!--#endregion-->
                 <!--#region Contacts and Groups-->
-                <controls:CAGPanel Contacts="{Binding Session.Contacts, Mode=TwoWay}"
-                                   Groups="{Binding Session.Groups, Mode=TwoWay}"
+                <controls:CAGPanel Contacts="{Binding Contacts, Mode=TwoWay}"
+                                   Groups="{Binding Groups, Mode=TwoWay}"
                                    SelectedContact="{Binding SelectedContact, Mode=TwoWay}"
                                    SelectedGroup="{Binding SelectedGroup, Mode=TwoWay}" />
                 <!--#endregion-->
@@ -127,7 +125,7 @@
                             <Ellipse Stroke="{Binding SelectedChat.IsOnlineIndicator}" StrokeThickness="2"
                                      Fill="{Binding SelectedChat.IsOnlineIndicator}" Width="5" Height="5" />
 
-                            <Label VerticalAlignment="Center" Content="{Binding SelectedContact.Name}" />
+                            <Label VerticalAlignment="Center" Content="{Binding SelectedContact.Card.Name}" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal"

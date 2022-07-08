@@ -20,9 +20,9 @@ public class NotifyService : Pchat.Notify.NotifyBase
             _logger.LogDebug($"[Notify] {nameof(NewFriend)} called");
 
         var contact = new ContactCard {Id = user.Id};
-        SessionContent.Contacts.Add(contact);
+        Session.Contacts.Add(contact);
 
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
         return Task.FromResult(new ClientStatusResponse());
     }
 
@@ -31,11 +31,11 @@ public class NotifyService : Pchat.Notify.NotifyBase
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(Unfriended)} called");
 
-        var unfriendedUser = SessionContent.Contacts.FirstOrDefault(u => u.Id == user.Id);
+        var unfriendedUser = Session.Contacts.FirstOrDefault(u => u.Id == user.Id);
         if (unfriendedUser != null)
-            SessionContent.Contacts.Remove(unfriendedUser);
+            Session.Contacts.Remove(unfriendedUser);
 
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
         return Task.FromResult(new ClientStatusResponse());
     }
 
@@ -45,9 +45,9 @@ public class NotifyService : Pchat.Notify.NotifyBase
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(NewFriendRequest)} called");
 
-        SessionContent.FriendRequests.Add(friendRequest);
+        Session.FriendRequests.Add(friendRequest);
 
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
         return Task.FromResult(new ClientStatusResponse());
     }
 
@@ -65,7 +65,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
     {
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(AnsweredFriendRequest)} called");
-        var contact = SessionContent.Contacts.FirstOrDefault(x => x.Id == friendRequest.TargetId);
+        var contact = Session.Contacts.FirstOrDefault(x => x.Id == friendRequest.TargetId);
         if (contact == null)
         {
             _logger.LogError(
@@ -76,16 +76,19 @@ public class NotifyService : Pchat.Notify.NotifyBase
         switch (friendRequest.Status)
         {
             case FriendRequestStatus.Accepted:
+                contact.Name = "Anon";
                 contact.Avatar = ByteString.Empty;
-                SessionContent.Conversations.Add(new Conversation(contact));
+                contact.Status = "?";
+                Session.Conversations.Add(new Conversation(contact));
                 break;
             case FriendRequestStatus.Rejected:
-                SessionContent.Contacts.Remove(contact);
+                Session.Contacts.Remove(contact);
                 break;
         }
 
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(contact)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
         return Task.FromResult(new ClientStatusResponse());
     }
 
@@ -94,17 +97,17 @@ public class NotifyService : Pchat.Notify.NotifyBase
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(NewMessage)} called");
 
-        var contact = SessionContent.Contacts.FirstOrDefault(x => x.Id == message.SenderId);
+        var contact = Session.Contacts.FirstOrDefault(x => x.Id == message.SenderId);
 
-        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.SenderId);
+        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == message.SenderId);
         if (conversation == null)
         {
             conversation = new Conversation(contact!);
-            SessionContent.Conversations.Add(conversation);
+            Session.Conversations.Add(conversation);
         }
 
         conversation.Messages.Add(message);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
 
         return Task.FromResult(new ClientStatusResponse());
     }
@@ -114,9 +117,9 @@ public class NotifyService : Pchat.Notify.NotifyBase
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(SeenMessage)} called");
 
-        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
+        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
         conversation!.Messages.FirstOrDefault(x => x.Id == message.Id)!.Status = TextMessage.Types.Status.Seen;
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
 
         return Task.FromResult(new ClientStatusResponse());
     }
@@ -126,9 +129,9 @@ public class NotifyService : Pchat.Notify.NotifyBase
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(ReceivedMessage)} called");
 
-        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
+        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
         conversation!.Messages.FirstOrDefault(x => x.Id == message.Id)!.Status = TextMessage.Types.Status.Received;
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
 
         return Task.FromResult(new ClientStatusResponse());
     }

@@ -35,23 +35,23 @@ public class EasyApiClient
     /// <returns></returns>
     public async Task<Conversation> LoadConversation(ContactCard contact)
     {
-        if (SessionContent.Conversations.All(x => x.Contact.Id != contact.Id))
-            SessionContent.Conversations.Add(new Conversation(contact));
+        if (Session.Conversations.All(x => x.Contact.Id != contact.Id))
+            Session.Conversations.Add(new Conversation(contact));
 
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         var filter = new MessageFilter();
         var response = await client.GetMessagesAsync(filter);
         var messages = response.Items.ToList();
-        
-        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
+
+        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
         if (messages?.Any() == false)
         {
             return conversation ?? throw new InvalidDataException("No conversation for that contact!");
         }
-        
+
         conversation!.Messages = new ObservableCollection<TextMessage>(messages!.OrderBy(m => m.Time));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
 
         return conversation;
     }
@@ -103,12 +103,12 @@ public class EasyApiClient
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
 
-        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
+        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
         if (conversation is null)
             throw new ArgumentException("Conversation does not exist!");
 
         conversation.Messages.Add(message);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
 
         var response = await client.SendMessageAsync(message);
         return response.Status == PeerResponse.Types.Status.Received;
@@ -118,17 +118,34 @@ public class EasyApiClient
     {
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
-        var user = new User {Id = id};
-        SessionContent.Contacts.Add(new ContactCard
+        Session.Contacts.Add(new ContactCard
         {
             Id = id,
             Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png"),
             Name = "Pending",
             Status = "Pending,"
         });
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
 
-        var response = await client.AddFriendAsync(user);
+        var response = await client.AddFriendAsync(new User {Id = id});
+    }
+
+    public async Task RemoveContact(ByteString id)
+    {
+        Console.WriteLine("[DEBUG] RemoveContact called.");
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var contact = Session.Contacts.FirstOrDefault(x => x.Id == id);
+        if (contact == null)
+        {
+            Console.WriteLine("[ERROR] Tried to remove non-existent contact. Ignoring..");
+            return;
+        }
+
+        Session.Contacts.Remove(contact);
+
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+        await client.RemoveFriendAsync(new User {Id = id});
     }
 
     public async Task AcceptFriendRequest(FriendRequest friendRequest)
@@ -140,18 +157,18 @@ public class EasyApiClient
         {
             Id = friendRequest.SenderId,
         };
-        SessionContent.Contacts.Add(contact);
-        SessionContent.FriendRequests.Remove(friendRequest);
-        var conversation = SessionContent.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
+        Session.Contacts.Add(contact);
+        Session.FriendRequests.Remove(friendRequest);
+        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
         if (conversation == null)
         {
             conversation = new Conversation(contact);
-            SessionContent.Conversations.Add(conversation);
+            Session.Conversations.Add(conversation);
         }
-        
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Conversations)));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.Contacts)));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
+
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
 
         var response = await client.AcceptFriendRequestAsync(friendRequest);
     }
@@ -161,8 +178,8 @@ public class EasyApiClient
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         friendRequest.Status = FriendRequestStatus.Rejected;
-        SessionContent.FriendRequests.Remove(friendRequest);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(SessionContent.FriendRequests)));
+        Session.FriendRequests.Remove(friendRequest);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
 
         var response = await client.RejectFriendRequestAsync(friendRequest);
     }

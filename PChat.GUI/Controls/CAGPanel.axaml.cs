@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
-using Google.Protobuf;
-using Pchat;
 using PChat.API.Client;
+using ReactiveUI;
 
 namespace PChat.GUI.Controls;
 
@@ -19,6 +20,8 @@ public partial class CAGPanel : UserControl
     {
         InitializeComponent();
         _addContactButtonContent = this.FindControl<Button>("AddContactButton").Content;
+        RemoveContactCommand =
+            ReactiveCommand.Create(async () => await new EasyApiClient(true).RemoveContact(SelectedContact.Card.Id));
     }
 
     private void InitializeComponent()
@@ -28,19 +31,19 @@ public partial class CAGPanel : UserControl
 
     #region Properties
 
-    public ICollection<ContactCard> Contacts
+    public ObservableCollection<ContactViewModel> Contacts
     {
         get => GetValue(ContactsProperty);
         set => SetValue(ContactsProperty, value);
     }
 
-    public ContactCard SelectedContact
+    public ContactViewModel SelectedContact
     {
         get => GetValue(SelectedContactProperty);
         set => SetValue(SelectedContactProperty, value);
     }
 
-    public ICollection<Group> Groups
+    public ObservableCollection<Group> Groups
     {
         get => GetValue(GroupsProperty);
         set => SetValue(GroupsProperty, value);
@@ -54,19 +57,21 @@ public partial class CAGPanel : UserControl
 
     public static string AddContactIdHexString { get; set; }
 
-    public static readonly StyledProperty<ICollection<ContactCard>> ContactsProperty =
-        AvaloniaProperty.Register<CAGPanel, ICollection<ContactCard>>(nameof(Contacts));
+    public static readonly StyledProperty<ObservableCollection<ContactViewModel>> ContactsProperty =
+        AvaloniaProperty.Register<CAGPanel, ObservableCollection<ContactViewModel>>(nameof(Contacts));
 
-    public static readonly StyledProperty<ContactCard> SelectedContactProperty =
-        AvaloniaProperty.Register<CAGPanel, ContactCard>(nameof(SelectedContact));
+    public static readonly StyledProperty<ContactViewModel> SelectedContactProperty =
+        AvaloniaProperty.Register<CAGPanel, ContactViewModel>(nameof(SelectedContact));
 
-    public static readonly StyledProperty<ICollection<Group>> GroupsProperty =
-        AvaloniaProperty.Register<CAGPanel, ICollection<Group>>(nameof(Groups));
+    public static readonly StyledProperty<ObservableCollection<Group>> GroupsProperty =
+        AvaloniaProperty.Register<CAGPanel, ObservableCollection<Group>>(nameof(Groups));
 
     public static readonly StyledProperty<Group> SelectedGroupProperty =
         AvaloniaProperty.Register<CAGPanel, Group>(nameof(SelectedGroup));
 
     #endregion
+
+    public ICommand RemoveContactCommand { get; set; }
 
     #region Event Handlers
 
@@ -91,4 +96,10 @@ public partial class CAGPanel : UserControl
     }
 
     #endregion
+
+    private async void RemoveContact_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Console.WriteLine($"[DEBUG] {nameof(RemoveContact_OnClick)} called");
+        await new EasyApiClient(true).RemoveContact(SelectedContact.Card.Id);
+    }
 }

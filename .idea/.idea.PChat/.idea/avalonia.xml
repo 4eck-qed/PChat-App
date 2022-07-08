@@ -8,6 +8,7 @@
         <entry key="PChat.GUI/App.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/CAGPanel.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/ContactsAndGroups.axaml" value="PChat.GUI/PChat.GUI.csproj" />
+        <entry key="PChat.GUI/Controls/DynamicContextMenu.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/DynamicExpander.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/FriendList.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/FriendRequestsPanel.axaml" value="PChat.GUI/PChat.GUI.csproj" />
@@ -28,6 +29,7 @@
         <entry key="PChat.GUI/Themes/ChatItem.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/ContactCard.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/DynamicExpander.axaml" value="PChat.GUI/PChat.GUI.csproj" />
+        <entry key="PChat.GUI/Themes/DynamicMenuItem.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/FriendList.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/MessageBox.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Themes/NotificationBar.axaml" value="PChat.GUI/PChat.GUI.csproj" />
