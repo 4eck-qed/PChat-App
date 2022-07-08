@@ -24,7 +24,7 @@ namespace Pchat {
     static NotifyReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgxub3RpZnkucHJvdG8SBXBjaGF0Ggt0eXBlcy5wcm90bzLmBQoGTm90aWZ5",
+            "Cgxub3RpZnkucHJvdG8SBXBjaGF0Ggt0eXBlcy5wcm90bzLYBQoGTm90aWZ5",
             "EjUKCU5ld0ZyaWVuZBILLnBjaGF0LlVzZXIaGy5wY2hhdC5DbGllbnRTdGF0",
             "dXNSZXNwb25zZRI2CgpVbmZyaWVuZGVkEgsucGNoYXQuVXNlchobLnBjaGF0",
             "LkNsaWVudFN0YXR1c1Jlc3BvbnNlEkUKEE5ld0ZyaWVuZFJlcXVlc3QSFC5w",
@@ -36,12 +36,12 @@ namespace Pchat {
             "dE1lc3NhZ2UaGy5wY2hhdC5DbGllbnRTdGF0dXNSZXNwb25zZRI+CgtTZWVu",
             "TWVzc2FnZRISLnBjaGF0LlRleHRNZXNzYWdlGhsucGNoYXQuQ2xpZW50U3Rh",
             "dHVzUmVzcG9uc2USQgoPUmVjZWl2ZWRNZXNzYWdlEhIucGNoYXQuVGV4dE1l",
-            "c3NhZ2UaGy5wY2hhdC5DbGllbnRTdGF0dXNSZXNwb25zZRJACg1Db250YWN0",
-            "T25saW5lEhIucGNoYXQuQ29udGFjdENhcmQaGy5wY2hhdC5DbGllbnRTdGF0",
-            "dXNSZXNwb25zZRJBCg5Db250YWN0T2ZmbGluZRISLnBjaGF0LkNvbnRhY3RD",
-            "YXJkGhsucGNoYXQuQ2xpZW50U3RhdHVzUmVzcG9uc2USRgoTUmVjZWl2ZWRD",
-            "b250YWN0Q2FyZBISLnBjaGF0LkNvbnRhY3RDYXJkGhsucGNoYXQuQ2xpZW50",
-            "U3RhdHVzUmVzcG9uc2ViBnByb3RvMw=="));
+            "c3NhZ2UaGy5wY2hhdC5DbGllbnRTdGF0dXNSZXNwb25zZRI5Cg1Db250YWN0",
+            "T25saW5lEgsucGNoYXQuVXNlchobLnBjaGF0LkNsaWVudFN0YXR1c1Jlc3Bv",
+            "bnNlEjoKDkNvbnRhY3RPZmZsaW5lEgsucGNoYXQuVXNlchobLnBjaGF0LkNs",
+            "aWVudFN0YXR1c1Jlc3BvbnNlEkYKE1JlY2VpdmVkQ29udGFjdENhcmQSEi5w",
+            "Y2hhdC5Db250YWN0Q2FyZBobLnBjaGF0LkNsaWVudFN0YXR1c1Jlc3BvbnNl",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Pchat.TypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, null));
