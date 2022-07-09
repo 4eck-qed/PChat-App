@@ -10,28 +10,49 @@
     <UserControl.Resources>
         <converters:HexStringConverter x:Key="HexStringConverter" />
         <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
+        <converters:AvatarConverter x:Key="AvatarConverter" />
     </UserControl.Resources>
 
     <local:DynamicExpander Header="Friend Requests" Background="{Binding ExpanderColor, ElementName=Self}"
                            HeaderOnlyWhenCollapsed="True">
         <local:DynamicExpander.ExpandableContent>
             <StackPanel Width="303">
-                <TextBlock Text="Nothing to see here.." Foreground="Gray"
-                           Margin="50"
+                <TextBlock Text="Nothing to see here.." Foreground="Gray" Margin="50"
                            IsVisible="{Binding FriendRequests, ElementName=Self, Converter={StaticResource IsNullOrEmptyConverter}}" />
                 <ListBox Background="{Binding Background, ElementName=Self}"
                          Items="{Binding FriendRequests, ElementName=Self, Mode=TwoWay}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="*,40,40">
-                                <TextBlock Grid.Column="0" Foreground="Gray" FontSize="10" Margin="10"
-                                           Text="{Binding SenderId, Converter={StaticResource HexStringConverter}}" />
+                            <Grid ColumnDefinitions="30,100,50,40,40">
+                                <!-- Avatar -->
+                                <Ellipse Grid.Column="0" Width="40" Height="40">
+                                    <Ellipse.Fill>
+                                        <ImageBrush Stretch="UniformToFill"
+                                                    Source="{Binding Sender.Avatar, Converter={StaticResource AvatarConverter}}" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                
+                                <!-- ID -->
+                                <TextBlock Grid.Column="1" Foreground="Gray" FontSize="10" Margin="10"
+                                           Text="{Binding Sender.Id, Converter={StaticResource HexStringConverter}}" />
 
-                                <Button Grid.Column="1" HorizontalAlignment="Right" Content="✔️️️"
-                                        Tapped="AcceptFriend_OnTapped" />
+                                <!-- Name -->
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <TextBlock Foreground="Gray" FontSize="10" Text="(" />
+                                    <TextBlock Foreground="Gray" FontSize="10"
+                                               Text="{Binding Sender.Name, Converter={StaticResource HexStringConverter}}" />
+                                    <TextBlock Foreground="Gray" FontSize="10" Text=")" />
+                                </StackPanel>
 
-                                <Button Grid.Column="2" HorizontalAlignment="Right" Content="✘"
-                                        Tapped="RejectFriend_OnTapped" />
+                                <!-- Accept -->
+                                <Button Grid.Column="3" Width="30" Height="30" HorizontalAlignment="Right"
+                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Content="✓" Tapped="AcceptFriend_OnTapped" />
+
+                                <!-- Reject -->
+                                <Button Grid.Column="4" Width="30" Height="30" HorizontalAlignment="Right"
+                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Content="x" Tapped="RejectFriend_OnTapped" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
