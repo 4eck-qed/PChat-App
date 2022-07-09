@@ -10,12 +10,14 @@
         <entry key="PChat.GUI/Controls/ContactsAndGroups.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/DynamicContextMenu.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/DynamicExpander.axaml" value="PChat.GUI/PChat.GUI.csproj" />
+        <entry key="PChat.GUI/Controls/EditableTextBlock.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/FriendList.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/FriendRequestsPanel.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/GroupList.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/MessageBox.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/MultiDock.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/NotificationPanel.axaml" value="PChat.GUI/PChat.GUI.csproj" />
+        <entry key="PChat.GUI/Controls/ProfileBox.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/Controls/StatusBar.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/MVVM/Views/Chat.axaml" value="PChat.GUI/PChat.GUI.csproj" />
         <entry key="PChat.GUI/MVVM/Views/Login.axaml" value="PChat.GUI/PChat.GUI.csproj" />

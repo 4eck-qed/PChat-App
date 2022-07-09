@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Avalonia;
@@ -12,6 +11,7 @@ using ReactiveUI;
 
 namespace PChat.GUI.Controls;
 
+// ReSharper disable once InconsistentNaming, PartialTypeWithSinglePart
 public partial class CAGPanel : UserControl
 {
     private readonly object _addContactButtonContent;
@@ -20,8 +20,11 @@ public partial class CAGPanel : UserControl
     {
         InitializeComponent();
         _addContactButtonContent = this.FindControl<Button>("AddContactButton").Content;
-        RemoveContactCommand =
-            ReactiveCommand.Create(async () => await new EasyApiClient(true).RemoveContact(SelectedContact.Card.Id));
+        RemoveContactCommand = ReactiveCommand.Create(async () =>
+        {
+            if (SelectedContact != null)
+                await new EasyApiClient(true).RemoveContact(SelectedContact.Card.Id);
+        });
     }
 
     private void InitializeComponent()
@@ -37,7 +40,7 @@ public partial class CAGPanel : UserControl
         set => SetValue(ContactsProperty, value);
     }
 
-    public ContactViewModel SelectedContact
+    public ContactViewModel? SelectedContact
     {
         get => GetValue(SelectedContactProperty);
         set => SetValue(SelectedContactProperty, value);
@@ -60,8 +63,8 @@ public partial class CAGPanel : UserControl
     public static readonly StyledProperty<ObservableCollection<ContactViewModel>> ContactsProperty =
         AvaloniaProperty.Register<CAGPanel, ObservableCollection<ContactViewModel>>(nameof(Contacts));
 
-    public static readonly StyledProperty<ContactViewModel> SelectedContactProperty =
-        AvaloniaProperty.Register<CAGPanel, ContactViewModel>(nameof(SelectedContact));
+    public static readonly StyledProperty<ContactViewModel?> SelectedContactProperty =
+        AvaloniaProperty.Register<CAGPanel, ContactViewModel?>(nameof(SelectedContact));
 
     public static readonly StyledProperty<ObservableCollection<Group>> GroupsProperty =
         AvaloniaProperty.Register<CAGPanel, ObservableCollection<Group>>(nameof(Groups));
@@ -75,6 +78,7 @@ public partial class CAGPanel : UserControl
 
     #region Event Handlers
 
+    // ReSharper disable once UnusedParameter.Local
     private async void AddContact_Tapped(object? sender, RoutedEventArgs e)
     {
         var addContactBox = this.FindControl<Border>("AddContactBox");
@@ -99,9 +103,16 @@ public partial class CAGPanel : UserControl
 
     #endregion
 
+    // ReSharper disable UnusedParameter.Local
     private async void RemoveContact_OnClick(object? sender, RoutedEventArgs e)
     {
         Console.WriteLine($"[DEBUG] {nameof(RemoveContact_OnClick)} called");
+        if (SelectedContact == null)
+        {
+            Console.WriteLine("\t...but nothing was selected.");
+            return;
+        }
+
         var id = SelectedContact.Card.Id;
         SelectedContact = null;
         await new EasyApiClient(true).RemoveContact(id);

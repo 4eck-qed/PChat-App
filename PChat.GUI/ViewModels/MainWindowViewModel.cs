@@ -50,6 +50,7 @@ namespace PChat.GUI
             InitProperties();
 
             var client = new EasyApiClient(true);
+            Profile = new ProfileViewModel(Session.Account);
             Shared = new SharedViewModel(client);
             _metaViewModel = new MetaViewModel(Shared, cancellationToken);
             _cancellationToken = cancellationToken;
@@ -253,6 +254,8 @@ namespace PChat.GUI
             get => _shared;
             private init => this.RaiseAndSetIfChanged(ref _shared, value);
         }
+
+        public ProfileViewModel Profile { get; }
 
         #endregion
 

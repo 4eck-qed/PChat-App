@@ -58,6 +58,8 @@ namespace Pchat {
     static readonly grpc::Marshaller<global::Pchat.FriendRequest> __Marshaller_pchat_FriendRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.FriendRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Pchat.User> __Marshaller_pchat_User = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.User.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Pchat.PingRequest> __Marshaller_pchat_PingRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Pchat.PingRequest.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Pchat.ContactCard, global::Pchat.PeerResponse> __Method_ReceiveContactCard = new grpc::Method<global::Pchat.ContactCard, global::Pchat.PeerResponse>(
@@ -121,6 +123,14 @@ namespace Pchat {
         __ServiceName,
         "ReportUnfriended",
         __Marshaller_pchat_User,
+        __Marshaller_pchat_PeerResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.PingRequest, global::Pchat.PeerResponse> __Method_Pong = new grpc::Method<global::Pchat.PingRequest, global::Pchat.PeerResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Pong",
+        __Marshaller_pchat_PingRequest,
         __Marshaller_pchat_PeerResponse);
 
     /// <summary>Service descriptor</summary>
@@ -226,6 +236,19 @@ namespace Pchat {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> ReportUnfriended(global::Pchat.User request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Instruct peer to respond to a ping request. \
+      /// May also respond with offline if you are not permitted to ping this user.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> Pong(global::Pchat.PingRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -647,6 +670,58 @@ namespace Pchat {
       {
         return CallInvoker.AsyncUnaryCall(__Method_ReportUnfriended, null, options, request);
       }
+      /// <summary>
+      /// Instruct peer to respond to a ping request. \
+      /// May also respond with offline if you are not permitted to ping this user.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.PeerResponse Pong(global::Pchat.PingRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Pong(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Instruct peer to respond to a ping request. \
+      /// May also respond with offline if you are not permitted to ping this user.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.PeerResponse Pong(global::Pchat.PingRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Pong, null, options, request);
+      }
+      /// <summary>
+      /// Instruct peer to respond to a ping request. \
+      /// May also respond with offline if you are not permitted to ping this user.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> PongAsync(global::Pchat.PingRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return PongAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Instruct peer to respond to a ping request. \
+      /// May also respond with offline if you are not permitted to ping this user.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> PongAsync(global::Pchat.PingRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Pong, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override P2pClient NewInstance(ClientBaseConfiguration configuration)
@@ -668,7 +743,8 @@ namespace Pchat {
           .AddMethod(__Method_ReceiveFriendRequestUpdate, serviceImpl.ReceiveFriendRequestUpdate)
           .AddMethod(__Method_ReportOnline, serviceImpl.ReportOnline)
           .AddMethod(__Method_ReportOffline, serviceImpl.ReportOffline)
-          .AddMethod(__Method_ReportUnfriended, serviceImpl.ReportUnfriended).Build();
+          .AddMethod(__Method_ReportUnfriended, serviceImpl.ReportUnfriended)
+          .AddMethod(__Method_Pong, serviceImpl.Pong).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -686,6 +762,7 @@ namespace Pchat {
       serviceBinder.AddMethod(__Method_ReportOnline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.ReportOnline));
       serviceBinder.AddMethod(__Method_ReportOffline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.ReportOffline));
       serviceBinder.AddMethod(__Method_ReportUnfriended, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.ReportUnfriended));
+      serviceBinder.AddMethod(__Method_Pong, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.PingRequest, global::Pchat.PeerResponse>(serviceImpl.Pong));
     }
 
   }

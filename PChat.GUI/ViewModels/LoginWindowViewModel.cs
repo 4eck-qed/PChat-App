@@ -36,7 +36,7 @@ public class LoginWindowViewModel : ViewModelBase
             var key = HexString.ToByteString(KeyHexString);
             var apiClient = new EasyApiClient(true);
             var loggedIn = false;
-            Task.Run(async () => loggedIn = await apiClient.Login(new Credentials {Id = id, Key = key}))
+            Task.Run(async () => loggedIn = await apiClient.Login(new Credentials {Id = id, Key = key}) is { } account)
                 .ContinueWith(o =>
                 {
                     if (loggedIn)

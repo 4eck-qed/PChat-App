@@ -1,5 +1,4 @@
 using Avalonia;
-using Avalonia.Markup;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using System;
@@ -7,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using Avalonia.Data.Converters;
 using Google.Protobuf;
-using PChat.Extensions;
 
 namespace PChat.GUI.Converters
 {
@@ -29,7 +27,7 @@ namespace PChat.GUI.Converters
                     {
                         File.Open(s, FileMode.Open);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         return ToBitmap(DefaultAvatar);
                     }

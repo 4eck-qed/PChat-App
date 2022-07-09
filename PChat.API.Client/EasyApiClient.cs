@@ -1,10 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Net;
 using Google.Protobuf;
-using Grpc.Core;
 using Grpc.Net.Client;
 using Pchat;
-using PChat.Extensions;
 using PChat.Shared;
 
 namespace PChat.API.Client;
@@ -35,6 +33,7 @@ public class EasyApiClient
         var response = await client.GetContactsAsync(new Empty());
         Session.Contacts = new ObservableCollection<ContactCard>(response.Items);
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+        // await client.AnnounceOnlineAsync(new Empty()); // TODO add setting for invisible
     }
 
     /// <summary>
@@ -65,12 +64,13 @@ public class EasyApiClient
         return conversation;
     }
 
-    public async Task<bool> Login(Credentials credentials)
+    public async Task<Account> Login(Credentials credentials)
     {
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
-        var response = await client.LoginAsync(credentials);
-        return response.Id != null && response.Key != null;
+        var account = await client.LoginAsync(credentials);
+        Session.Account = account;
+        return account;
     }
 
     /// <summary>
@@ -81,10 +81,19 @@ public class EasyApiClient
     {
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
-        var response = await client.CreateAccountAsync(new Empty());
-        Console.WriteLine("GetCredentials returned: {0}:{1}", response.Account.Id.ToHexString(),
-            response.Account.Key.ToHexString());
-        return new Account {Id = response.Account.Id, Key = response.Account.Key};
+        var account = await client.CreateAccountAsync(new Empty());
+        Session.Account = account;
+        return account;
+    }
+
+    /// <summary>
+    /// Updates your account.
+    /// </summary>
+    public async Task UpdateAccount()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        await client.UpdateAccountAsync(Session.Account);
     }
 
     /// <summary>
@@ -232,6 +241,7 @@ public class EasyApiClient
     private string ApiIp { get; set; }
     private const int ApiPort = 50051;
 
+    [Obsolete("Obsolete")]
     private static string ExternalIp => new WebClient().DownloadString("https://ipinfo.io/ip")
         .Replace("\\r\\n", "").Replace("\\n", "").Trim();
 

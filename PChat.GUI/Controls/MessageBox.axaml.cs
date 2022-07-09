@@ -48,7 +48,7 @@ public partial class MessageBox : UserControl
     private void EmoteButton_OnTapped(object? sender, RoutedEventArgs e)
     {
         // TODO Display a selection of emotes
-        var emote = new byte();
+        // var emote = new byte();
         throw new System.NotImplementedException();
     }
 
@@ -56,16 +56,16 @@ public partial class MessageBox : UserControl
     {
         // TODO Display a wave diagram for input and record it
         // Probably utilize the bound command and call it with this as parameter
-        var memo = new byte();
-        Command.Execute(memo);
+        // var memo = new byte();
+        // Command.Execute(memo);
         throw new System.NotImplementedException();
     }
 
     private void AttachButton_OnTapped(object? sender, RoutedEventArgs e)
     {
         // TODO Display a file manager
-        var file = new byte();
-        Command.Execute(file);
+        // var file = new byte();
+        // Command.Execute(file);
         throw new System.NotImplementedException();
     }
 }

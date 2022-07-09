@@ -24,62 +24,13 @@
     </Design.DataContext>
 
     <Window.Resources>
-        <core:AvatarConverter x:Key="AvatarConverter" />
         <core:IsNotNullConverter x:Key="IsNotNullConverter" />
         <core:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
-        <core:HexStringConverter x:Key="HexStringConverter" />
     </Window.Resources>
 
     <Grid RowDefinitions="*,50" ColumnDefinitions="350,*">
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" RowDefinitions="100,*">
-            <!--#region Profile-->
-            <Border Grid.Row="0" Background="#292b2f">
-                <Grid RowDefinitions="*,50">
-                    <!-- Profile Scope -->
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" MinHeight="100">
-                        <!-- Avatar -->
-                        <Ellipse Width="40" Height="40" Margin="18,0,0,0">
-                            <Ellipse.Fill>
-                                <ImageBrush Stretch="UniformToFill"
-                                            Source="{Binding Account.Avatar, Converter={StaticResource AvatarConverter}}" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <!-- Name and Status -->
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Foreground="White" FontWeight="SemiBold" Margin="5,0,0,-5"
-                                       Text="{Binding Account.Name}" />
-                            <Label Foreground="Gray" FontWeight="SemiBold" FontSize="10" Margin="2,0,0,-5"
-                                   Content="{Binding Account.Status}" />
-                        </StackPanel>
-                    </StackPanel>
-                    <!-- ID & Key -->
-                    <Grid Grid.Row="1" RowDefinitions="20,20" ColumnDefinitions="30,*,20">
-                        <TextBlock Grid.Row="0" Grid.Column="0" Foreground="Gray" FontSize="12"
-                                   VerticalAlignment="Center" Text="Id" />
-
-                        <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" FontSize="11"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding Account.Id, Converter={StaticResource HexStringConverter}}"
-                                   DoubleTapped="IdTextBlock_OnDoubleTapped" />
-
-                        <TextBlock Grid.Row="0" Grid.Column="2" Foreground="Pink" VerticalAlignment="Center"
-                                   x:Name="IdCopied" />
-
-                        <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Gray" FontSize="12"
-                                   VerticalAlignment="Center" Text="Key" />
-
-                        <TextBlock Grid.Row="1" Grid.Column="1" Foreground="White" FontSize="11"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding Account.Key, Converter={StaticResource HexStringConverter}}"
-                                   DoubleTapped="KeyTextBlock_OnDoubleTapped" />
-
-                        <TextBlock Grid.Row="1" Grid.Column="2" x:Name="KeyCopied" Foreground="Pink"
-                                   VerticalAlignment="Center" />
-                    </Grid>
-                </Grid>
-
-            </Border>
-            <!--#endregion-->
+            <controls:ProfileBox Grid.Row="0" Profile="{Binding Profile}" />
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <!--#region Friend Requests-->

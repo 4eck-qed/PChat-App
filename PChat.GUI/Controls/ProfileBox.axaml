@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:PChat.GUI.Converters"
+             xmlns:controls="clr-namespace:PChat.GUI.Controls"
+             mc:Ignorable="d"
+             x:Class="PChat.GUI.Controls.ProfileBox"
+             x:Name="Self">
+    <UserControl.Resources>
+        <converters:AvatarConverter x:Key="AvatarConverter" />
+        <converters:HexStringConverter x:Key="HexStringConverter" />
+    </UserControl.Resources>
+
+    <Border Background="#292b2f">
+        <Grid RowDefinitions="*,50">
+            <Grid Grid.Row="0" ColumnDefinitions="40,*">
+                <!-- Avatar -->
+                <Ellipse Grid.Column="0" Width="40" Height="40">
+                    <Ellipse.Fill>
+                        <ImageBrush Stretch="UniformToFill"
+                                    Source="{Binding Profile.Avatar, ElementName=Self, Converter={StaticResource AvatarConverter}}" />
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <!-- Name and Status -->
+                <Grid Grid.Column="1" RowDefinitions="*,*" Margin="10,10,0,0">
+                    <controls:EditableTextBlock Grid.Row="0" Foreground="White" FontWeight="SemiBold" FontSize="12"
+                                                Margin="1" Text="{Binding Profile.Name, ElementName=Self, Mode=TwoWay}"
+                                                TextChangedCommand="{Binding ChangeNameCommand, ElementName=Self}" />
+                    <controls:EditableTextBlock Grid.Row="1" Foreground="Gray" FontWeight="SemiBold" FontSize="10"
+                                                Margin="1" Text="{Binding Profile.Status, ElementName=Self, Mode=TwoWay}"
+                                                TextChangedCommand="{Binding ChangeStatusCommand, ElementName=Self}" />
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1" RowDefinitions="15,15" ColumnDefinitions="30,Auto,20" Margin="0,5,0,0">
+                <!-- ID -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Foreground="Gray" FontSize="12" VerticalAlignment="Center"
+                           Text="Id" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" FontSize="11" VerticalAlignment="Center"
+                           DoubleTapped="IdTextBlock_OnDoubleTapped"
+                           Text="{Binding Profile.Account.Id, ElementName=Self, Converter={StaticResource HexStringConverter}}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" x:Name="IdCopyIndicator" Foreground="Pink"
+                           VerticalAlignment="Center" />
+
+                <!-- Key -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Gray" FontSize="12" VerticalAlignment="Center"
+                           Text="Key" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Foreground="White" FontSize="11" VerticalAlignment="Center"
+                           Text="{Binding Profile.Account.Key, ElementName=Self, Converter={StaticResource HexStringConverter}}"
+                           DoubleTapped="KeyTextBlock_OnDoubleTapped" />
+                <TextBlock Grid.Row="1" Grid.Column="2" x:Name="KeyCopyIndicator" Foreground="Pink"
+                           VerticalAlignment="Center" />
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
