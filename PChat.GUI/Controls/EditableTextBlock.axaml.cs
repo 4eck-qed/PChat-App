@@ -16,6 +16,18 @@ public partial class EditableTextBlock : UserControl
     private TextBlock _textBlock;
     private TextBox _textBox;
     private bool _isEditable;
+    private ICommand _textChangedCommand;
+    private TextAlignment _textAlignment;
+    private int _caretIndex;
+    private IBrush _caretBrush;
+    private bool _acceptsTab;
+    private bool _acceptsReturn;
+    private double _lineHeight;
+    private int _maxLines;
+    private TextTrimming _textTrimming;
+    private TextDecorationCollection _textDecorations;
+    private string _text;
+    private TextWrapping _textWrapping;
 
     public EditableTextBlock()
     {
@@ -31,7 +43,7 @@ public partial class EditableTextBlock : UserControl
         _textBox.KeyDown += (sender, args) =>
         {
             if (args.Key != Key.Enter) return;
-            SetValue(TextProperty, _textBox.Text);
+            Text = _textBox.Text;
             IsEditable = false;
             TextChangedCommand?.Execute(null);
         };
@@ -43,7 +55,7 @@ public partial class EditableTextBlock : UserControl
         get => _isEditable;
         set
         {
-            _isEditable = value;
+            SetAndRaise(IsEditableProperty, ref _isEditable, value);
             if (value)
                 Content = _textBox;
             else
@@ -53,8 +65,12 @@ public partial class EditableTextBlock : UserControl
 
     public static readonly DirectProperty<EditableTextBlock, bool> IsEditableProperty = AvaloniaProperty
         .RegisterDirect<EditableTextBlock, bool>(nameof(IsEditable), o => o.IsEditable, (o, v) => o.IsEditable = v);
-    
-    public ICommand TextChangedCommand { get; set; }
+
+    public ICommand TextChangedCommand
+    {
+        get => _textChangedCommand;
+        set => SetAndRaise(TextChangedCommandProperty, ref _textChangedCommand, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, ICommand> TextChangedCommandProperty = AvaloniaProperty
         .RegisterDirect<EditableTextBlock, ICommand>(nameof(TextChangedCommand), o => o.TextChangedCommand, (o, v) => o.TextChangedCommand = v);
@@ -509,7 +525,11 @@ public partial class EditableTextBlock : UserControl
 
     #region Shared Properties
 
-    public TextAlignment TextAlignment { get; set; }
+    public TextAlignment TextAlignment
+    {
+        get => _textAlignment;
+        set => SetAndRaise(TextAlignmentProperty, ref _textAlignment, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, TextAlignment> TextAlignmentProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, TextAlignment>(nameof(TextAlignment),
@@ -522,7 +542,11 @@ public partial class EditableTextBlock : UserControl
             });
 
 
-    public TextWrapping TextWrapping { get; set; }
+    public TextWrapping TextWrapping
+    {
+        get => _textWrapping;
+        set => SetAndRaise(TextWrappingProperty, ref _textWrapping, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, TextWrapping> TextWrappingProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, TextWrapping>(nameof(TextWrapping),
@@ -535,7 +559,11 @@ public partial class EditableTextBlock : UserControl
             });
 
 
-    public string Text { get; set; }
+    public string Text
+    {
+        get => _text;
+        set => SetAndRaise(TextProperty, ref _text, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, string> TextProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, string>(nameof(Text),
@@ -551,7 +579,11 @@ public partial class EditableTextBlock : UserControl
 
     #region TextBlock Properties
 
-    public TextDecorationCollection TextDecorations { get; set; }
+    public TextDecorationCollection TextDecorations
+    {
+        get => _textDecorations;
+        set => SetAndRaise(TextDecorationsProperty, ref _textDecorations, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, TextDecorationCollection> TextDecorationsProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, TextDecorationCollection>(nameof(TextDecorations),
@@ -562,7 +594,11 @@ public partial class EditableTextBlock : UserControl
                 o._textBlock.TextDecorations = v;
             });
 
-    public TextTrimming TextTrimming { get; set; }
+    public TextTrimming TextTrimming
+    {
+        get => _textTrimming;
+        set => SetAndRaise(TextTrimmingProperty, ref _textTrimming, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, TextTrimming> TextTrimmingProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, TextTrimming>(nameof(TextTrimming),
@@ -573,7 +609,11 @@ public partial class EditableTextBlock : UserControl
                 o._textBlock.TextTrimming = v;
             });
 
-    public int MaxLines { get; set; }
+    public int MaxLines
+    {
+        get => _maxLines;
+        set => SetAndRaise(MaxLinesProperty, ref _maxLines, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, int> MaxLinesProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, int>(nameof(MaxLines),
@@ -584,7 +624,11 @@ public partial class EditableTextBlock : UserControl
                 o._textBlock.MaxLines = v;
             });
 
-    public double LineHeight { get; set; }
+    public double LineHeight
+    {
+        get => _lineHeight;
+        set => SetAndRaise(LineHeightProperty, ref _lineHeight, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, double> LineHeightProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, double>(nameof(LineHeight),
@@ -599,7 +643,11 @@ public partial class EditableTextBlock : UserControl
 
     #region TextBox Properties
 
-    public bool AcceptsReturn { get; set; }
+    public bool AcceptsReturn
+    {
+        get => _acceptsReturn;
+        set => SetAndRaise(AcceptsReturnProperty, ref _acceptsReturn, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, bool> AcceptsReturnProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, bool>(nameof(AcceptsReturn),
@@ -610,7 +658,11 @@ public partial class EditableTextBlock : UserControl
                 o._textBox.AcceptsReturn = v;
             });
 
-    public bool AcceptsTab { get; set; }
+    public bool AcceptsTab
+    {
+        get => _acceptsTab;
+        set => SetAndRaise(AcceptsTabProperty, ref _acceptsTab, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, bool> AcceptsTabProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, bool>(nameof(AcceptsTab),
@@ -621,7 +673,11 @@ public partial class EditableTextBlock : UserControl
                 o._textBox.AcceptsTab = v;
             });
 
-    public IBrush CaretBrush { get; set; }
+    public IBrush CaretBrush
+    {
+        get => _caretBrush;
+        set => SetAndRaise(CaretBrushProperty, ref _caretBrush, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, IBrush> CaretBrushProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, IBrush>(nameof(CaretBrush),
@@ -632,7 +688,11 @@ public partial class EditableTextBlock : UserControl
                 o._textBox.CaretBrush = v;
             });
 
-    public int CaretIndex { get; set; }
+    public int CaretIndex
+    {
+        get => _caretIndex;
+        set => SetAndRaise(CaretIndexProperty, ref _caretIndex, value);
+    }
 
     public static readonly DirectProperty<EditableTextBlock, int> CaretIndexProperty =
         AvaloniaProperty.RegisterDirect<EditableTextBlock, int>(nameof(CaretIndex),

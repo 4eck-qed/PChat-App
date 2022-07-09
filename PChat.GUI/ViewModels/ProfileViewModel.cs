@@ -43,7 +43,7 @@ public class ProfileViewModel : ViewModelBase
         get => _name;
         set
         {
-            if (Account != null) Account.Name = value;
+            Session.Account.Name = value;
             this.RaiseAndSetIfChanged(ref _name, value);
         }
     }
@@ -53,7 +53,7 @@ public class ProfileViewModel : ViewModelBase
         get => _avatar;
         set
         {
-            if (Account != null) Account.Avatar = value;
+            Session.Account.Avatar = value;
             this.RaiseAndSetIfChanged(ref _avatar, value);
         }
     }
@@ -63,7 +63,7 @@ public class ProfileViewModel : ViewModelBase
         get => _status;
         set
         {
-            if (Account != null) Account.Status = value;
+            Session.Account.Status = value;
             this.RaiseAndSetIfChanged(ref _status, value);
         }
     }

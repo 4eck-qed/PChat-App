@@ -135,4 +135,20 @@ public class NotifyService : Pchat.Notify.NotifyBase
 
         return Task.FromResult(new ClientStatusResponse());
     }
+
+    public override Task<ClientStatusResponse> ReceivedContactCard(ContactCard newCard, ServerCallContext context)
+    {
+        if (Global.Debug)
+            _logger.LogDebug($"[Notify] {nameof(ReceivedContactCard)} called");
+
+        var oldCard = Session.Contacts.FirstOrDefault(x => x.Id == newCard.Id);
+        if (oldCard is null)
+        {
+            _logger.LogError($"[Notify] Error in {nameof(ReceivedContactCard)}: Contact is null!");
+            return Task.FromResult(new ClientStatusResponse());
+        }
+        oldCard.MergeFrom(newCard);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+        return Task.FromResult(new ClientStatusResponse());
+    }
 }
