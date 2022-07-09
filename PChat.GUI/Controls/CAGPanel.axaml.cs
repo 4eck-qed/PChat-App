@@ -7,6 +7,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using PChat.API.Client;
+using PChat.Extensions;
 using ReactiveUI;
 
 namespace PChat.GUI.Controls;
@@ -116,5 +117,30 @@ public partial class CAGPanel : UserControl
         var id = SelectedContact.Card.Id;
         SelectedContact = null;
         await new EasyApiClient(true).RemoveContact(id);
+    }
+
+    private void CopyId_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (SelectedContact != null)
+            CopyToClipboard(SelectedContact.Card.Id.ToHexString());
+    }
+
+    private void CopyName_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (SelectedContact != null)
+            CopyToClipboard(SelectedContact.Name);
+    }
+    
+    private static void CopyToClipboard(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+        try
+        {
+            Application.Current.Clipboard.SetTextAsync(text);
+        }
+        catch (Exception)
+        {
+            // do nothing
+        }
     }
 }

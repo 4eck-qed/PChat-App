@@ -31,16 +31,16 @@
                                                     Source="{Binding Sender.Avatar, Converter={StaticResource AvatarConverter}}" />
                                     </Ellipse.Fill>
                                 </Ellipse>
-                                
+
                                 <!-- ID -->
-                                <TextBlock Grid.Column="1" Foreground="Gray" FontSize="10" Margin="10"
+                                <TextBlock Grid.Column="1" Foreground="Gray" FontSize="10" Margin="3,0,0,0"
                                            Text="{Binding Sender.Id, Converter={StaticResource HexStringConverter}}" />
 
                                 <!-- Name -->
                                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                                     <TextBlock Foreground="Gray" FontSize="10" Text="(" />
                                     <TextBlock Foreground="Gray" FontSize="10"
-                                               Text="{Binding Sender.Name, Converter={StaticResource HexStringConverter}}" />
+                                               Text="{Binding Sender.Name}" />
                                     <TextBlock Foreground="Gray" FontSize="10" Text=")" />
                                 </StackPanel>
 
