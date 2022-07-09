@@ -11,7 +11,7 @@ namespace PChat.GUI;
 /// </summary>
 public class ContactViewModel : ViewModelBase
 {
-    private ContactCard _card;
+    private ContactCard? _card;
 
     public ContactViewModel(ContactCard card)
     {
@@ -28,7 +28,7 @@ public class ContactViewModel : ViewModelBase
         this.RaisePropertyChanged(nameof(Status));
     }
 
-    public ContactCard Card
+    public ContactCard? Card
     {
         get => _card;
         set
@@ -40,9 +40,9 @@ public class ContactViewModel : ViewModelBase
         }
     }
 
-    public string Name => Card.Name;
+    public string Name => Card == null ? string.Empty : Card.Name;
 
-    public ByteString Avatar => Card.Avatar;
+    public ByteString Avatar => Card == null ? ByteString.Empty : Card.Avatar;
 
-    public string Status => Card.Status;
+    public string Status => Card == null ? string.Empty : Card.Status;
 }
