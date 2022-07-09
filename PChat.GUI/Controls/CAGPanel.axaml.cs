@@ -20,7 +20,7 @@ public partial class CAGPanel : UserControl
         InitializeComponent();
         RemoveContactCommand = ReactiveCommand.Create(async () =>
         {
-            if (SelectedContact != null)
+            if (SelectedContact is {Card: { }})
                 await new EasyApiClient(true).RemoveContact(SelectedContact.Card.Id);
         });
     }
@@ -132,6 +132,12 @@ public partial class CAGPanel : UserControl
             return;
         }
 
+        if (SelectedContact.Card == null)
+        {
+            Console.WriteLine("\t...Card of SelectedContact is null!");
+            return;
+        }
+
         var id = SelectedContact.Card.Id;
         SelectedContact = null;
         await new EasyApiClient(true).RemoveContact(id);
@@ -139,7 +145,7 @@ public partial class CAGPanel : UserControl
 
     private void CopyId_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (SelectedContact != null)
+        if (SelectedContact is {Card: { }})
             CopyToClipboard(SelectedContact.Card.Id.ToHexString());
     }
 
