@@ -76,7 +76,7 @@
                             <Ellipse Stroke="{Binding SelectedChat.IsOnlineIndicator}" StrokeThickness="2"
                                      Fill="{Binding SelectedChat.IsOnlineIndicator}" Width="5" Height="5" />
 
-                            <Label VerticalAlignment="Center" Content="{Binding SelectedContact.Card.Name}" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding SelectedContact.Name}" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal"

@@ -183,16 +183,12 @@ public class EasyApiClient
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         friendRequest.Status = FriendRequestStatus.Accepted;
-        var contact = new ContactCard
-        {
-            Id = friendRequest.SenderId,
-        };
-        Session.Contacts.Add(contact);
+        Session.Contacts.Add(friendRequest.Sender);
         Session.FriendRequests.Remove(friendRequest);
-        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
+        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == friendRequest.Sender.Id);
         if (conversation == null)
         {
-            conversation = new Conversation(contact);
+            conversation = new Conversation(friendRequest.Sender);
             Session.Conversations.Add(conversation);
         }
 

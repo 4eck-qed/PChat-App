@@ -118,12 +118,18 @@ namespace PChat.GUI
             {
                 var contactsIds = Session.Contacts.Select(x => x.Id);
                 var chatsIds = Chats.Select(x => x.Contact.Id);
-                var notFriendsAnymore = Chats.Where(x => !contactsIds.Contains(x.Contact.Id));
-                var newFriends = Session.Contacts.Where(x => !chatsIds.Contains(x.Id));
-                Chats.RemoveMany(notFriendsAnymore);
-                Chats.Add(newFriends.Select(x => new ChatViewModel(Shared, x)));
-                Contacts = new ObservableCollection<ContactViewModel>(
-                    Session.Contacts.Select(x => new ContactViewModel(x)));
+                var notFriendsChats = Chats.Where(x => !contactsIds.Contains(x.Contact.Id)).ToList();
+                var notFriendsIds = notFriendsChats.Select(x => x.Contact.Id);
+                var newFriendsCards = Session.Contacts.Where(x => !chatsIds.Contains(x.Id)).ToList();
+                Chats.RemoveMany(notFriendsChats);
+                Chats.Add(newFriendsCards.Select(x => new ChatViewModel(Shared, x)));
+                Contacts.RemoveMany(Contacts.Where(x => notFriendsIds.Contains(x.Card.Id)));
+                Contacts.Add(newFriendsCards.Select(x => new ContactViewModel(x)));
+                foreach (var contact in Contacts)
+                {
+                    var card = Session.Contacts.FirstOrDefault(x => x.Id == contact.Card.Id);
+                    contact.Card = card!;
+                }
             }
 
             foreach (var (k, v) in SessionProperties.Where(x => e.ObjectName == x.Value))

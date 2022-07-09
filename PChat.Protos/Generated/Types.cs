@@ -32,43 +32,43 @@ namespace Pchat {
             "dENhcmQSCgoCaWQYASABKAwSDAoEbmFtZRgCIAEoCRIOCgZhdmF0YXIYAyAB",
             "KAwSDgoGc3RhdHVzGAQgASgJIjEKDENvbnRhY3RDYXJkcxIhCgVpdGVtcxgB",
             "IAMoCzISLnBjaGF0LkNvbnRhY3RDYXJkIiYKC0NyZWRlbnRpYWxzEgoKAmlk",
-            "GAEgASgMEgsKA2tleRgCIAEoDCISCgRVc2VyEgoKAmlkGAEgASgMIm0KDUZy",
+            "GAEgASgMEgsKA2tleRgCIAEoDCISCgRVc2VyEgoKAmlkGAEgASgMIn4KDUZy",
             "aWVuZFJlcXVlc3QSCgoCaWQYASABKAwSKgoGc3RhdHVzGAIgASgOMhoucGNo",
-            "YXQuRnJpZW5kUmVxdWVzdFN0YXR1cxIRCglzZW5kZXJfaWQYAyABKAwSEQoJ",
-            "dGFyZ2V0X2lkGAQgASgMIjUKDkZyaWVuZFJlcXVlc3RzEiMKBWl0ZW1zGAEg",
-            "AygLMhQucGNoYXQuRnJpZW5kUmVxdWVzdCJQChJHZXRFbmRwb2ludFJlcXVl",
-            "c3QSJwoLQ3JlZGVudGlhbHMYASABKAsyEi5wY2hhdC5DcmVkZW50aWFscxIR",
-            "Cgl0YXJnZXRfaWQYAiABKAwiuwEKE0dldEVuZHBvaW50UmVzcG9uc2USLwoE",
-            "Y29kZRgBIAEoDjIhLnBjaGF0LkdldEVuZHBvaW50UmVzcG9uc2UuU3RhdHVz",
-            "EgoKAmlwGAIgASgJEgwKBHBvcnQYAyABKA0iWQoGU3RhdHVzEg8KC1VOU1BF",
-            "Q0lGSUVEEAASDAoIQUNRVUlSRUQQARIRCg1OT1RSRUdJU1RFUkVEEAISEAoM",
-            "VU5BVVRIT1JJWkVEEAMSCwoHSU5WQUxJRBAEIpgBCg5Mb29rdXBSZXNwb25z",
-            "ZRIsCgZzdGF0dXMYASABKA4yHC5wY2hhdC5Mb29rdXBSZXNwb25zZS5TdGF0",
-            "dXMiWAoGU3RhdHVzEg8KC1VOU1BFQ0lGSUVEEAASCwoHU1VDQ0VTUxABEgsK",
-            "B09GRkxJTkUQAhIQCgxVTkFVVEhPUklaRUQQAxIRCg1OT1RSRUdJU1RFUkVE",
-            "EAQijAEKDU1lc3NhZ2VGaWx0ZXISKQoGZmlsdGVyGAEgASgOMhkucGNoYXQu",
-            "TWVzc2FnZUZpbHRlci5UeXBlEgoKAmlkGAIgASgMIkQKBFR5cGUSDwoLVU5T",
-            "UEVDSUZJRUQQABINCglCWU1FU1NBR0UQARIMCghCWVNFTkRFUhACEg4KCkJZ",
-            "UkVDRUlWRVIQAyKAAQoMUGVlclJlc3BvbnNlEioKBnN0YXR1cxgBIAEoDjIa",
-            "LnBjaGF0LlBlZXJSZXNwb25zZS5TdGF0dXMiRAoGU3RhdHVzEg8KC1VOU1BF",
-            "Q0lGSUVEEAASDAoIUkVDRUlWRUQQARILCgdPRkZMSU5FEAISDgoKTk9URlJJ",
-            "RU5EUxADIkkKC1BpbmdSZXF1ZXN0EhsKBnNlbmRlchgBIAEoCzILLnBjaGF0",
-            "LlVzZXISHQoIcmVjZWl2ZXIYAiABKAsyCy5wY2hhdC5Vc2VyIlAKF1JlZ2lz",
-            "dGVyRW5kcG9pbnRSZXF1ZXN0EicKC2NyZWRlbnRpYWxzGAEgASgLMhIucGNo",
-            "YXQuQ3JlZGVudGlhbHMSDAoEcG9ydBgCIAEoDSKcAQoYUmVnaXN0ZXJFbmRw",
-            "b2ludFJlc3BvbnNlEjYKBnN0YXR1cxgBIAEoDjImLnBjaGF0LlJlZ2lzdGVy",
-            "RW5kcG9pbnRSZXNwb25zZS5TdGF0dXMiSAoGU3RhdHVzEg8KC1VOU1BFQ0lG",
-            "SUVEEAASDgoKUkVHSVNURVJFRBABEhAKDFVOQVVUSE9SSVpFRBACEgsKB0lO",
-            "VkFMSUQQAyI4ChJTZW5kTWVzc2FnZVJlcXVlc3QSEQoJc2VuZGVyX2lkGAEg",
-            "ASgMEg8KB21lc3NhZ2UYAiABKAkiygEKC1RleHRNZXNzYWdlEgoKAmlkGAEg",
-            "ASgMEhEKCXNlbmRlcl9pZBgCIAEoDBITCgtyZWNlaXZlcl9pZBgDIAEoDBIP",
-            "Cgdjb250ZW50GAQgASgJEgwKBHRpbWUYBSABKAkSKQoGc3RhdHVzGAYgASgO",
-            "MhkucGNoYXQuVGV4dE1lc3NhZ2UuU3RhdHVzIj0KBlN0YXR1cxIPCgtVTlNQ",
-            "RUNJRklFRBAAEgoKBlFVRVVFRBABEgwKCFJFQ0VJVkVEEAISCAoEU0VFThAD",
-            "IjEKDFRleHRNZXNzYWdlcxIhCgVpdGVtcxgBIAMoCzISLnBjaGF0LlRleHRN",
-            "ZXNzYWdlKk8KE0ZyaWVuZFJlcXVlc3RTdGF0dXMSDwoLVU5TUEVDSUZJRUQQ",
-            "ABILCgdQRU5ESU5HEAESDAoIQUNDRVBURUQQAhIMCghSRUpFQ1RFRBADYgZw",
-            "cm90bzM="));
+            "YXQuRnJpZW5kUmVxdWVzdFN0YXR1cxIiCgZzZW5kZXIYAyABKAsyEi5wY2hh",
+            "dC5Db250YWN0Q2FyZBIRCgl0YXJnZXRfaWQYBCABKAwiNQoORnJpZW5kUmVx",
+            "dWVzdHMSIwoFaXRlbXMYASADKAsyFC5wY2hhdC5GcmllbmRSZXF1ZXN0IlAK",
+            "EkdldEVuZHBvaW50UmVxdWVzdBInCgtDcmVkZW50aWFscxgBIAEoCzISLnBj",
+            "aGF0LkNyZWRlbnRpYWxzEhEKCXRhcmdldF9pZBgCIAEoDCK7AQoTR2V0RW5k",
+            "cG9pbnRSZXNwb25zZRIvCgRjb2RlGAEgASgOMiEucGNoYXQuR2V0RW5kcG9p",
+            "bnRSZXNwb25zZS5TdGF0dXMSCgoCaXAYAiABKAkSDAoEcG9ydBgDIAEoDSJZ",
+            "CgZTdGF0dXMSDwoLVU5TUEVDSUZJRUQQABIMCghBQ1FVSVJFRBABEhEKDU5P",
+            "VFJFR0lTVEVSRUQQAhIQCgxVTkFVVEhPUklaRUQQAxILCgdJTlZBTElEEAQi",
+            "mAEKDkxvb2t1cFJlc3BvbnNlEiwKBnN0YXR1cxgBIAEoDjIcLnBjaGF0Lkxv",
+            "b2t1cFJlc3BvbnNlLlN0YXR1cyJYCgZTdGF0dXMSDwoLVU5TUEVDSUZJRUQQ",
+            "ABILCgdTVUNDRVNTEAESCwoHT0ZGTElORRACEhAKDFVOQVVUSE9SSVpFRBAD",
+            "EhEKDU5PVFJFR0lTVEVSRUQQBCKMAQoNTWVzc2FnZUZpbHRlchIpCgZmaWx0",
+            "ZXIYASABKA4yGS5wY2hhdC5NZXNzYWdlRmlsdGVyLlR5cGUSCgoCaWQYAiAB",
+            "KAwiRAoEVHlwZRIPCgtVTlNQRUNJRklFRBAAEg0KCUJZTUVTU0FHRRABEgwK",
+            "CEJZU0VOREVSEAISDgoKQllSRUNFSVZFUhADIoABCgxQZWVyUmVzcG9uc2US",
+            "KgoGc3RhdHVzGAEgASgOMhoucGNoYXQuUGVlclJlc3BvbnNlLlN0YXR1cyJE",
+            "CgZTdGF0dXMSDwoLVU5TUEVDSUZJRUQQABIMCghSRUNFSVZFRBABEgsKB09G",
+            "RkxJTkUQAhIOCgpOT1RGUklFTkRTEAMiSQoLUGluZ1JlcXVlc3QSGwoGc2Vu",
+            "ZGVyGAEgASgLMgsucGNoYXQuVXNlchIdCghyZWNlaXZlchgCIAEoCzILLnBj",
+            "aGF0LlVzZXIiUAoXUmVnaXN0ZXJFbmRwb2ludFJlcXVlc3QSJwoLY3JlZGVu",
+            "dGlhbHMYASABKAsyEi5wY2hhdC5DcmVkZW50aWFscxIMCgRwb3J0GAIgASgN",
+            "IpwBChhSZWdpc3RlckVuZHBvaW50UmVzcG9uc2USNgoGc3RhdHVzGAEgASgO",
+            "MiYucGNoYXQuUmVnaXN0ZXJFbmRwb2ludFJlc3BvbnNlLlN0YXR1cyJICgZT",
+            "dGF0dXMSDwoLVU5TUEVDSUZJRUQQABIOCgpSRUdJU1RFUkVEEAESEAoMVU5B",
+            "VVRIT1JJWkVEEAISCwoHSU5WQUxJRBADIjgKElNlbmRNZXNzYWdlUmVxdWVz",
+            "dBIRCglzZW5kZXJfaWQYASABKAwSDwoHbWVzc2FnZRgCIAEoCSLKAQoLVGV4",
+            "dE1lc3NhZ2USCgoCaWQYASABKAwSEQoJc2VuZGVyX2lkGAIgASgMEhMKC3Jl",
+            "Y2VpdmVyX2lkGAMgASgMEg8KB2NvbnRlbnQYBCABKAkSDAoEdGltZRgFIAEo",
+            "CRIpCgZzdGF0dXMYBiABKA4yGS5wY2hhdC5UZXh0TWVzc2FnZS5TdGF0dXMi",
+            "PQoGU3RhdHVzEg8KC1VOU1BFQ0lGSUVEEAASCgoGUVVFVUVEEAESDAoIUkVD",
+            "RUlWRUQQAhIICgRTRUVOEAMiMQoMVGV4dE1lc3NhZ2VzEiEKBWl0ZW1zGAEg",
+            "AygLMhIucGNoYXQuVGV4dE1lc3NhZ2UqTwoTRnJpZW5kUmVxdWVzdFN0YXR1",
+            "cxIPCgtVTlNQRUNJRklFRBAAEgsKB1BFTkRJTkcQARIMCghBQ0NFUFRFRBAC",
+            "EgwKCFJFSkVDVEVEEANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Pchat.FriendRequestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -81,7 +81,7 @@ namespace Pchat {
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.ContactCards), global::Pchat.ContactCards.Parser, new[]{ "Items" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.Credentials), global::Pchat.Credentials.Parser, new[]{ "Id", "Key" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.User), global::Pchat.User.Parser, new[]{ "Id" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.FriendRequest), global::Pchat.FriendRequest.Parser, new[]{ "Id", "Status", "SenderId", "TargetId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.FriendRequest), global::Pchat.FriendRequest.Parser, new[]{ "Id", "Status", "Sender", "TargetId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.FriendRequests), global::Pchat.FriendRequests.Parser, new[]{ "Items" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.GetEndpointRequest), global::Pchat.GetEndpointRequest.Parser, new[]{ "Credentials", "TargetId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Pchat.GetEndpointResponse), global::Pchat.GetEndpointResponse.Parser, new[]{ "Code", "Ip", "Port" }, null, new[]{ typeof(global::Pchat.GetEndpointResponse.Types.Status) }, null, null),
@@ -2110,7 +2110,7 @@ namespace Pchat {
     public FriendRequest(FriendRequest other) : this() {
       id_ = other.id_;
       status_ = other.status_;
-      senderId_ = other.senderId_;
+      sender_ = other.sender_ != null ? other.sender_.Clone() : null;
       targetId_ = other.targetId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -2145,15 +2145,15 @@ namespace Pchat {
       }
     }
 
-    /// <summary>Field number for the "sender_id" field.</summary>
-    public const int SenderIdFieldNumber = 3;
-    private pb::ByteString senderId_ = pb::ByteString.Empty;
+    /// <summary>Field number for the "sender" field.</summary>
+    public const int SenderFieldNumber = 3;
+    private global::Pchat.ContactCard sender_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pb::ByteString SenderId {
-      get { return senderId_; }
+    public global::Pchat.ContactCard Sender {
+      get { return sender_; }
       set {
-        senderId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        sender_ = value;
       }
     }
 
@@ -2186,7 +2186,7 @@ namespace Pchat {
       }
       if (Id != other.Id) return false;
       if (Status != other.Status) return false;
-      if (SenderId != other.SenderId) return false;
+      if (!object.Equals(Sender, other.Sender)) return false;
       if (TargetId != other.TargetId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -2197,7 +2197,7 @@ namespace Pchat {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (Status != global::Pchat.FriendRequestStatus.Unspecified) hash ^= Status.GetHashCode();
-      if (SenderId.Length != 0) hash ^= SenderId.GetHashCode();
+      if (sender_ != null) hash ^= Sender.GetHashCode();
       if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2225,9 +2225,9 @@ namespace Pchat {
         output.WriteRawTag(16);
         output.WriteEnum((int) Status);
       }
-      if (SenderId.Length != 0) {
+      if (sender_ != null) {
         output.WriteRawTag(26);
-        output.WriteBytes(SenderId);
+        output.WriteMessage(Sender);
       }
       if (TargetId.Length != 0) {
         output.WriteRawTag(34);
@@ -2251,9 +2251,9 @@ namespace Pchat {
         output.WriteRawTag(16);
         output.WriteEnum((int) Status);
       }
-      if (SenderId.Length != 0) {
+      if (sender_ != null) {
         output.WriteRawTag(26);
-        output.WriteBytes(SenderId);
+        output.WriteMessage(Sender);
       }
       if (TargetId.Length != 0) {
         output.WriteRawTag(34);
@@ -2275,8 +2275,8 @@ namespace Pchat {
       if (Status != global::Pchat.FriendRequestStatus.Unspecified) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
       }
-      if (SenderId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(SenderId);
+      if (sender_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Sender);
       }
       if (TargetId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(TargetId);
@@ -2299,8 +2299,11 @@ namespace Pchat {
       if (other.Status != global::Pchat.FriendRequestStatus.Unspecified) {
         Status = other.Status;
       }
-      if (other.SenderId.Length != 0) {
-        SenderId = other.SenderId;
+      if (other.sender_ != null) {
+        if (sender_ == null) {
+          Sender = new global::Pchat.ContactCard();
+        }
+        Sender.MergeFrom(other.Sender);
       }
       if (other.TargetId.Length != 0) {
         TargetId = other.TargetId;
@@ -2329,7 +2332,10 @@ namespace Pchat {
             break;
           }
           case 26: {
-            SenderId = input.ReadBytes();
+            if (sender_ == null) {
+              Sender = new global::Pchat.ContactCard();
+            }
+            input.ReadMessage(Sender);
             break;
           }
           case 34: {
@@ -2360,7 +2366,10 @@ namespace Pchat {
             break;
           }
           case 26: {
-            SenderId = input.ReadBytes();
+            if (sender_ == null) {
+              Sender = new global::Pchat.ContactCard();
+            }
+            input.ReadMessage(Sender);
             break;
           }
           case 34: {

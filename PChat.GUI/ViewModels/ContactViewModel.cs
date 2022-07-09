@@ -1,5 +1,7 @@
 using Google.Protobuf;
+using JetBrains.Annotations;
 using Pchat;
+using PChat.Shared;
 using ReactiveUI;
 
 namespace PChat.GUI;
@@ -10,13 +12,20 @@ namespace PChat.GUI;
 public class ContactViewModel : ViewModelBase
 {
     private ContactCard _card;
-    private ByteString _avatar;
-    private string _name;
-    private string _status;
 
     public ContactViewModel(ContactCard card)
     {
         Card = card;
+        EventBus.Instance.Subscribe(this);
+    }
+
+    [UsedImplicitly]
+    public void OnEvent(OnObjectChangedEvent e)
+    {
+        if (e.ObjectName != nameof(Session.Contacts)) return;
+        this.RaisePropertyChanged(nameof(Name));
+        this.RaisePropertyChanged(nameof(Avatar));
+        this.RaisePropertyChanged(nameof(Status));
     }
 
     public ContactCard Card
@@ -25,27 +34,15 @@ public class ContactViewModel : ViewModelBase
         set
         {
             this.RaiseAndSetIfChanged(ref _card, value);
-            Name = Card.Name;
-            Avatar = Card.Avatar;
-            Status = Card.Status;
+            this.RaisePropertyChanged(nameof(Name));
+            this.RaisePropertyChanged(nameof(Avatar));
+            this.RaisePropertyChanged(nameof(Status));
         }
     }
 
-    public string Name
-    {
-        get => _name;
-        set => this.RaiseAndSetIfChanged(ref _name, value);
-    }
+    public string Name => Card.Name;
 
-    public ByteString Avatar
-    {
-        get => _avatar;
-        set => this.RaiseAndSetIfChanged(ref _avatar, value);
-    }
+    public ByteString Avatar => Card.Avatar;
 
-    public string Status
-    {
-        get => _status;
-        set => this.RaiseAndSetIfChanged(ref _status, value);
-    }
+    public string Status => Card.Status;
 }
