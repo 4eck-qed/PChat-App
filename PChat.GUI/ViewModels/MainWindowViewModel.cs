@@ -123,7 +123,8 @@ namespace PChat.GUI
                 var newFriendsCards = Session.Contacts.Where(x => !chatsIds.Contains(x.Id)).ToList();
                 Chats.RemoveMany(notFriendsChats);
                 Chats.Add(newFriendsCards.Select(x => new ChatViewModel(Shared, x)));
-                Contacts.RemoveMany(Contacts.Where(x => notFriendsIds.Contains(x.Card.Id)));
+                if (notFriendsIds != null)
+                    Contacts.RemoveMany(Contacts.Where(x => notFriendsIds.Contains(x.Card.Id)));
                 Contacts.Add(newFriendsCards.Select(x => new ContactViewModel(x)));
                 foreach (var contact in Contacts)
                 {

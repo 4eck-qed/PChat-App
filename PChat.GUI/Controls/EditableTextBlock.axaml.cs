@@ -63,8 +63,10 @@ public partial class EditableTextBlock : UserControl
         }
     }
 
-    public static readonly DirectProperty<EditableTextBlock, bool> IsEditableProperty = AvaloniaProperty
-        .RegisterDirect<EditableTextBlock, bool>(nameof(IsEditable), o => o.IsEditable, (o, v) => o.IsEditable = v);
+    public static readonly DirectProperty<EditableTextBlock, bool> IsEditableProperty =
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, bool>(nameof(IsEditable),
+            o => o.IsEditable,
+            (o, v) => o.IsEditable = v);
 
     public ICommand TextChangedCommand
     {
@@ -72,8 +74,10 @@ public partial class EditableTextBlock : UserControl
         set => SetAndRaise(TextChangedCommandProperty, ref _textChangedCommand, value);
     }
 
-    public static readonly DirectProperty<EditableTextBlock, ICommand> TextChangedCommandProperty = AvaloniaProperty
-        .RegisterDirect<EditableTextBlock, ICommand>(nameof(TextChangedCommand), o => o.TextChangedCommand, (o, v) => o.TextChangedCommand = v);
+    public static readonly DirectProperty<EditableTextBlock, ICommand> TextChangedCommandProperty =
+        AvaloniaProperty.RegisterDirect<EditableTextBlock, ICommand>(nameof(TextChangedCommand),
+            o => o.TextChangedCommand,
+            (o, v) => o.TextChangedCommand = v);
 
     #region Overwritten Properties
 

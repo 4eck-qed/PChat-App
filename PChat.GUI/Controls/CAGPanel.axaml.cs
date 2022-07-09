@@ -15,12 +15,9 @@ namespace PChat.GUI.Controls;
 // ReSharper disable once InconsistentNaming, PartialTypeWithSinglePart
 public partial class CAGPanel : UserControl
 {
-    private readonly object _addContactButtonContent;
-
     public CAGPanel()
     {
         InitializeComponent();
-        _addContactButtonContent = this.FindControl<Button>("AddContactButton").Content;
         RemoveContactCommand = ReactiveCommand.Create(async () =>
         {
             if (SelectedContact != null)
@@ -59,7 +56,16 @@ public partial class CAGPanel : UserControl
         set => SetValue(SelectedGroupProperty, value);
     }
 
-    public static string AddContactIdHexString { get; set; }
+    public string AddContactHexId
+    {
+        get => _addContactHexId;
+        set => SetAndRaise(AddContactHexIdProperty, ref _addContactHexId, value);
+    }
+
+    public static readonly DirectProperty<CAGPanel, string> AddContactHexIdProperty =
+        AvaloniaProperty.RegisterDirect<CAGPanel, string>(nameof(AddContactHexId),
+            o => o.AddContactHexId,
+            (o, v) => o.AddContactHexId = v);
 
     public static readonly StyledProperty<ObservableCollection<ContactViewModel>> ContactsProperty =
         AvaloniaProperty.Register<CAGPanel, ObservableCollection<ContactViewModel>>(nameof(Contacts));
@@ -73,33 +79,45 @@ public partial class CAGPanel : UserControl
     public static readonly StyledProperty<Group> SelectedGroupProperty =
         AvaloniaProperty.Register<CAGPanel, Group>(nameof(SelectedGroup));
 
+    private static string _addContactHexId;
+
     #endregion
 
     public ICommand RemoveContactCommand { get; set; }
 
     #region Event Handlers
 
+    private static void FlipVisibility(params IControl[] controls)
+    {
+        foreach (var control in controls)
+            control.IsVisible = !control.IsVisible;
+    }
+
+    private static void ChangeToContentTemporarily(IContentControl control, object? content, TimeSpan timeSpan)
+    {
+        var oldContent = control.Content;
+        control.Content = content;
+        var timer = new DispatcherTimer {Interval = timeSpan, IsEnabled = true};
+        timer.Tick += (_, _) =>
+        {
+            control.Content = oldContent;
+            timer.Stop();
+        };
+    }
+
     // ReSharper disable once UnusedParameter.Local
     private async void AddContact_Tapped(object? sender, RoutedEventArgs e)
     {
         var addContactBox = this.FindControl<Border>("AddContactBox");
-        addContactBox.IsVisible = !addContactBox.IsVisible;
         var addContactButton = this.FindControl<Button>("AddContactButton");
-        addContactButton.IsVisible = !addContactButton.IsVisible;
-        if (sender is Button btn && Equals(btn, addContactButton)) return;
-        addContactButton.Content = "✔️";
+        FlipVisibility(addContactBox, addContactButton);
 
-        var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2), IsEnabled = true};
-        timer.Tick += (_, _) =>
-        {
-            addContactButton.Content = _addContactButtonContent;
-            timer.Stop();
-        };
-
-        if (string.IsNullOrWhiteSpace(AddContactIdHexString)) return;
-        var id = HexString.ToByteString(AddContactIdHexString);
-        AddContactIdHexString = string.Empty;
-        await new EasyApiClient(true).AddContact(id!);
+        if (sender is Button btn && Equals(btn, addContactButton) || string.IsNullOrWhiteSpace(AddContactHexId)) return;
+        var id = HexString.ToByteString(AddContactHexId);
+        AddContactHexId = string.Empty;
+        if (id == null) return;
+        await new EasyApiClient(true).AddContact(id);
+        ChangeToContentTemporarily(addContactButton, "✔️", TimeSpan.FromSeconds(1));
     }
 
     #endregion
@@ -130,7 +148,7 @@ public partial class CAGPanel : UserControl
         if (SelectedContact != null)
             CopyToClipboard(SelectedContact.Name);
     }
-    
+
     private static void CopyToClipboard(string text)
     {
         if (string.IsNullOrEmpty(text)) return;
@@ -142,5 +160,13 @@ public partial class CAGPanel : UserControl
         {
             // do nothing
         }
+    }
+
+    private void AddContactCancel_Tapped(object? sender, RoutedEventArgs e)
+    {
+        var addContactBox = this.FindControl<Border>("AddContactBox");
+        var addContactButton = this.FindControl<Button>("AddContactButton");
+        FlipVisibility(addContactBox, addContactButton);
+        AddContactHexId = string.Empty;
     }
 }

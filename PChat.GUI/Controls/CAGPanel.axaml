@@ -9,11 +9,12 @@
     <UserControl.Resources>
         <converters:AvatarConverter x:Key="AvatarConverter" />
         <converters:HexStringConverter x:Key="HexStringConverter" />
+        <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
     </UserControl.Resources>
 
-    <Grid RowDefinitions="50,*,50,*">
+    <Grid RowDefinitions="50,*,50,*" Width="300">
         <!--region Contacts-->
-        <Grid Grid.Row="0" RowDefinitions="*,Auto" ColumnDefinitions="200,40">
+        <Grid Grid.Row="0" RowDefinitions="*,Auto" ColumnDefinitions="250,40">
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Contacts" VerticalAlignment="Center" FontWeight="Medium"
                        Foreground="Gray" Margin="10,0,0,0" />
             <Button x:Name="AddContactButton" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" FontSize="12"
@@ -21,11 +22,14 @@
                 <Image Width="30" Height="30" Source="/Assets/Images/add_contact.png" />
             </Button>
             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="AddContactBox" IsVisible="False">
-                <Grid Margin="10,0,0,0" ColumnDefinitions="250,20">
+                <Grid Margin="10,0,0,0" ColumnDefinitions="220,35,35">
                     <TextBox Grid.Column="0" x:Name="AddContactTextBox" Watermark="ID"
-                             Text="{Binding AddContactIdHexString, ElementName=Self, Mode=TwoWay}" />
-                    <Button Grid.Column="1" Background="Transparent" Tapped="AddContact_Tapped">
-                        <Image Width="20" Height="20" Source="/Assets/Images/send.png" />
+                             Text="{Binding AddContactHexId, ElementName=Self, Mode=TwoWay}" />
+                    <Button Grid.Column="1" Background="Transparent" Margin="5,0,0,0" Tapped="AddContact_Tapped">
+                        <Image Width="30" Height="20" Source="/Assets/Images/send.png" />
+                    </Button>
+                    <Button Grid.Column="2" Background="Transparent" Margin="3,0,0,0" Tapped="AddContactCancel_Tapped">
+                        <Image Width="30" Height="20" Source="/Assets/Images/Buttons/cancel.png" />
                     </Button>
                 </Grid>
             </Border>
@@ -35,7 +39,8 @@
                  Items="{Binding Contacts, ElementName=Self, Mode=TwoWay}"
                  SelectedItem="{Binding SelectedContact, ElementName=Self, Mode=TwoWay}">
             <ListBox.ContextMenu>
-                <ContextMenu>
+                <ContextMenu
+                    IsEnabled="{Binding SelectedContact, ElementName=Self, Converter={StaticResource IsNotNullConverter}}">
                     <ContextMenu.Items>
                         <MenuItem Header="Copy">
                             <MenuItem.Icon>

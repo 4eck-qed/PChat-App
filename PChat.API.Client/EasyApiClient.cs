@@ -153,7 +153,7 @@ public class EasyApiClient
             Id = id,
             Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png"),
             Name = "Pending",
-            Status = "Pending,"
+            Status = "..."
         });
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
 
