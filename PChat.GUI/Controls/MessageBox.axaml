@@ -6,14 +6,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="PChat.GUI.Controls.MessageBox"
              x:Name="Self">
-    <UserControl.Resources>
-        <converters:CropWidthConverter x:Key="CropWidthConverter" />
-    </UserControl.Resources>
 
     <Border Background="#3e4147" CornerRadius="8" Height="50" Width="530">
         <Grid x:Name="Box" ColumnDefinitions="30,400,30,30,30">
             <Button Grid.Column="0" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
-                    Tapped="AttachButton_OnTapped" IsEnabled="False">
+                    Tapped="AttachButton_OnTapped" IsEnabled="False" IsVisible="False">
                 <Image Source="/Assets/Images/plus.png" Width="30" Height="30" />
             </Button>
 
@@ -40,7 +37,7 @@
             </Border>
 
             <Button Grid.Column="2" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
-                    Tapped="EmoteButton_OnTapped" IsEnabled="False">
+                    Tapped="EmoteButton_OnTapped" IsEnabled="False" IsVisible="False">
                 <Image Source="/Assets/Images/Smileys/angry.png" Width="30" Height="30" />
             </Button>
 
@@ -53,7 +50,7 @@
             </Button>
 
             <Button Grid.Column="4" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0"
-                    Tapped="MicButton_OnTapped" IsEnabled="False">
+                    Tapped="MicButton_OnTapped" IsEnabled="False" IsVisible="False">
                 <Button.Content>
                     <Image Source="/Assets/Images/mic.png" Width="30" Height="30" />
                 </Button.Content>
