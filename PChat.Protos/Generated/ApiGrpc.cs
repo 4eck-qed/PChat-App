@@ -173,6 +173,14 @@ namespace Pchat {
         __Marshaller_pchat_Empty);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.Empty, global::Pchat.Empty> __Method_AnnounceOffline = new grpc::Method<global::Pchat.Empty, global::Pchat.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "AnnounceOffline",
+        __Marshaller_pchat_Empty,
+        __Marshaller_pchat_Empty);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Pchat.Empty, global::Pchat.Account> __Method_CreateAccount = new grpc::Method<global::Pchat.Empty, global::Pchat.Account>(
         grpc::MethodType.Unary,
         __ServiceName,
@@ -270,6 +278,18 @@ namespace Pchat {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Pchat.Empty> AnnounceOnline(global::Pchat.Empty request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Announce to everyone that you are offline
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.Empty> AnnounceOffline(global::Pchat.Empty request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -597,6 +617,54 @@ namespace Pchat {
       {
         return CallInvoker.AsyncUnaryCall(__Method_AnnounceOnline, null, options, request);
       }
+      /// <summary>
+      /// Announce to everyone that you are offline
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.Empty AnnounceOffline(global::Pchat.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return AnnounceOffline(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Announce to everyone that you are offline
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.Empty AnnounceOffline(global::Pchat.Empty request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_AnnounceOffline, null, options, request);
+      }
+      /// <summary>
+      /// Announce to everyone that you are offline
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.Empty> AnnounceOfflineAsync(global::Pchat.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return AnnounceOfflineAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Announce to everyone that you are offline
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.Empty> AnnounceOfflineAsync(global::Pchat.Empty request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_AnnounceOffline, null, options, request);
+      }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::Pchat.Account CreateAccount(global::Pchat.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
@@ -644,6 +712,7 @@ namespace Pchat {
           .AddMethod(__Method_RejectFriendRequest, serviceImpl.RejectFriendRequest)
           .AddMethod(__Method_SendMessage, serviceImpl.SendMessage)
           .AddMethod(__Method_AnnounceOnline, serviceImpl.AnnounceOnline)
+          .AddMethod(__Method_AnnounceOffline, serviceImpl.AnnounceOffline)
           .AddMethod(__Method_CreateAccount, serviceImpl.CreateAccount).Build();
     }
 
@@ -667,6 +736,7 @@ namespace Pchat {
       serviceBinder.AddMethod(__Method_RejectFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.PeerResponse>(serviceImpl.RejectFriendRequest));
       serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.PeerResponse>(serviceImpl.SendMessage));
       serviceBinder.AddMethod(__Method_AnnounceOnline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.Empty>(serviceImpl.AnnounceOnline));
+      serviceBinder.AddMethod(__Method_AnnounceOffline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.Empty>(serviceImpl.AnnounceOffline));
       serviceBinder.AddMethod(__Method_CreateAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.Account>(serviceImpl.CreateAccount));
     }
 

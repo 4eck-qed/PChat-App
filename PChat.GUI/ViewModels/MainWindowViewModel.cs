@@ -34,7 +34,7 @@ namespace PChat.GUI
         private TextMessage _selectedNotification;
 
         private ObservableCollection<ChatViewModel> _chats;
-        private ChatViewModel _selectedChat;
+        private ChatViewModel? _selectedChat;
 
         private ContactViewModel _selectedContact;
 
@@ -55,7 +55,11 @@ namespace PChat.GUI
             _metaViewModel = new MetaViewModel(Shared, cancellationToken);
             _cancellationToken = cancellationToken;
 
-            Task.Run(async () => await client.LoadContacts())
+            Task.Run(async () =>
+                {
+                    await client.LoadContacts();
+                    await client.LoadFriendRequests();
+                })
                 .ContinueWith(_ => Contacts =
                     new ObservableCollection<ContactViewModel>(Session.Contacts.Select(x => new ContactViewModel(x))));
 
@@ -123,12 +127,13 @@ namespace PChat.GUI
                 var newFriendsCards = Session.Contacts.Where(x => !chatsIds.Contains(x.Id)).ToList();
                 Chats.RemoveMany(notFriendsChats);
                 Chats.Add(newFriendsCards.Select(x => new ChatViewModel(Shared, x)));
-                if (notFriendsIds != null)
-                    Contacts.RemoveMany(Contacts.Where(x => notFriendsIds.Contains(x.Card.Id)));
+                if (Contacts == null) return;
+                if (Contacts.Any())
+                    Contacts.RemoveMany(Contacts.Where(x => notFriendsIds.Contains(x.Card?.Id)));
                 Contacts.Add(newFriendsCards.Select(x => new ContactViewModel(x)));
                 foreach (var contact in Contacts)
                 {
-                    var card = Session.Contacts.FirstOrDefault(x => x.Id == contact.Card.Id);
+                    var card = Session.Contacts.FirstOrDefault(x => x.Id == contact.Card?.Id);
                     contact.Card = card!;
                 }
             }
@@ -146,7 +151,7 @@ namespace PChat.GUI
 
         private void OpenChat(ByteString contactId)
         {
-            var contact = Contacts.FirstOrDefault(x => x.Card.Id.Equals(contactId));
+            var contact = Contacts.FirstOrDefault(x => x.Card != null && x.Card.Id.Equals(contactId));
             if (contact == null) // TODO Display a red message in place of chat.
             {
                 Console.WriteLine("Contact not found. You are probably not friends with them.");
@@ -220,11 +225,7 @@ namespace PChat.GUI
         public ChatViewModel? SelectedChat
         {
             get => _selectedChat;
-            set
-            {
-                if (value == null) return;
-                this.RaiseAndSetIfChanged(ref _selectedChat, value);
-            }
+            set => this.RaiseAndSetIfChanged(ref _selectedChat, value);
         }
 
         public ContactViewModel? SelectedContact
@@ -236,10 +237,10 @@ namespace PChat.GUI
                 this.RaiseAndSetIfChanged(ref _selectedContact, value);
                 SelectedChat = Chats.FirstOrDefault(chat => chat.Contact.Equals(value.Card));
 
-                Console.WriteLine($"Selected Contact: {value.Card.Name}");
+                Console.WriteLine($"Selected Contact: {value.Card?.Name}");
                 foreach (var notification in Notifications.ToArray())
                 {
-                    if (notification.SenderId != SelectedContact?.Card.Id) continue;
+                    if (notification.SenderId != SelectedContact?.Card?.Id) continue;
                     // remove notifications for this contact, since we are already looking at this chat
                     Notifications.RemoveMany(Notifications.Where(x => x.SenderId == SelectedChat?.Contact.Id));
                 }

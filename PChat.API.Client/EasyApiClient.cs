@@ -33,7 +33,15 @@ public class EasyApiClient
         var response = await client.GetContactsAsync(new Empty());
         Session.Contacts = new ObservableCollection<ContactCard>(response.Items);
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
-        // await client.AnnounceOnlineAsync(new Empty()); // TODO add setting for invisible
+    }
+
+    public async Task LoadFriendRequests()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var response = await client.GetFriendRequestsAsync(new Empty());
+        Session.FriendRequests = new ObservableCollection<FriendRequest>(response.Items);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
     }
 
     /// <summary>
@@ -70,7 +78,15 @@ public class EasyApiClient
         var client = new Api.ApiClient(channel);
         var account = await client.LoginAsync(credentials);
         Session.Account = account;
+        // await client.AnnounceOnlineAsync(new Empty());
         return account;
+    }
+    public async Task Logout()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var account = await client.LogoutAsync(new Empty());
+        // await client.AnnouceOfflineAsync(new Empty()); // currently handled by api
     }
 
     /// <summary>
