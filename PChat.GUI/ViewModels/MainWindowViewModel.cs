@@ -74,30 +74,6 @@ namespace PChat.GUI
                 QueuedMessages = new ObservableCollection<TextMessage>(await EasyApiClient.Instance.GetQueuedMessages());
                 LoginHistory = new ObservableCollection<DateTime>(await EasyApiClient.Instance.GetLoginHistory());
             });
-
-
-            //TBR
-            var timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(5),
-                IsEnabled = true,
-            };
-            timer.Tick += (_, _) =>
-            {
-                FriendRequests.Add(new FriendRequest
-                {
-                    Id = ByteStringExtensions.RandomByteString(16),
-                    Sender = new ContactCard
-                    {
-                        Id = ByteStringExtensions.RandomByteString(16),
-                        Name = "Test",
-                        Status = "Testing",
-                    },
-                    Status = FriendRequestStatus.Pending,
-                    TargetId = Session.Account.Id,
-                });
-                this.RaisePropertyChanged(nameof(FriendRequests));
-            };
         }
 
         private void InitCommands()
