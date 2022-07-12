@@ -121,6 +121,14 @@ namespace Pchat {
         __Marshaller_pchat_ClientStatusResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse> __Method_DequeuedMessage = new grpc::Method<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DequeuedMessage",
+        __Marshaller_pchat_TextMessage,
+        __Marshaller_pchat_ClientStatusResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Pchat.User, global::Pchat.ClientStatusResponse> __Method_ContactOnline = new grpc::Method<global::Pchat.User, global::Pchat.ClientStatusResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
@@ -246,6 +254,18 @@ namespace Pchat {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> ReceivedMessage(global::Pchat.TextMessage request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Your queued message was dequeued.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.ClientStatusResponse> DequeuedMessage(global::Pchat.TextMessage request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -700,6 +720,54 @@ namespace Pchat {
         return CallInvoker.AsyncUnaryCall(__Method_ReceivedMessage, null, options, request);
       }
       /// <summary>
+      /// Your queued message was dequeued.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse DequeuedMessage(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DequeuedMessage(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Your queued message was dequeued.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.ClientStatusResponse DequeuedMessage(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DequeuedMessage, null, options, request);
+      }
+      /// <summary>
+      /// Your queued message was dequeued.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> DequeuedMessageAsync(global::Pchat.TextMessage request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DequeuedMessageAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Your queued message was dequeued.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.ClientStatusResponse> DequeuedMessageAsync(global::Pchat.TextMessage request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DequeuedMessage, null, options, request);
+      }
+      /// <summary>
       /// A Contact of yours is now online.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -865,6 +933,7 @@ namespace Pchat {
           .AddMethod(__Method_NewMessage, serviceImpl.NewMessage)
           .AddMethod(__Method_SeenMessage, serviceImpl.SeenMessage)
           .AddMethod(__Method_ReceivedMessage, serviceImpl.ReceivedMessage)
+          .AddMethod(__Method_DequeuedMessage, serviceImpl.DequeuedMessage)
           .AddMethod(__Method_ContactOnline, serviceImpl.ContactOnline)
           .AddMethod(__Method_ContactOffline, serviceImpl.ContactOffline)
           .AddMethod(__Method_ReceivedContactCard, serviceImpl.ReceivedContactCard).Build();
@@ -885,6 +954,7 @@ namespace Pchat {
       serviceBinder.AddMethod(__Method_NewMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.NewMessage));
       serviceBinder.AddMethod(__Method_SeenMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.SeenMessage));
       serviceBinder.AddMethod(__Method_ReceivedMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.ReceivedMessage));
+      serviceBinder.AddMethod(__Method_DequeuedMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.ClientStatusResponse>(serviceImpl.DequeuedMessage));
       serviceBinder.AddMethod(__Method_ContactOnline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.ClientStatusResponse>(serviceImpl.ContactOnline));
       serviceBinder.AddMethod(__Method_ContactOffline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.ClientStatusResponse>(serviceImpl.ContactOffline));
       serviceBinder.AddMethod(__Method_ReceivedContactCard, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.ContactCard, global::Pchat.ClientStatusResponse>(serviceImpl.ReceivedContactCard));

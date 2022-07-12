@@ -15,4 +15,5 @@ public static class Session
     public static ObservableCollection<ContactCard> Groups { get; set; } = new();
     public static ObservableCollection<Conversation> Conversations { get; set; } = new();
     public static ObservableCollection<FriendRequest> FriendRequests { get; set; } = new();
+    public static ObservableCollection<TextMessage> QueuedMessages { get; set; } = new();
 }

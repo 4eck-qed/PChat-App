@@ -1,14 +1,14 @@
-using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
-using Avalonia.Threading;
+using Google.Protobuf;
 using Pchat;
 using PChat.API.Client;
+using PChat.Extensions;
 using PChat.GUI.Models;
-using PChat.Notify;
-using PChat.Shared;
 using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
@@ -17,6 +17,8 @@ namespace PChat.GUI;
 public class LoginWindowViewModel : ViewModelBase
 {
     private ErrorText _errorText;
+    private bool _saveLoginChecked;
+    private string _saveLoginContent;
 
     public LoginWindowViewModel()
     {
@@ -24,37 +26,53 @@ public class LoginWindowViewModel : ViewModelBase
 
     public LoginWindowViewModel(CancellationToken cancellationToken)
     {
+        CreateCommands();
+        ReadSavedLogin();
+    }
+
+    private void CreateCommands()
+    {
         LoginCommand = ReactiveCommand.Create(() =>
         {
-            if (IdHexString == null || KeyHexString == null)
+            if (string.IsNullOrEmpty(HexId))
             {
-                ErrorText = new ErrorText("Empty login!", Colors.Yellow);
+                ErrorText = new ErrorText("Id missing!", Colors.Yellow);
                 return;
             }
 
-            var id = HexString.ToByteString(IdHexString);
-            var key = HexString.ToByteString(KeyHexString);
-            var apiClient = new EasyApiClient(true);
+            if (string.IsNullOrEmpty(HexKey))
+            {
+                ErrorText = new ErrorText("Key missing!", Colors.Yellow);
+                return;
+            }
+
             var loggedIn = false;
-            Task.Run(async () => loggedIn = await apiClient.Login(new Credentials {Id = id, Key = key}) is { } account)
+            Task.Run(async () => loggedIn = await EasyApiClient.Instance.Login(new Credentials
+                {
+                    Id = HexString.ToByteString(HexId),
+                    Key = HexString.ToByteString(HexKey)
+                }) is not null)
                 .ContinueWith(o =>
                 {
-                    if (loggedIn)
+                    if (!loggedIn)
                     {
-                        ErrorText = new ErrorText("Success!", Colors.LawnGreen);
-                        var account = new Account {Id = id, Key = key};
-                        Thread.Sleep(100);
-                        OpenMainWindow(account, cancellationToken);
+                        ErrorText = new ErrorText("Invalid login!", Colors.Red);
+                        return;
                     }
 
-                    ErrorText = new ErrorText("Invalid login!", Colors.Red);
+                    ErrorText = new ErrorText("Success!", Colors.LawnGreen);
+                    if (SaveLoginChecked)
+                        SaveLogin(HexString.ToByteString(HexId), HexString.ToByteString(HexKey));
+                    Thread.Sleep(100);
+                    EventBus.Instance.PostEvent(new OnLoginEvent());
                 });
         });
 
         CreateNewAccountCommand = ReactiveCommand.Create(() =>
         {
             ErrorText = new ErrorText("Generating new login..", Colors.LawnGreen);
-            Task.Run(async () => await new EasyApiClient(true).CreateAccount())
+            var account = new Account();
+            Task.Run(async () => account = await EasyApiClient.Instance.CreateAccount())
                 .ContinueWith(o =>
                 {
                     if (!o.IsCompletedSuccessfully)
@@ -64,39 +82,81 @@ public class LoginWindowViewModel : ViewModelBase
                     }
 
                     ErrorText = new ErrorText("Success!", Colors.LawnGreen);
+                    if (SaveLoginChecked)
+                        SaveLogin(account.Id, account.Key);
                     Thread.Sleep(100);
-
-                    OpenMainWindow(o.Result, cancellationToken);
+                    EventBus.Instance.PostEvent(new OnLoginEvent());
                 });
         });
     }
 
-    private void OpenMainWindow(Account account, CancellationToken cancellationToken)
+    private static void SaveLogin(ByteString id, ByteString key)
     {
-        Session.Account = account;
-        new NotifyServer().Start(Array.Empty<string>());
-        Dispatcher.UIThread.InvokeAsync(() =>
+        var file = "./data/savedlogin";
+        File.WriteAllLines(file, new[] {"yes", id.ToHexString(), key.ToHexString()});
+    }
+
+    private void ReadSavedLogin()
+    {
+        var file = "./data/savedlogin";
+        if (!File.Exists(file))
         {
-            var mainWindow = new MainWindow()
-            {
-                DataContext = new MainWindowViewModel(cancellationToken)
-            };
-            mainWindow.Show();
-            MainWindowOpened = true;
-        });
+            SaveLoginChecked = false;
+            return;
+        }
+
+        var lines = File.ReadAllLines(file);
+        if (lines.First() != "yes" || lines.Length < 3)
+        {
+            SaveLoginChecked = false;
+            return;
+        }
+
+        SaveLoginChecked = true;
+        HexId = lines[1];
+        HexKey = lines[2];
+    }
+
+    private static void WipeSavedLogin()
+    {
+        var file = "./data/savedlogin";
+        File.WriteAllLines(file, new[] {"no"});
     }
 
     public ErrorText ErrorText
     {
         get => _errorText;
-        set => this.RaiseAndSetIfChanged(ref _errorText, value);
+        private set => this.RaiseAndSetIfChanged(ref _errorText, value);
     }
 
-    public string IdHexString { get; set; }
-    public string KeyHexString { get; set; }
+    public string HexId { get; set; }
+    public string HexKey { get; set; }
 
     public ICommand LoginCommand { get; set; }
     public ICommand CreateNewAccountCommand { get; set; }
 
-    public bool MainWindowOpened { get; private set; }
+    public bool SaveLoginChecked
+    {
+        get => _saveLoginChecked;
+        set
+        {
+            if (value == false)
+            {
+                SaveLoginContent = "no";
+                WipeSavedLogin();
+            }
+            else
+            {
+                SaveLoginContent = "yes";
+            }
+
+            this.RaiseAndSetIfChanged(ref _saveLoginChecked, value);
+        }
+    }
+
+    public string SaveLoginContent
+    {
+        get => _saveLoginContent;
+        set => this.RaiseAndSetIfChanged(ref _saveLoginContent, value);
+    }
 }

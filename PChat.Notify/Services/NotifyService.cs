@@ -136,6 +136,24 @@ public class NotifyService : Pchat.Notify.NotifyBase
         return Task.FromResult(new ClientStatusResponse());
     }
 
+    public override Task<ClientStatusResponse> DequeuedMessage(TextMessage message, ServerCallContext context)
+    {
+        if (Global.Debug)
+            _logger.LogDebug($"[Notify] {nameof(ReceivedMessage)} called");
+        
+        var dequeued = Session.QueuedMessages.FirstOrDefault(x => x.Id == message.Id);
+        if (dequeued == null)
+        {
+            _logger.LogError($"[Notify] (de-)queued message was not found in session");
+            return Task.FromResult(new ClientStatusResponse());
+        }
+
+        Session.QueuedMessages.Remove(dequeued);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.QueuedMessages)));
+
+        return Task.FromResult(new ClientStatusResponse());
+    }
+
     public override Task<ClientStatusResponse> ReceivedContactCard(ContactCard newCard, ServerCallContext context)
     {
         if (Global.Debug)
@@ -147,6 +165,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
             _logger.LogError($"[Notify] Error in {nameof(ReceivedContactCard)}: Contact is null!");
             return Task.FromResult(new ClientStatusResponse());
         }
+
         oldCard.MergeFrom(newCard);
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
         return Task.FromResult(new ClientStatusResponse());

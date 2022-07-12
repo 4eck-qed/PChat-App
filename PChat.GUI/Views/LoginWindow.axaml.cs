@@ -14,15 +14,6 @@ namespace PChat.GUI
 #if DEBUG
             this.AttachDevTools();
 #endif
-            while (DataContext is LoginWindowViewModel viewModel)
-            {
-                if (viewModel.MainWindowOpened)
-                {
-                    Close();
-                    break;
-                }
-                Thread.Sleep(100);
-            }
         }
 
         private void InitializeComponent()

@@ -13,7 +13,7 @@
     </UserControl.Resources>
 
     <Grid RowDefinitions="50,*,50,*" Width="300">
-        <!--region Contacts-->
+        <!--#region Contacts Header-->
         <Grid Grid.Row="0" RowDefinitions="*,Auto" ColumnDefinitions="250,40">
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Contacts" VerticalAlignment="Center" FontWeight="Medium"
                        Foreground="Gray" Margin="10,0,0,0" />
@@ -34,7 +34,9 @@
                 </Grid>
             </Border>
         </Grid>
-
+        <!--#endregion-->
+        
+        <!--#region Contacts-->
         <ListBox Grid.Row="1" Background="Transparent"
                  Items="{Binding Contacts, ElementName=Self, Mode=TwoWay}"
                  SelectedItem="{Binding SelectedContact, ElementName=Self, Mode=TwoWay}">
@@ -75,7 +77,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="*,*">
+                    <Grid ColumnDefinitions="40,*">
                         <Ellipse Grid.Column="0" Width="40" Height="40">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill"

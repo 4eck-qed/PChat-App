@@ -51,9 +51,9 @@
             <!--#region StatusBar-->
             <controls:StatusBar Grid.Row="0"
                                 x:Name="StatusBar" Height="50"
-                                MessageQueue="{Binding Shared.MessageQueue, Mode=TwoWay}"
+                                QueuedMessages="{Binding QueuedMessages, Mode=TwoWay}"
                                 Notifications="{Binding Notifications, Mode=TwoWay}"
-                                LoginHistory="{Binding Shared.LoginHistory, Mode=TwoWay}" />
+                                LoginHistory="{Binding LoginHistory}" />
             <!--#endregion-->
 
             <!--#region Notifications-->
@@ -102,7 +102,7 @@
                              VerticalAlignment="Top" Background="Transparent">
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                
+
                             </ContextMenu>
                         </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>

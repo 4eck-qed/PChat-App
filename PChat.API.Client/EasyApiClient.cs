@@ -11,6 +11,8 @@ public class EasyApiClient
 {
     private bool _isUnsecure;
 
+    public static EasyApiClient Instance = new(true);
+
     /// <summary>
     /// Returns an Instance with no credentials.
     /// </summary>
@@ -19,12 +21,6 @@ public class EasyApiClient
     {
         IsUnsecure = isUnsecure;
     }
-
-    #region Private
-
-    private static ByteString Parse(IEnumerable<byte> bytes) => ByteString.CopyFrom(bytes.ToArray());
-
-    #endregion
 
     public async Task LoadContacts()
     {
@@ -56,8 +52,7 @@ public class EasyApiClient
 
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
-        var filter = new MessageFilter();
-        var response = await client.GetMessagesAsync(filter);
+        var response = await client.GetMessagesAsync(new MessageFilter());
         var messages = response.Items.ToList();
 
         var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
@@ -72,23 +67,6 @@ public class EasyApiClient
         return conversation;
     }
 
-    public async Task<Account> Login(Credentials credentials)
-    {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var account = await client.LoginAsync(credentials);
-        Session.Account = account;
-        // await client.AnnounceOnlineAsync(new Empty());
-        return account;
-    }
-    public async Task Logout()
-    {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var account = await client.LogoutAsync(new Empty());
-        // await client.AnnouceOfflineAsync(new Empty()); // currently handled by api
-    }
-
     /// <summary>
     /// Get your credentials.
     /// </summary>
@@ -100,6 +78,73 @@ public class EasyApiClient
         var account = await client.CreateAccountAsync(new Empty());
         Session.Account = account;
         return account;
+    }
+
+    /// <summary>
+    /// Tries to login with given credentials. <br/>
+    /// On success: initializes the account in the session.
+    /// </summary>
+    /// <param name="credentials"></param>
+    /// <returns></returns>
+    public async Task<Account?> Login(Credentials credentials)
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        try
+        {
+            var account = await client.LoginAsync(credentials);
+            Session.Account = account;
+            // await client.AnnounceOnlineAsync(new Empty());
+            return account;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Logs out, thus killing the session.
+    /// </summary>
+    public async Task Logout()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var account = await client.LogoutAsync(new Empty());
+        // await client.AnnouceOfflineAsync(new Empty()); // currently handled by api
+    }
+
+    public async Task Kill()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        await client.KillAsync(new Empty());
+    }
+
+    /// <summary>
+    /// Returns your login history.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<TextMessage>> GetQueuedMessages()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var response = await client.GetQueuedMessagesAsync(new MessageFilter());
+        Session.QueuedMessages = new ObservableCollection<TextMessage>(response.Items);
+        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.QueuedMessages)));
+        return response.Items;
+    }
+
+    /// <summary>
+    /// Returns your login history.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<DateTime>> GetLoginHistory()
+    {
+        var channel = GrpcChannel.ForAddress(Host);
+        var client = new Api.ApiClient(channel);
+        var response = await client.GetLoginHistoryAsync(new Empty());
+        return response.Logins.Select(DateTime.Parse);
     }
 
     /// <summary>
@@ -132,7 +177,7 @@ public class EasyApiClient
     /// Sends a message.
     /// </summary>
     /// <param name="message"></param>
-    public async Task<bool> SendMessage(TextMessage message)
+    public async Task<SendResponse.Types.Status> SendMessage(TextMessage message)
     {
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
@@ -145,7 +190,13 @@ public class EasyApiClient
         EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
 
         var response = await client.SendMessageAsync(message);
-        return response.Status == PeerResponse.Types.Status.Received;
+        if (response.Status == SendResponse.Types.Status.Queued)
+        {
+            Session.QueuedMessages.Add(message);
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.QueuedMessages)));
+        }
+
+        return response.Status;
     }
 
     public async Task AddContact(ByteString id)
@@ -155,6 +206,7 @@ public class EasyApiClient
             Console.WriteLine("[ERROR] You cannot add yourself");
             return;
         }
+
         var channel = GrpcChannel.ForAddress(Host);
         var client = new Api.ApiClient(channel);
         var contact = Session.Contacts.FirstOrDefault(x => x.Id == id);

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Avalonia.Media;
 using JetBrains.Annotations;
 using Pchat;
+using PChat.API.Client;
 using PChat.GUI.Core;
 using PChat.Extensions;
 using PChat.Shared;
@@ -20,8 +21,6 @@ namespace PChat.GUI;
 /// </summary>
 public class ChatViewModel : ViewModelBase
 {
-    protected SharedViewModel Shared { get; }
-
     #region Fields
 
     // private ObservableCollection<Message> _messages;
@@ -31,9 +30,8 @@ public class ChatViewModel : ViewModelBase
 
     #endregion
 
-    public ChatViewModel(SharedViewModel shared, ContactCard contact)
+    public ChatViewModel(ContactCard contact)
     {
-        Shared = shared;
         Contact = contact;
         InitializeCommands();
 
@@ -41,7 +39,7 @@ public class ChatViewModel : ViewModelBase
         Task.Run(async () =>
         {
             await UpdateOnlineStatus();
-            return Conversation = await Shared.Client.LoadConversation(contact);
+            Conversation = await EasyApiClient.Instance.LoadConversation(contact);
         });
     }
 
@@ -75,21 +73,12 @@ public class ChatViewModel : ViewModelBase
                         Time = DateTime.Now.ToString(CultureInfo.InvariantCulture)
                     };
 
-                    Task.Run(async () =>
-                    {
-                        await Shared.Client.SendMessage(message).ContinueWith(sendTask =>
-                        {
-                            if (!sendTask.IsCompletedSuccessfully)
-                            {
-                                // Shared.MessageQueueToBeRemoved.Enqueue(outgoingMessage);
-                                Shared.MessageQueue.Enqueue(message);
-                            }
-                        });
-                    });
+                    Task.Run(async () => await EasyApiClient.Instance.SendMessage(message));
                     break;
 
                 default:
-                    throw new NotSupportedException("Only text messages are currently supported!");
+                    Console.WriteLine("Only text messages are currently supported!");
+                    break;
             }
         });
 
@@ -131,7 +120,7 @@ public class ChatViewModel : ViewModelBase
 
     private async Task UpdateOnlineStatus()
     {
-        if (await Shared.Client.Ping(Contact))
+        if (await EasyApiClient.Instance.Ping(Contact))
         {
             IsOnlineIndicator = Brushes.LawnGreen;
             return;

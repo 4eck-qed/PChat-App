@@ -26,6 +26,18 @@ public partial class DynamicExpander : UserControl
     public DynamicExpander()
     {
         InitializeComponent();
+        HeaderProperty.Changed
+            .Subscribe(x => UpdateButtonContent(Direction));
+    }
+
+    private void UpdateButtonContent(EDirection direction)
+    {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (_expanderButton is null) return;
+        _expanderButton.Content = IsExpanded
+            ? ParseButtonContent(direction, false)
+            : ParseButtonContent(ParseOpposite(direction), true);
+        _expanderButton.Background = ButtonColor;
     }
 
     private void BuildContent(EDirection direction)
@@ -87,42 +99,52 @@ public partial class DynamicExpander : UserControl
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
-        var header = new TextBlock
+        var headerTextBlock = new TextBlock
         {
             Text = Header,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
+        var fontSizeInPx = 0d;
+        var contentWidth = 0d;
         switch (direction)
         {
             case EDirection.Left:
                 stackedContent.Orientation = Orientation.Horizontal;
-                header.RenderTransform = new RotateTransform(90);
-                header.Margin = new Thickness(-45, 0, -45, 0);
-                stackedContent.Height = Header.Length * header.FontSize - 60;
+                headerTextBlock.RenderTransform = new RotateTransform(90);
 
                 if (!(isCollapsed && HeaderOnlyWhenCollapsed))
                     stackedContent.Children.Add(symbol);
-                stackedContent.Children.Add(header);
+                stackedContent.Children.Add(headerTextBlock);
+
+                fontSizeInPx = headerTextBlock.FontSize * 1.3;
+                contentWidth = stackedContent.Children.Count * fontSizeInPx;
+                headerTextBlock.Margin = new Thickness(-50, 0, -50, 0);
+                stackedContent.Height = Header.Length * headerTextBlock.FontSize;
+                stackedContent.Width = contentWidth;
                 break;
             case EDirection.Right:
                 stackedContent.Orientation = Orientation.Horizontal;
-                header.RenderTransform = new RotateTransform(-90);
-                header.Margin = new Thickness(-45, 0, -45, 0);
-                stackedContent.Height = Header.Length * header.FontSize - 60;
-                stackedContent.Children.Add(header);
+                headerTextBlock.RenderTransform = new RotateTransform(-90);
+                stackedContent.Children.Add(headerTextBlock);
                 if (!(isCollapsed && HeaderOnlyWhenCollapsed))
                     stackedContent.Children.Add(symbol);
+
+                fontSizeInPx = headerTextBlock.FontSize * 1.3;
+                contentWidth = stackedContent.Children.Count * fontSizeInPx;
+                headerTextBlock.Margin = new Thickness(-50, 0, -50, 0);
+                stackedContent.Height = Header.Length * headerTextBlock.FontSize;
+                stackedContent.Width = contentWidth;
                 break;
             case EDirection.Up:
                 stackedContent.Orientation = Orientation.Vertical;
                 if (!(isCollapsed && HeaderOnlyWhenCollapsed))
                     stackedContent.Children.Add(symbol);
-                stackedContent.Children.Add(header);
+                stackedContent.Children.Add(headerTextBlock);
                 break;
             case EDirection.Down:
                 stackedContent.Orientation = Orientation.Vertical;
-                stackedContent.Children.Add(header);
+                stackedContent.Children.Add(headerTextBlock);
                 if (!(isCollapsed && HeaderOnlyWhenCollapsed))
                     stackedContent.Children.Add(symbol);
                 break;
@@ -220,7 +242,7 @@ public partial class DynamicExpander : UserControl
         AvaloniaProperty.Register<DynamicExpander, EDirection>(nameof(Direction));
 
     public static readonly StyledProperty<string> HeaderProperty =
-        AvaloniaProperty.Register<DynamicExpander, string>(nameof(Header));
+        AvaloniaProperty.Register<DynamicExpander, string>(nameof(Header), "");
 
     public static readonly StyledProperty<IBrush> ButtonColorProperty =
         AvaloniaProperty.Register<DynamicExpander, IBrush>(nameof(ButtonColor));

@@ -6,6 +6,9 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using DynamicData.Binding;
+using Google.Protobuf;
+using Pchat;
 using PChat.API.Client;
 using PChat.Extensions;
 using ReactiveUI;
@@ -31,6 +34,19 @@ public partial class CAGPanel : UserControl
     }
 
     #region Properties
+
+    public ObservableCollectionExtended<ContactViewModel> ContactsPreview { get; set; } = new()
+    {
+        {
+            new ContactViewModel(new ContactCard
+            {
+                Id = ByteStringExtensions.RandomByteString(16),
+                Name = "Test",
+                Avatar = ByteString.Empty,
+                Status = "testing"
+            })
+        }
+    };
 
     public ObservableCollection<ContactViewModel> Contacts
     {

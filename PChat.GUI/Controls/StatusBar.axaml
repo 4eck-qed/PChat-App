@@ -14,7 +14,7 @@
                        Foreground="#b5b5b5" Content=" to send: " />
 
                 <TextBlock VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Oblique" FontSize="13"
-                           Foreground="Orange" Text="{Binding MessageQueue.Count, ElementName=Self}" />
+                           Foreground="Orange" Text="{Binding QueuedMessages.Count, ElementName=Self}" />
 
                 <Label VerticalAlignment="Center" FontWeight="UltraLight" FontStyle="Italic" FontSize="13"
                        Margin="20,0,0,0" Foreground="#b5b5b5" Content="new messages: " />

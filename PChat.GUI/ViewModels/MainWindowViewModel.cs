@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Threading;
 using DynamicData;
 using Google.Protobuf;
 using JetBrains.Annotations;
@@ -23,8 +24,6 @@ namespace PChat.GUI
     /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly SharedViewModel _shared;
-        private readonly MetaViewModel _metaViewModel;
         private readonly CancellationToken _cancellationToken;
         private Dictionary<string, string> _sessionProperties;
 
@@ -40,6 +39,9 @@ namespace PChat.GUI
 
         private Group _selectedGroup;
         private ObservableCollection<ContactViewModel> _contacts;
+        
+        private ObservableCollection<TextMessage> _queuedMessages;
+        private ObservableCollection<DateTime> _loginHistory;
 
         #endregion
 
@@ -48,17 +50,14 @@ namespace PChat.GUI
         {
             Console.WriteLine("Initializing main window view model..");
             InitProperties();
-
-            var client = new EasyApiClient(true);
+            
             Profile = new ProfileViewModel(Session.Account);
-            Shared = new SharedViewModel(client);
-            _metaViewModel = new MetaViewModel(Shared, cancellationToken);
             _cancellationToken = cancellationToken;
 
             Task.Run(async () =>
                 {
-                    await client.LoadContacts();
-                    await client.LoadFriendRequests();
+                    await EasyApiClient.Instance.LoadContacts();
+                    await EasyApiClient.Instance.LoadFriendRequests();
                 })
                 .ContinueWith(_ => Contacts =
                     new ObservableCollection<ContactViewModel>(Session.Contacts.Select(x => new ContactViewModel(x))));
@@ -69,6 +68,36 @@ namespace PChat.GUI
                 .Subscribe(notifications => Console.WriteLine("Notifications updated ({0}).", notifications.Count));
 
             EventBus.Instance.Subscribe(this);
+            
+            Task.Run(async () =>
+            {
+                QueuedMessages = new ObservableCollection<TextMessage>(await EasyApiClient.Instance.GetQueuedMessages());
+                LoginHistory = new ObservableCollection<DateTime>(await EasyApiClient.Instance.GetLoginHistory());
+            });
+
+
+            //TBR
+            var timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(5),
+                IsEnabled = true,
+            };
+            timer.Tick += (_, _) =>
+            {
+                FriendRequests.Add(new FriendRequest
+                {
+                    Id = ByteStringExtensions.RandomByteString(16),
+                    Sender = new ContactCard
+                    {
+                        Id = ByteStringExtensions.RandomByteString(16),
+                        Name = "Test",
+                        Status = "Testing",
+                    },
+                    Status = FriendRequestStatus.Pending,
+                    TargetId = Session.Account.Id,
+                });
+                this.RaisePropertyChanged(nameof(FriendRequests));
+            };
         }
 
         private void InitCommands()
@@ -126,7 +155,8 @@ namespace PChat.GUI
                 var notFriendsIds = notFriendsChats.Select(x => x.Contact.Id);
                 var newFriendsCards = Session.Contacts.Where(x => !chatsIds.Contains(x.Id)).ToList();
                 Chats.RemoveMany(notFriendsChats);
-                Chats.Add(newFriendsCards.Select(x => new ChatViewModel(Shared, x)));
+                Chats.Add(newFriendsCards.Select(x => new ChatViewModel(x)));
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                 if (Contacts == null) return;
                 if (Contacts.Any())
                     Contacts.RemoveMany(Contacts.Where(x => notFriendsIds.Contains(x.Card?.Id)));
@@ -257,13 +287,19 @@ namespace PChat.GUI
             }
         }
 
-        public SharedViewModel Shared
+        public ProfileViewModel Profile { get; }
+        
+        public ObservableCollection<TextMessage> QueuedMessages
         {
-            get => _shared;
-            private init => this.RaiseAndSetIfChanged(ref _shared, value);
+            get => _queuedMessages;
+            set => this.RaiseAndSetIfChanged(ref _queuedMessages, value);
         }
 
-        public ProfileViewModel Profile { get; }
+        public ObservableCollection<DateTime> LoginHistory
+        {
+            get => _loginHistory;
+            set => this.RaiseAndSetIfChanged(ref _loginHistory, value);
+        }
 
         #endregion
 

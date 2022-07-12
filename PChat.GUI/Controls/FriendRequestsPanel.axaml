@@ -13,14 +13,15 @@
         <converters:AvatarConverter x:Key="AvatarConverter" />
     </UserControl.Resources>
 
-    <local:DynamicExpander Header="Friend Requests" Background="{Binding ExpanderColor, ElementName=Self}"
+    <local:DynamicExpander Header="{Binding Header, ElementName=Self}" Background="{Binding ExpanderColor, ElementName=Self}"
                            HeaderOnlyWhenCollapsed="True">
         <local:DynamicExpander.ExpandableContent>
             <StackPanel Width="303">
                 <TextBlock Text="Nothing to see here.." Foreground="Gray" Margin="50"
                            IsVisible="{Binding FriendRequests, ElementName=Self, Converter={StaticResource IsNullOrEmptyConverter}}" />
                 <ListBox Background="{Binding Background, ElementName=Self}"
-                         Items="{Binding FriendRequests, ElementName=Self, Mode=TwoWay}">
+                         Items="{Binding FriendRequests, ElementName=Self, Mode=TwoWay}"
+                         ItemCount="{Binding FriendRequestsCount, ElementName=Self, Mode=OneWayToSource}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid ColumnDefinitions="30,100,50,40,40">

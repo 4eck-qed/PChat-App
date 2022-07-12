@@ -3,8 +3,10 @@
         xmlns:vm="using:PChat.GUI"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        Width="800" Height="450"
+        mc:Ignorable="d"
+        d:DesignWidth="320" d:DesignHeight="200"
+        Width="320" Height="200"
+        CornerRadius="20"
         x:Class="PChat.GUI.LoginWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="PChat">
@@ -12,12 +14,18 @@
     <Design.DataContext>
         <vm:LoginWindowViewModel />
     </Design.DataContext>
-    <Grid RowDefinitions="30,30,30,50" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBox Grid.Row="0" Width="300" Watermark="ID" UseFloatingWatermark="False" Text="{Binding IdHexString}" />
-        <TextBox Grid.Row="1" Width="300" Watermark="Key" UseFloatingWatermark="False" Text="{Binding KeyHexString}" />
-        <TextBlock Grid.Row="2" HorizontalAlignment="Center"
-                   Text="{Binding ErrorText.Error}" Foreground="{Binding ErrorText.ColorString}"/>
+    <Grid RowDefinitions="30,30,30,30,50" Width="320" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"
+          Background="#3b3a3a">
+        <TextBox Grid.Row="0" Margin="10,10,10,3" Width="300" Watermark="ID" UseFloatingWatermark="False" Text="{Binding HexId}" />
+        <TextBox Grid.Row="1" Width="300" Watermark="Key" UseFloatingWatermark="False" Text="{Binding HexKey}" />
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{Binding ErrorText.ColorString}"
+                   Text="{Binding ErrorText.Error}" />
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock VerticalAlignment="Center" Text="Save Login?"></TextBlock>
+            <ToggleButton VerticalAlignment="Center" VerticalContentAlignment="Center"
+                          IsChecked="{Binding SaveLoginChecked}" Content="{Binding SaveLoginContent}" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Login" Command="{Binding LoginCommand}" />
             <Button Content="I'm new" Command="{Binding CreateNewAccountCommand}" />
         </StackPanel>
