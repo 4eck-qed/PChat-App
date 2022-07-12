@@ -4,10 +4,10 @@ The repository solely contains the frontend program that contains the GUI, thus 
 
 
 # Get Started
-This is a P2P (peer to peer) chat client so you need to open the required port* in your firewall and router.\
+This is a P2P (peer to peer) chat client so you need to open the required port in your firewall and router.\
 The required port for P2P traffic is 50053.
 
-*To receive P2P connections you need to (1) add a rule to your firewall and (2) open the port on your router.
+To receive P2P connections you need to (1) add a rule to your firewall and (2) open the port on your router.
 
 ## (1) Add A Rule To Your Firewall
 
@@ -45,7 +45,7 @@ Open a web browser and enter the ip in the URL field - this will open your route
 From there it differs based on what model your router is because every interface looks way different.\
 There could be something called port forwarding or virtual server where you can add the rule.\
 Same as for (1) the port you want to forward is 50053.\
-The rule could look something like this:\
+The rule could look something like this:
 
 | Service    | External Port | Internal IP   | Internal Port | Protocol |
 | :--------: | :-----------: | :-----------: | :-----------: | :------: |
