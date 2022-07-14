@@ -131,6 +131,8 @@ namespace PChat.GUI
                 var newFriendsCards = Session.Contacts.Where(x => !chatsIds.Contains(x.Id)).ToList();
                 Chats.RemoveMany(notFriendsChats);
                 Chats.Add(newFriendsCards.Select(x => new ChatViewModel(x)));
+                if (!Chats.Select(x => x.Contact.Id).Contains(SelectedChat?.Contact.Id))
+                    SelectedChat = null;
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                 if (Contacts == null) return;
                 if (Contacts.Any())
