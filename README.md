@@ -61,3 +61,8 @@ The rule could look something like this:
 | PChat P2P  |     50053     | 192.168.1.103 |     50053     |   TCP    |
 
 If you don't find the option there is maybe an option to show advanced settings.
+
+## Setup the config
+
+Go into the api/config folder and open network.cfg.
+Set the value of LS_IP to the ip address of the Lookup Server (soon).
