@@ -1,15 +1,16 @@
 using Google.Protobuf;
 using Grpc.Core;
 using Pchat;
+using PChat.Config;
 using PChat.Shared;
 
 namespace PChat.Notify.Services;
 
 public class NotifyService : Pchat.Notify.NotifyBase
 {
-    private readonly ILogger<NotifyService> _logger;
+    private readonly ILogger _logger;
 
-    public NotifyService(ILogger<NotifyService> logger)
+    public NotifyService(ILogger logger)
     {
         _logger = logger;
     }
@@ -140,7 +141,7 @@ public class NotifyService : Pchat.Notify.NotifyBase
     {
         if (Global.Debug)
             _logger.LogDebug($"[Notify] {nameof(ReceivedMessage)} called");
-        
+
         var dequeued = Session.QueuedMessages.FirstOrDefault(x => x.Id == message.Id);
         if (dequeued == null)
         {

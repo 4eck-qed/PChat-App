@@ -45,7 +45,7 @@
                     Command="{Binding CommandWrapper, ElementName=Self, Mode=TwoWay}"
                     CommandParameter="{Binding Input, ElementName=Self, Mode=TwoWay}">
                 <Button.Content>
-                    <Image Source="/Assets/Images/send.png" Width="30" Height="30" />
+                    <Image Source="/Assets/Images/send.png" Width="40" Height="40" />
                 </Button.Content>
             </Button>
 

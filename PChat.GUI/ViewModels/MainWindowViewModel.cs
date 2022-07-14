@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia.Threading;
 using DynamicData;
 using Google.Protobuf;
 using JetBrains.Annotations;

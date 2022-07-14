@@ -70,9 +70,9 @@ namespace Pchat {
             "ZRgFIAEoCRIpCgZzdGF0dXMYBiABKA4yGS5wY2hhdC5UZXh0TWVzc2FnZS5T",
             "dGF0dXMiPQoGU3RhdHVzEg8KC1VOU1BFQ0lGSUVEEAASCgoGUVVFVUVEEAES",
             "DAoIUkVDRUlWRUQQAhIICgRTRUVOEAMiMQoMVGV4dE1lc3NhZ2VzEiEKBWl0",
-            "ZW1zGAEgAygLMhIucGNoYXQuVGV4dE1lc3NhZ2UqTwoTRnJpZW5kUmVxdWVz",
-            "dFN0YXR1cxIPCgtVTlNQRUNJRklFRBAAEgsKB1BFTkRJTkcQARIMCghBQ0NF",
-            "UFRFRBACEgwKCFJFSkVDVEVEEANiBnByb3RvMw=="));
+            "ZW1zGAEgAygLMhIucGNoYXQuVGV4dE1lc3NhZ2UqYAoTRnJpZW5kUmVxdWVz",
+            "dFN0YXR1cxIPCgtVTlNQRUNJRklFRBAAEg8KC05PVFJFQ0VJVkVEEAESCwoH",
+            "UEVORElORxACEgwKCEFDQ0VQVEVEEAMSDAoIUkVKRUNURUQQBGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Pchat.FriendRequestStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -108,9 +108,10 @@ namespace Pchat {
   #region Enums
   public enum FriendRequestStatus {
     [pbr::OriginalName("UNSPECIFIED")] Unspecified = 0,
-    [pbr::OriginalName("PENDING")] Pending = 1,
-    [pbr::OriginalName("ACCEPTED")] Accepted = 2,
-    [pbr::OriginalName("REJECTED")] Rejected = 3,
+    [pbr::OriginalName("NOTRECEIVED")] Notreceived = 1,
+    [pbr::OriginalName("PENDING")] Pending = 2,
+    [pbr::OriginalName("ACCEPTED")] Accepted = 3,
+    [pbr::OriginalName("REJECTED")] Rejected = 4,
   }
 
   #endregion

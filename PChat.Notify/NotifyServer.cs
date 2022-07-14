@@ -1,4 +1,5 @@
 using Grpc.Core;
+using PChat.Config;
 using PChat.Log;
 
 namespace PChat.Notify;
@@ -12,14 +13,16 @@ public class NotifyServer
 
     public NotifyServer()
     {
-        var logger = new LoggerFactory()
-            .AddFile($"./data/{nameof(NotifyService)}", true)
-            .CreateLogger<NotifyService>();
-        _logger = logger;
+        _logger = LoggerFactory.Create(o =>
+        {
+            o.AddConsole();
+            o.AddFile(Global.DataDir);
+        }).CreateLogger<NotifyServer>();
+
         _server = new Server()
         {
-            Services = {Pchat.Notify.BindService(new NotifyService(logger))},
-            Ports = {new ServerPort("localhost", 50052, ServerCredentials.Insecure)}
+            Services = {Pchat.Notify.BindService(new NotifyService(_logger))},
+            Ports = {new ServerPort("localhost", Global.NotifyPort, ServerCredentials.Insecure)}
         };
     }
 

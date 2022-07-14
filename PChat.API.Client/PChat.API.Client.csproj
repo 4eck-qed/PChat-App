@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PChat.Log\PChat.Log.csproj" />
       <ProjectReference Include="..\PChat.Shared\PChat.Shared.csproj" />
       <ProjectReference Include="..\PChat\PChat.csproj" />
     </ItemGroup>

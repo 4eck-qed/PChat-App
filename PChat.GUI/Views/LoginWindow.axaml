@@ -12,17 +12,23 @@
         Title="PChat">
 
     <Design.DataContext>
+        <!-- ReSharper disable once Xaml.ConstructorWarning -->
         <vm:LoginWindowViewModel />
     </Design.DataContext>
-    <Grid RowDefinitions="30,30,30,30,50" Width="320" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"
+
+    <Grid RowDefinitions="30,30,30,30,50" Width="320" Height="200" HorizontalAlignment="Center"
+          VerticalAlignment="Center"
           Background="#3b3a3a">
-        <TextBox Grid.Row="0" Margin="10,10,10,3" Width="300" Watermark="ID" UseFloatingWatermark="False" Text="{Binding HexId}" />
+        <TextBox Grid.Row="0" Margin="10,10,10,3" Width="300" Watermark="ID" UseFloatingWatermark="False"
+                 Text="{Binding HexId}" />
         <TextBox Grid.Row="1" Width="300" Watermark="Key" UseFloatingWatermark="False" Text="{Binding HexKey}" />
         <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{Binding ErrorText.ColorString}"
                    Text="{Binding ErrorText.Error}" />
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center" Text="Save Login?"></TextBlock>
             <ToggleButton VerticalAlignment="Center" VerticalContentAlignment="Center"
+                          HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                          Width="35" Padding="2"
                           IsChecked="{Binding SaveLoginChecked}" Content="{Binding SaveLoginContent}" />
         </StackPanel>
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">

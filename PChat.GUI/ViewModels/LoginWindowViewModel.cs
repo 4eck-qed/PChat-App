@@ -1,31 +1,47 @@
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
 using Google.Protobuf;
+using ReactiveUI;
 using Pchat;
 using PChat.API.Client;
+using PChat.Config;
 using PChat.Extensions;
 using PChat.GUI.Models;
-using ReactiveUI;
 
 // ReSharper disable once CheckNamespace
 namespace PChat.GUI;
 
 public class LoginWindowViewModel : ViewModelBase
 {
+    private readonly CancellationToken _cancellationToken;
     private ErrorText _errorText;
     private bool _saveLoginChecked;
     private string _saveLoginContent;
+    private const string SaveLoginFile = $"{Global.DataDir}/saved";
 
-    public LoginWindowViewModel()
+    private enum Errors
     {
+        Offline = 0,
+        InvalidLogin = 1,
+        IdFieldEmpty = 2,
+        KeyFieldEmpty = 3,
     }
+
+    private readonly Dictionary<Errors, string> _errorDict = new()
+    {
+        {Errors.Offline, "API or Lookup Server is Offline!"},
+        {Errors.InvalidLogin, "Invalid Login!"},
+        {Errors.IdFieldEmpty, "Id Field is Empty!"},
+        {Errors.KeyFieldEmpty, "Key Field is Empty!"},
+    };
 
     public LoginWindowViewModel(CancellationToken cancellationToken)
     {
+        _cancellationToken = cancellationToken;
         CreateCommands();
         ReadSavedLogin();
     }
@@ -36,13 +52,13 @@ public class LoginWindowViewModel : ViewModelBase
         {
             if (string.IsNullOrEmpty(HexId))
             {
-                ErrorText = new ErrorText("Id missing!", Colors.Yellow);
+                ErrorText = new ErrorText(_errorDict[Errors.IdFieldEmpty], Colors.Yellow);
                 return;
             }
 
             if (string.IsNullOrEmpty(HexKey))
             {
-                ErrorText = new ErrorText("Key missing!", Colors.Yellow);
+                ErrorText = new ErrorText(_errorDict[Errors.KeyFieldEmpty], Colors.Yellow);
                 return;
             }
 
@@ -51,12 +67,12 @@ public class LoginWindowViewModel : ViewModelBase
                 {
                     Id = HexString.ToByteString(HexId),
                     Key = HexString.ToByteString(HexKey)
-                }) is not null)
-                .ContinueWith(o =>
+                }) is not null, _cancellationToken)
+                .ContinueWith(_ =>
                 {
                     if (!loggedIn)
                     {
-                        ErrorText = new ErrorText("Invalid login!", Colors.Red);
+                        ErrorText = new ErrorText(_errorDict[Errors.InvalidLogin], Colors.Red);
                         return;
                     }
 
@@ -65,19 +81,19 @@ public class LoginWindowViewModel : ViewModelBase
                         SaveLogin(HexString.ToByteString(HexId), HexString.ToByteString(HexKey));
                     Thread.Sleep(100);
                     EventBus.Instance.PostEvent(new OnLoginEvent());
-                });
+                }, _cancellationToken);
         });
 
         CreateNewAccountCommand = ReactiveCommand.Create(() =>
         {
             ErrorText = new ErrorText("Generating new login..", Colors.LawnGreen);
             var account = new Account();
-            Task.Run(async () => account = await EasyApiClient.Instance.CreateAccount())
+            Task.Run(async () => account = await EasyApiClient.Instance.CreateAccount(), _cancellationToken)
                 .ContinueWith(o =>
                 {
-                    if (!o.IsCompletedSuccessfully)
+                    if (!o.IsCompletedSuccessfully || account is null)
                     {
-                        ErrorText = new ErrorText("Failed", Colors.Red);
+                        ErrorText = new ErrorText(_errorDict[Errors.Offline], Colors.Red);
                         return;
                     }
 
@@ -86,42 +102,38 @@ public class LoginWindowViewModel : ViewModelBase
                         SaveLogin(account.Id, account.Key);
                     Thread.Sleep(100);
                     EventBus.Instance.PostEvent(new OnLoginEvent());
-                });
+                }, _cancellationToken);
         });
     }
 
     private static void SaveLogin(ByteString id, ByteString key)
     {
-        var file = "./data/savedlogin";
-        File.WriteAllLines(file, new[] {"yes", id.ToHexString(), key.ToHexString()});
+        var hexId = id.ToHexString();
+        var heyKey = key.ToHexString();
+        File.WriteAllLines(SaveLoginFile, new[] {hexId, heyKey});
     }
 
     private void ReadSavedLogin()
     {
-        var file = "./data/savedlogin";
-        if (!File.Exists(file))
+        if (!File.Exists(SaveLoginFile))
         {
             SaveLoginChecked = false;
             return;
         }
 
-        var lines = File.ReadAllLines(file);
-        if (lines.First() != "yes" || lines.Length < 3)
+        var lines = File.ReadAllLines(SaveLoginFile);
+        if (lines.Length < 2)
         {
             SaveLoginChecked = false;
             return;
         }
 
         SaveLoginChecked = true;
-        HexId = lines[1];
-        HexKey = lines[2];
+        HexId = lines[0];
+        HexKey = lines[1];
     }
 
-    private static void WipeSavedLogin()
-    {
-        var file = "./data/savedlogin";
-        File.WriteAllLines(file, new[] {"no"});
-    }
+    private static void WipeSavedLogin() => File.Delete(SaveLoginFile);
 
     public ErrorText ErrorText
     {

@@ -15,7 +15,7 @@ public class FileLoggerProvider : ILoggerProvider
 
     public ILogger CreateLogger(string categoryName)
     {
-        return new FileLogger(_path, _echo);
+        return new FileLogger(categoryName, _path, _echo);
     }
 
     public void Dispose()

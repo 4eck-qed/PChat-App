@@ -1,17 +1,22 @@
-using System.Collections.ObjectModel;
-using System.Net;
 using Google.Protobuf;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Logging;
+using System.Collections.ObjectModel;
 using Pchat;
+using PChat.Config;
 using PChat.Shared;
+using PChat.Log;
 
 namespace PChat.API.Client;
 
 public class EasyApiClient
 {
+    private readonly ILogger _logger;
     private bool _isUnsecure;
+    private string _apiIp;
+    private string Host => $"{_apiIp}:{Global.ApiPort}";
 
-    public static EasyApiClient Instance = new(true);
+    public static readonly EasyApiClient Instance = new(true);
 
     /// <summary>
     /// Returns an Instance with no credentials.
@@ -20,24 +25,43 @@ public class EasyApiClient
     public EasyApiClient(bool isUnsecure)
     {
         IsUnsecure = isUnsecure;
+        _logger = LoggerFactory.Create(o =>
+        {
+            o.AddConsole();
+            o.AddFile($"{Global.DataDir}");
+        }).CreateLogger<EasyApiClient>();
     }
 
     public async Task LoadContacts()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var response = await client.GetContactsAsync(new Empty());
-        Session.Contacts = new ObservableCollection<ContactCard>(response.Items);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var response = await client.GetContactsAsync(new Empty());
+            Session.Contacts = new ObservableCollection<ContactCard>(response.Items);
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(LoadContacts), e.ToString());
+        }
     }
 
     public async Task LoadFriendRequests()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var response = await client.GetFriendRequestsAsync(new Empty());
-        Session.FriendRequests = new ObservableCollection<FriendRequest>(response.Items);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var response = await client.GetFriendRequestsAsync(new Empty());
+            Session.FriendRequests = new ObservableCollection<FriendRequest>(response.Items);
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(LoadFriendRequests), e.ToString());
+        }
     }
 
     /// <summary>
@@ -47,37 +71,53 @@ public class EasyApiClient
     /// <returns></returns>
     public async Task<Conversation> LoadConversation(ContactCard contact)
     {
+        var newConversation = new Conversation(contact);
         if (Session.Conversations.All(x => x.Contact.Id != contact.Id))
-            Session.Conversations.Add(new Conversation(contact));
+            Session.Conversations.Add(newConversation);
 
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var response = await client.GetMessagesAsync(new MessageFilter());
-        var messages = response.Items.ToList();
-
-        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
-        if (messages?.Any() == false)
+        try
         {
-            return conversation ?? throw new InvalidDataException("No conversation for that contact!");
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var response = await client.GetMessagesAsync(new MessageFilter());
+            var messages = response.Items.ToList();
+
+            var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == contact.Id);
+            if (messages.Any() == false)
+            {
+                return conversation ?? throw new InvalidDataException("No conversation for that contact!");
+            }
+
+            conversation!.Messages = new ObservableCollection<TextMessage>(messages.OrderBy(m => m.Time));
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
+
+            return conversation;
         }
-
-        conversation!.Messages = new ObservableCollection<TextMessage>(messages!.OrderBy(m => m.Time));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
-
-        return conversation;
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(LoadConversation), e.ToString());
+            return newConversation;
+        }
     }
 
     /// <summary>
     /// Get your credentials.
     /// </summary>
     /// <returns></returns>
-    public async Task<Account> CreateAccount()
+    public async Task<Account?> CreateAccount()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var account = await client.CreateAccountAsync(new Empty());
-        Session.Account = account;
-        return account;
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            Session.Account = await client.CreateAccountAsync(new Empty());
+            return Session.Account;
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(CreateAccount), e.ToString());
+            return null;
+        }
     }
 
     /// <summary>
@@ -88,17 +128,17 @@ public class EasyApiClient
     /// <returns></returns>
     public async Task<Account?> Login(Credentials credentials)
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
         try
         {
-            var account = await client.LoginAsync(credentials);
-            Session.Account = account;
-            // await client.AnnounceOnlineAsync(new Empty());
-            return account;
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            Session.Account = await client.LoginAsync(credentials);
+            await client.AnnounceOnlineAsync(new Empty());
+            return Session.Account;
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogCritical("{M} failed [{E}]", nameof(Login), e.ToString());
             return null;
         }
     }
@@ -108,17 +148,31 @@ public class EasyApiClient
     /// </summary>
     public async Task Logout()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var account = await client.LogoutAsync(new Empty());
-        // await client.AnnouceOfflineAsync(new Empty()); // currently handled by api
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            await client.AnnounceOfflineAsync(new Empty());
+            await client.LogoutAsync(new Empty());
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(Logout), e.ToString());
+        }
     }
 
     public async Task Kill()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        await client.KillAsync(new Empty());
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            await client.KillAsync(new Empty());
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(Kill), e.ToString());
+        }
     }
 
     /// <summary>
@@ -127,12 +181,20 @@ public class EasyApiClient
     /// <returns></returns>
     public async Task<IEnumerable<TextMessage>> GetQueuedMessages()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var response = await client.GetQueuedMessagesAsync(new MessageFilter());
-        Session.QueuedMessages = new ObservableCollection<TextMessage>(response.Items);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.QueuedMessages)));
-        return response.Items;
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var response = await client.GetQueuedMessagesAsync(new MessageFilter());
+            Session.QueuedMessages = new ObservableCollection<TextMessage>(response.Items);
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.QueuedMessages)));
+            return response.Items;
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(GetQueuedMessages), e.ToString());
+            return new List<TextMessage>();
+        }
     }
 
     /// <summary>
@@ -141,10 +203,18 @@ public class EasyApiClient
     /// <returns></returns>
     public async Task<IEnumerable<DateTime>> GetLoginHistory()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var response = await client.GetLoginHistoryAsync(new Empty());
-        return response.Logins.Select(DateTime.Parse);
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var response = await client.GetLoginHistoryAsync(new Empty());
+            return response.Logins.Select(DateTime.Parse);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(GetLoginHistory), e.ToString());
+            return new List<DateTime>();
+        }
     }
 
     /// <summary>
@@ -152,9 +222,16 @@ public class EasyApiClient
     /// </summary>
     public async Task UpdateAccount()
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        await client.UpdateAccountAsync(Session.Account);
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            await client.UpdateAccountAsync(Session.Account);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(UpdateAccount), e.ToString());
+        }
     }
 
     /// <summary>
@@ -164,13 +241,20 @@ public class EasyApiClient
     /// <returns></returns>
     public async Task<bool> Ping(ContactCard contact)
     {
-        Console.WriteLine($"[DEBUG] Trying to ping {contact.Name}..");
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var response = await client.PingAsync(new User {Id = contact.Id});
-        Console.WriteLine(response.Status == PeerResponse.Types.Status.Received ? "\t..Success!" : "\t..Failed.");
-
-        return response.Status == PeerResponse.Types.Status.Received;
+        try
+        {
+            _logger.LogDebug("Trying to ping {C}..", contact.Name);
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var response = await client.PingAsync(new User {Id = contact.Id});
+            Console.WriteLine(response.Status == PeerResponse.Types.Status.Received ? "\t..Success!" : "\t..Failed.");
+            return response.Status == PeerResponse.Types.Status.Received;
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(Ping), e.ToString());
+            return false;
+        }
     }
 
     /// <summary>
@@ -179,109 +263,142 @@ public class EasyApiClient
     /// <param name="message"></param>
     public async Task<SendResponse.Types.Status> SendMessage(TextMessage message)
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-
-        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
-        if (conversation is null)
-            throw new ArgumentException("Conversation does not exist!");
-
-        conversation.Messages.Add(message);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
-
-        var response = await client.SendMessageAsync(message);
-        if (response.Status == SendResponse.Types.Status.Queued)
+        try
         {
-            Session.QueuedMessages.Add(message);
-            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.QueuedMessages)));
-        }
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == message.ReceiverId);
+            if (conversation is null)
+                throw new ArgumentException("Conversation does not exist!");
+            conversation.Messages.Add(message);
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
 
-        return response.Status;
+            var response = await client.SendMessageAsync(message);
+            if (response.Status == SendResponse.Types.Status.Queued)
+            {
+                Session.QueuedMessages.Add(message);
+                EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.QueuedMessages)));
+            }
+
+            return response.Status;
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(SendMessage), e.ToString());
+            return SendResponse.Types.Status.Unspecified;
+        }
     }
 
     public async Task AddContact(ByteString id)
     {
-        if (id == Session.Account.Id)
+        try
         {
-            Console.WriteLine("[ERROR] You cannot add yourself");
-            return;
+            if (id == Session.Account.Id)
+            {
+                _logger.LogError("You cannot add yourself");
+                return;
+            }
+
+            var contact = Session.Contacts.FirstOrDefault(x => x.Id == id);
+            if (contact != null)
+            {
+                _logger.LogError("You cannot add a contact that you already have");
+                return;
+            }
+
+            Session.Contacts.Add(new ContactCard
+            {
+                Id = id,
+                Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png"),
+                Name = "Pending",
+                Status = "..."
+            });
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var _ = await client.AddContactAsync(new User {Id = id});
         }
-
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var contact = Session.Contacts.FirstOrDefault(x => x.Id == id);
-        if (contact != null)
+        catch (Exception e)
         {
-            Console.WriteLine("[ERROR] You cannot add a contact that you already have!");
-            return;
+            _logger.LogCritical("{M} failed [{E}]", nameof(AddContact), e.ToString());
         }
-
-        Session.Contacts.Add(new ContactCard
-        {
-            Id = id,
-            Avatar = ByteString.CopyFromUtf8("avares://PChat.GUI/Assets/Images/avatar_unknown.png"),
-            Name = "Pending",
-            Status = "..."
-        });
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
-
-        var response = await client.AddContactAsync(new User {Id = id});
     }
 
     public async Task RemoveContact(ByteString id)
     {
-        Console.WriteLine("[DEBUG] RemoveContact called.");
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        var contact = Session.Contacts.FirstOrDefault(x => x.Id == id);
-        if (contact == null)
+        _logger.LogDebug("RemoveContact called");
+        try
         {
-            Console.WriteLine("[ERROR] Tried to remove non-existent contact. Ignoring..");
-            return;
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            var contact = Session.Contacts.FirstOrDefault(x => x.Id == id);
+            if (contact == null)
+            {
+                _logger.LogError("Tried to remove non-existent contact. Ignoring..");
+                return;
+            }
+
+            Session.Contacts.Remove(contact);
+
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+            await client.RemoveContactAsync(new User {Id = id});
         }
-
-        Session.Contacts.Remove(contact);
-
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
-        await client.RemoveContactAsync(new User {Id = id});
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(RemoveContact), e.ToString());
+        }
     }
 
     public async Task AcceptFriendRequest(FriendRequest friendRequest)
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        friendRequest.Status = FriendRequestStatus.Accepted;
-        Session.Contacts.Add(friendRequest.Sender);
-        Session.FriendRequests.Remove(friendRequest);
-        var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == friendRequest.Sender.Id);
-        if (conversation == null)
+        try
         {
-            conversation = new Conversation(friendRequest.Sender);
-            Session.Conversations.Add(conversation);
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            friendRequest.Status = FriendRequestStatus.Accepted;
+            Session.Contacts.Add(friendRequest.Sender);
+            Session.FriendRequests.Remove(friendRequest);
+            var conversation = Session.Conversations.FirstOrDefault(x => x.Contact.Id == friendRequest.Sender.Id);
+            if (conversation == null)
+            {
+                conversation = new Conversation(friendRequest.Sender);
+                Session.Conversations.Add(conversation);
+                EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
+            }
+
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
+            var _ = await client.AcceptFriendRequestAsync(friendRequest);
+            var __ = await client.SendContactCardAsync(new User {Id = friendRequest.Sender.Id});
         }
-
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Conversations)));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.Contacts)));
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
-
-        var response = await client.AcceptFriendRequestAsync(friendRequest);
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(AcceptFriendRequest), e.ToString());
+        }
     }
 
     public async Task RejectFriendRequest(FriendRequest friendRequest)
     {
-        var channel = GrpcChannel.ForAddress(Host);
-        var client = new Api.ApiClient(channel);
-        friendRequest.Status = FriendRequestStatus.Rejected;
-        Session.FriendRequests.Remove(friendRequest);
-        EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
-
-        var response = await client.RejectFriendRequestAsync(friendRequest);
+        try
+        {
+            var channel = GrpcChannel.ForAddress(Host);
+            var client = new Api.ApiClient(channel);
+            friendRequest.Status = FriendRequestStatus.Rejected;
+            Session.FriendRequests.Remove(friendRequest);
+            EventBus.Instance.PostEvent(new OnObjectChangedEvent(nameof(Session.FriendRequests)));
+            var _ = await client.RejectFriendRequestAsync(friendRequest);
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical("{M} failed [{E}]", nameof(RejectFriendRequest), e.ToString());
+        }
     }
 
     /// <summary>
     /// Whether the connection is unsecure. <br/>
     /// Necessary if TLS is not supported.
     /// </summary>
+    // ReSharper disable once MemberCanBePrivate.Global
     public bool IsUnsecure
     {
         get => _isUnsecure;
@@ -290,24 +407,15 @@ public class EasyApiClient
             if (value)
             {
                 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-                ApiIp = "http://localhost";
+                _apiIp = "http://localhost";
             }
             else
             {
                 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", false);
-                ApiIp = "https://localhost";
+                _apiIp = "https://localhost";
             }
 
             _isUnsecure = value;
         }
     }
-
-    private string ApiIp { get; set; }
-    private const int ApiPort = 50051;
-
-    [Obsolete("Obsolete")]
-    private static string ExternalIp => new WebClient().DownloadString("https://ipinfo.io/ip")
-        .Replace("\\r\\n", "").Replace("\\n", "").Trim();
-
-    private string Host => $"{ApiIp}:{ApiPort}";
 }

@@ -4,13 +4,15 @@ namespace PChat.Log;
 
 public class FileLogger : ILogger
 {
+    private readonly string _category;
     private readonly string _path;
     private readonly bool _echo;
     private readonly DateTime _startDate;
     private static readonly object Lock = new();
 
-    public FileLogger(string path, bool echo)
+    public FileLogger(string category, string path, bool echo)
     {
+        _category = category;
         _path = path;
         _echo = echo;
         _startDate = DateTime.Now;
@@ -39,7 +41,7 @@ public class FileLogger : ILogger
         if (formatter != null)
             fMessage = formatter(state, e);
 
-        var fullFilePath = Path.Combine(_path, $"{_startDate:yyyy-MM-dd}.log");
+        var fullFilePath = Path.Combine(_path, $"{_category}_{_startDate:yyyy-MM-dd}.log");
         var eMessage = "";
         lock (Lock)
         {
@@ -48,10 +50,10 @@ public class FileLogger : ILogger
                 eMessage = $"{n}{e.GetType()}: {e.Message}{n}{e.StackTrace}{n}";
 
             var logMessage = $"{DateTime.Now} [{logLevel}] {fMessage}{n}{eMessage}";
-            
+
             if (_echo)
                 Console.WriteLine(logMessage);
-            
+
             File.AppendAllText(fullFilePath, logMessage);
         }
     }

@@ -193,6 +193,14 @@ namespace Pchat {
         __Marshaller_pchat_PeerResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Pchat.User, global::Pchat.PeerResponse> __Method_SendContactCard = new grpc::Method<global::Pchat.User, global::Pchat.PeerResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SendContactCard",
+        __Marshaller_pchat_User,
+        __Marshaller_pchat_PeerResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Pchat.TextMessage, global::Pchat.SendResponse> __Method_SendMessage = new grpc::Method<global::Pchat.TextMessage, global::Pchat.SendResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
@@ -312,6 +320,12 @@ namespace Pchat {
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> RejectFriendRequest(global::Pchat.FriendRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Pchat.PeerResponse> SendContactCard(global::Pchat.User request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -682,6 +696,26 @@ namespace Pchat {
       {
         return CallInvoker.AsyncUnaryCall(__Method_RejectFriendRequest, null, options, request);
       }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.PeerResponse SendContactCard(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SendContactCard(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Pchat.PeerResponse SendContactCard(global::Pchat.User request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SendContactCard, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> SendContactCardAsync(global::Pchat.User request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SendContactCardAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Pchat.PeerResponse> SendContactCardAsync(global::Pchat.User request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SendContactCard, null, options, request);
+      }
       /// <summary>
       /// Sends a message and returns if it was received or queued.
       /// If peer is offline this message will be queued and sent later.
@@ -859,6 +893,7 @@ namespace Pchat {
           .AddMethod(__Method_RemoveContact, serviceImpl.RemoveContact)
           .AddMethod(__Method_AcceptFriendRequest, serviceImpl.AcceptFriendRequest)
           .AddMethod(__Method_RejectFriendRequest, serviceImpl.RejectFriendRequest)
+          .AddMethod(__Method_SendContactCard, serviceImpl.SendContactCard)
           .AddMethod(__Method_SendMessage, serviceImpl.SendMessage)
           .AddMethod(__Method_AnnounceOnline, serviceImpl.AnnounceOnline)
           .AddMethod(__Method_AnnounceOffline, serviceImpl.AnnounceOffline).Build();
@@ -886,6 +921,7 @@ namespace Pchat {
       serviceBinder.AddMethod(__Method_RemoveContact, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.Empty>(serviceImpl.RemoveContact));
       serviceBinder.AddMethod(__Method_AcceptFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.PeerResponse>(serviceImpl.AcceptFriendRequest));
       serviceBinder.AddMethod(__Method_RejectFriendRequest, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.FriendRequest, global::Pchat.PeerResponse>(serviceImpl.RejectFriendRequest));
+      serviceBinder.AddMethod(__Method_SendContactCard, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.User, global::Pchat.PeerResponse>(serviceImpl.SendContactCard));
       serviceBinder.AddMethod(__Method_SendMessage, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.TextMessage, global::Pchat.SendResponse>(serviceImpl.SendMessage));
       serviceBinder.AddMethod(__Method_AnnounceOnline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.Empty>(serviceImpl.AnnounceOnline));
       serviceBinder.AddMethod(__Method_AnnounceOffline, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Pchat.Empty, global::Pchat.Empty>(serviceImpl.AnnounceOffline));
