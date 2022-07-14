@@ -4,7 +4,8 @@ It's a P2P (peer to peer) messaging application.\
 The whole project consists of 3 elements.\
 Main app (this repo), API and Lookup Server.\
 The API provides calls for all communication and if necessary connectes to the Lookup Server.\
-The Lookup Server contains all user endpoints matched to their IDs so users can add other users by simply providing the ID.
+The Lookup Server contains all user endpoints matched to their IDs so users can add other users by simply providing the ID.\
+The server will run central which it currently does not so for someone stumbling around, this has currently no use for you.
 
 # PChat-App
 This is sort of the entry point for the whole project. 
